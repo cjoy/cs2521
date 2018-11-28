@@ -12,7 +12,7 @@ The goal of this course is to deepen students' understanding of data structures 
 8. todo: [spec](), [sol]()
 
 ## Labs
-1. Linked lists, Doubly linked lists, Debugging: [spec](week01/lab01.html), [sol](week01/list.c)
+1. Linked lists, Doubly linked lists, Debugging: [spec](week01/lab01.html), [sol](week01/lists.c)
 2. todo: [spec](), [sol]()
 3. todo: [spec](), [sol]()
 4. todo: [spec](), [sol]()
