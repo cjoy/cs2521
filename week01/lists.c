@@ -26,14 +26,22 @@ void list_print (link list)
  * Return a pointer to node (link) */
 link node_new (Item it)
 {
-	return NULL;
+	link n = malloc (sizeof (*n));
+	if (n == NULL)
+			err (1, "couldn't allocate");
+	n->item = it;
+	n->next = NULL;
+	return n;
 }
 
 /** Insert a new node into a given non-empty list.
  * The node is inserted directly after the head of the list. */
 void list_insert_next (link list, link node)
 {
-	return;
+    assert (ls != NULL);
+    assert (node != NULL);
+    node->next = ls->next;
+    ls->next = node;
 }
 
 /** Return the sum of all items in list */
