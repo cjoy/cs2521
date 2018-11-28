@@ -48,6 +48,8 @@ link clist_new (int n_nodes);
 /** print the data in a circular fashion starting from any node */
 void clist_print (link clist);
 
+/** Create a new node for dlist */
+dlink new_dnode (Item it);
 
 /** Create a double-linked list which contains the same values,
  * in the same order as 'list' */
