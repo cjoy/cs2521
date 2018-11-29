@@ -14,11 +14,8 @@
 /** Traverses and prints the list. */
 void list_print (link list)
 {
-	link curr = list;
-	while (curr != NULL) {
-		printf ("[%d]->", curr->item);
-		curr = curr->next;
-	}
+	for (; list; list = list->next)
+		printf ("[%d]->", list->item);
 	puts ("|");
 }
 
@@ -37,8 +34,8 @@ link node_new (Item it)
  * The node is inserted directly after the head of the list. */
 void list_insert_next (link list, link node)
 {
-	assert (list != NULL);
-	assert (node != NULL);
+	assert (list);
+	assert (node);
 	node->next = list->next;
 	list->next = node;
 }
@@ -87,7 +84,7 @@ void clist_print (link clist)
 	if (!clist) return;
 	link start_node = clist;
 	printf ("[%d]->", clist->item);
-	for (clist=clist->next; clist; clist=clist->next) {
+	for (clist = clist->next; clist; clist = clist->next) {
 		if (clist == start_node) {
 			printf ("|\n");
 			break;
@@ -95,7 +92,6 @@ void clist_print (link clist)
 		printf ("[%d]->", clist->item);
 	}
 }
-
 
 /** Create a double-linked list which contains the same values,
  * in the same order as 'list' */
@@ -127,7 +123,7 @@ dlink dlist_new_from_list (link list)
 /** Print a doubly-linked list. */
 void dlist_print (dlink list)
 {
-	for (int spaces=0; list; list=list->next) {
+	for (int spaces = 0; list; list = list->next) {
 		printf("%*s", spaces*10, "");
 		if (list->prev) printf("[%d]->", list->prev->item);
 		if (list) printf("[%d]", list->item);

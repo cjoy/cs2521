@@ -68,6 +68,17 @@ link list_duplicate (link l)
     }
     return head;
 }
+
+// Attempt 2
+link list_duplicate (link l)
+{
+    if (!l) return NULL;
+    link duplicate_list = new_node(l->item);
+    link head = n;
+    while (l) {
+        list_insert_next (l, n)
+    }
+}
 ```
 
 
@@ -126,8 +137,11 @@ Write a function append which attaches the list list2 at the end of list1 and re
 ```C
 dlink append (dlink list1, dlink list2)
 {
+    if (!list1) return list2;
+    if (!list2) return list1;
     dlink head = list1;
-    for (; list1->next; list1 = list1->next)
+    for (; list1->next; list1=list1->next)
+    list1->next = list2;
     list2->prev = list1;
     return head;
 }
@@ -144,7 +158,7 @@ void append (dlink list1, dlink list2)
     list2->prev = list1;
 }
 ```
-
+^^ Wrong, consider the case when list1 is NULL.
 
 # Extra C
 ## switched on
@@ -176,13 +190,25 @@ S2 doesn't early exit, and even after the condition has been met, it continues c
 
 What will be printed for each of the following values for ch: u, o, e?
 ### Answer
+// S1
 ch = u:
 you 
 ch = o:
 ohh 
 ch = e:
 eee
-^ Same for both S1 and S2.
+
+// S2
+ch = u:
+you
+ch = o:
+ohh 
+you
+ch = e:
+eee
+eye
+ohh 
+you
 
 ## caseing the joint
 Consider the following function to convert a number in the range 0..6 into a weekday name. 0 returns "Sun", 1 returns "Mon", 2 returns "Tue", and so on.
@@ -257,7 +283,7 @@ default:
 ```
 ### Solution
 ```C
-if (ch == 'u') {
+if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
     printf("vowel");
 } else {
     printf("consonant")
@@ -324,7 +350,7 @@ Implement this function in two styles:
 bool is_sorted (int *a, int n)
 {
     int i = 0;
-    int sorted = TRUE;
+    bool sorted = TRUE;
     while (i < n-1) {
         if (a[i] > a[i+1]) sorted = FALSE;
         i++;
@@ -332,7 +358,7 @@ bool is_sorted (int *a, int n)
     return sorted;
 }
 ```
-### Solution 1 - using for with early exit
+### Solution 2 - using for with early exit
 ```C
 bool is_sorted (int *a, int n)
 {
