@@ -5,31 +5,38 @@
 
 #include "textbuffer.h"
 
-typedef struct textbuffer *Textbuffer;
 typedef struct textbuffer {
   char *line;
   Textbuffer prev;
   Textbuffer next;
-} textbuffer;
+} *Textbuffer;
 
-// Example text:
-// hello world \n this was a triumph \n ending the textfile now \0
 Textbuffer textbuffer_new (const char *text)
 {
-	// char *mutable_text, *line;
-	// mutable_text = strdup(text);
-	// Textbuffer head = NULL;
-  // while ((line = strsep(&mutable_text, "\n"))) {
-  //   Textbuffer node = malloc(sizeof *node);
-  //   node->line = "Test";
-  //   node->next = NULL;
-  //   node->prev = NULL;
-  //   head = node;
-	// }
-  // return head;
-  Textbuffer node = malloc(sizeof (*node));
-  node->line = "Test";
-  node->next = NULL;
-  node->prev = NULL;
-  return node;
+	char *buffer, *line;
+	buffer = strdup(text);
+	Textbuffer head = NULL, prev = NULL;
+  for (int i = 0; (line = strsep(&buffer, "\n")); i++) {
+    Textbuffer node = malloc(sizeof *node);
+    if (i > 0) prev->next = node;
+    if (i == 0) {
+      head = node;
+      node->next = NULL;
+    }
+    node->line = line;
+    node->prev = prev;
+    prev = node;
+	}
+  return head;
+}
+
+void textbuffer_drop (Textbuffer tb)
+{
+  if (!tb) return;
+  Textbuffer next = NULL;
+  while (tb) {
+    next = tb->next;
+    free(tb);
+    tb = next;
+  }
 }

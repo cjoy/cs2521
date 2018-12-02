@@ -1,6 +1,8 @@
 # COMP2521 19T0 ... assignment 1
 
+#CC	 = 2521 3c
 CC	 = 3c
+#CC	 = gcc
 
 .PHONY: all
 all:	test_textbuffer

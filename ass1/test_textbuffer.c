@@ -9,20 +9,18 @@
 
 #include "textbuffer.h"
 
-// void parse (const char *text);
-// void parse (const char *text)
-// {
-// 	char *mutable_text, *line;
-// 	mutable_text = strdup (text);
-// 	while ((line = strsep (&mutable_text, "\n"))) {
-// 		printf("line: %s\n", line);
-// 	}
-// }
-
 int main (void)
 {
 	const char *text = "hello world \n this was a \n\n triumph \n ending the textfile now \0 sneaky";
 	Textbuffer tb = textbuffer_new(text);
-	// printf("last line: %s", tb->line);
+	
+	// for (Textbuffer curr = tb; curr; curr = curr->next)
+	// 	printf("[%s]->", curr->line);
+
+	textbuffer_drop(tb);
+	// puts("");
+	// for (Textbuffer curr = tb; curr; curr = curr->next)
+	// 	printf("[%s]->", curr->line);
+
 	return EXIT_SUCCESS;
 }
