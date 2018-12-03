@@ -9,6 +9,9 @@
 //      to define its behaviour when no match is found and the meaning
 //      of its third argument.
 //
+// 2018-12-02	v1.0.2	Team Textbuffer <cs2521@cse.unsw.edu.au>
+//      Remove `const` qualifiers from `Textbuffer`.
+//
 // // // // // // // DO NOT MODIFY THIS FILE! // // // // // // // // //
 
 #include <stdbool.h>
@@ -50,13 +53,13 @@ void textbuffer_drop (Textbuffer tb);
 /**
  * Return the number of lines of text stored in the given textbuffer.
  */
-size_t textbuffer_lines (const Textbuffer tb);
+size_t textbuffer_lines (Textbuffer tb);
 
 /**
  * Return the number of bytes of text stored in the given textbuffer,
  * counting the newlines that would be needed.
  */
-size_t textbuffer_bytes (const Textbuffer tb);
+size_t textbuffer_bytes (Textbuffer tb);
 
 /**
  * Return an array containing the text in the given textbuffer.  Each
@@ -66,7 +69,7 @@ size_t textbuffer_bytes (const Textbuffer tb);
  *
  * It is the caller's responsibility to free the returned array.
  */
-char *textbuffer_to_str (const Textbuffer tb);
+char *textbuffer_to_str (Textbuffer tb);
 
 
 /**
@@ -107,7 +110,7 @@ void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2);
  * `tb2` is unmodified and remains usable independent of `tb1`.
  */
 void textbuffer_paste (
-	Textbuffer tb1, size_t pos, const Textbuffer tb2);
+	Textbuffer tb1, size_t pos, Textbuffer tb2);
 
 /**
  * Cut lines `from` through `to` inclusive out of the textbuffer `tb`,
@@ -127,7 +130,7 @@ Textbuffer textbuffer_cut (Textbuffer tb, size_t from, size_t to);
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_copy (
-	const Textbuffer tb, size_t from, size_t to);
+	Textbuffer tb, size_t from, size_t to);
 
 /**
  * Remove lines `from` through `to` inclusive from textbuffer `tb`.
@@ -148,14 +151,14 @@ void textbuffer_delete (Textbuffer tb, size_t from, size_t to);
  *		otherwise, search forwards from the first line.
  */
 ssize_t textbuffer_search (
-	const Textbuffer tb, const char *match, bool rev);
+	Textbuffer tb, char *match, bool rev);
 
 /**
  * Search every line of `tb` for occurrences of `match`, and replace
  * them all with `replace`.
  */
 void textbuffer_replace (
-	Textbuffer tb, const char *match, const char *replace);
+	Textbuffer tb, char *match, char *replace);
 
 
 /**
@@ -218,6 +221,6 @@ void textbuffer_redo (Textbuffer tb);
  *   trivial solutions that delete all lines in `tb1` then add all lines
  *   of `tb2`)
  */
-char *textbuffer_diff (const Textbuffer tb1, const Textbuffer tb2);
+char *textbuffer_diff (Textbuffer tb1, Textbuffer tb2);
 
 #endif // !defined (CS2521__TEXTBUFFER_H_)

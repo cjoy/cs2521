@@ -6,21 +6,20 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "textbuffer.h"
 
 int main (void)
 {
-	const char *text = "hello world \n this was a \n\n triumph \n ending the textfile now \0 sneaky";
-	Textbuffer tb = textbuffer_new(text);
-	
-	// for (Textbuffer curr = tb; curr; curr = curr->next)
-	// 	printf("[%s]->", curr->line);
+#define TEST_STR_1	"hello world\n"
+#define TEST_STR_2	"this was a triumph.\n"
+#define TEST_STR_3	"this is the end of the line\0"
+#define TEST_STR_4	"this is a sneaky line\n"
+#define TEST_STR		TEST_STR_1 TEST_STR_2 TEST_STR_3 TEST_STR_4
 
-	textbuffer_drop(tb);
-	// puts("");
-	// for (Textbuffer curr = tb; curr; curr = curr->next)
-	// 	printf("[%s]->", curr->line);
+	Textbuffer tb = textbuffer_new (TEST_STR);
+	// textbuffer_drop (tb);
 
 	return EXIT_SUCCESS;
 }
