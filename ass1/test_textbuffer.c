@@ -19,7 +19,7 @@ int main (void)
 #define TEST_STR		TEST_STR_1 TEST_STR_2 TEST_STR_3 TEST_STR_4
 
 	Textbuffer tb = textbuffer_new (TEST_STR);
-	// textbuffer_drop (tb);
+	textbuffer_drop (tb);
 
 	return EXIT_SUCCESS;
 }

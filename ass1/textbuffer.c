@@ -7,111 +7,108 @@
 #include "textbuffer.h"
 
 
+// Doubly Linked List ADT
 typedef struct dll *dlink;
 struct dll {
   char *data;
-  // dlink prev;
+  dlink prev;
   dlink next;
 };
 
+// Textbuffer ADT
 struct textbuffer {
   dlink cursor; /* current buffer node */
-  dlink head; /* first node in text buffer */
-  dlink tail;  /* last node in text buffer */
-  size_t size; /* total number of nodes */
+  dlink head;   /* first node in text buffer */
+  dlink tail;   /* last node in text buffer */
+  size_t size;  /* total number of nodes */
 };
 
+// Helper function prototypes
+Textbuffer textbuffer_new_node(void);
+dlink dlink_new_node (char *data);
+void dlink_drop (dlink list);
+void print_text (Textbuffer tb);
+
+// Task 1
 Textbuffer textbuffer_new (const char *text)
 {
-  Textbuffer tb = malloc(sizeof(*tb));
-  dlink curr = malloc(sizeof(struct dll));;
-  tb->head = curr;
+  Textbuffer tb = textbuffer_new_node(); /* init a new textbuffer */
+  dlink prev = NULL; /* temp prev node, so we can set dlink->prev */
 
 	char *line, *text_dup, *to_free;
   to_free = text_dup = strdup(text);
-  for (size_t i = 0; (line = strsep(&text_dup, "\n")); i++) {
+  size_t size;
 
-    // code here
-    curr->data = (char *)malloc(strlen(line) + 1);
-    strcpy(curr->data, line);
-
-
-    curr->next = malloc(sizeof(struct dll));
-    curr = curr->next;
-
-
+  for (size = 0; (line = strsep(&text_dup, "\n")); size++) {
+    dlink node = dlink_new_node(line);  /* create  new dlink node */
+    if (!tb->head) tb->head = node;     /* set head as first node */
+    if (prev) prev->next = node;        /* set pre node's next to the new node */
+    node->prev = prev;                  /* set prev */
+    prev = node;                        /* new node now becomes prev */
 	}
-  free(to_free);
-  
-  for (dlink cur = tb->head; cur; cur=cur->next)
-    printf("[%s]->", cur->data);
-  
+
+  free(to_free);          /* free duplicate text */
+  tb->size = size;        /* set size */
+  tb->tail = prev;        /* set tail as the last created node */
+  tb->cursor = tb->head;  /* by default, we set the cursor at the head */
+    
   return tb;
 }
 
-
-// Textbuffer textbuffer_new (const char *text)
-// {
-// 	char *line, *text_dup, *to_free;
-//   to_free = text_dup = strdup(text);
-//   for (size_t i = 0; (line = strsep(&text_dup, "\n")); i++) {
-
-// 	}
-//   free(to_free);
-//   return NULL;
-// }
-
-
-
-
-
-
-
-
-#if 0
-struct textbuffer {
-  char *line;
-  Textbuffer prev;
-  Textbuffer next;
-};
-
-Textbuffer textbuffer_new (const char *text)
-{
-	char *line, *text_dup, *to_free;
-  to_free = text_dup = strdup(text);
-  Textbuffer prev = NULL;
-  Textbuffer new_node = malloc(sizeof(struct textbuffer));
-  Textbuffer head = new_node;
-  for (size_t i = 0; (line = strsep(&text_dup, "\n")); i++) {
-    if (i > 0) {
-      new_node = malloc(sizeof(struct textbuffer));
-      prev->next = new_node;
-    }
-    new_node->line = (char *)malloc(strlen(line) + 1);
-    strcpy(new_node->line , line);
-    new_node->next = NULL;
-    new_node->prev = prev;
-    prev = new_node;
-	}
-  free(to_free);
-  return head;
-}
-
+// Task 2
 void textbuffer_drop (Textbuffer tb)
 {
-  Textbuffer node = NULL;
-  while (tb) {
-    node = tb->next;
-    tb = tb->next;
-    free(node);
-  }
+  if (!tb) return;
+  dlink_drop(tb->head);
+  free(tb);
 }
 
-size_t textbuffer_lines (const Textbuffer tb)
+
+// Helper Functions Below (ie. functions not part of spec)
+
+// Initialise a new textbuffer
+Textbuffer textbuffer_new_node(void)
 {
-  size_t i = 0;
-  for (Textbuffer curr = tb; curr; curr = curr->next)
-    i++;
-  return i;
+  Textbuffer tb = malloc(sizeof(*tb));
+  tb->head = NULL;
+  tb->tail = NULL;
+  tb->cursor = NULL;
+  tb->size = 0;
+  return tb;  
 }
-#endif
+
+// Initialise a new doubly-linked list node
+dlink dlink_new_node (char *data)
+{
+  dlink node = malloc(sizeof(*node));
+  node->next = NULL;
+  node->prev = NULL;
+  node->data = malloc(strlen(data)+1);
+  strcpy(node->data, data);
+  return node;
+}
+
+// Free nodes of doubly-linked list
+void dlink_drop (dlink list)
+{
+	dlink node = NULL;
+	while (list) {
+		node = list;
+		list = list->next;
+		free(node);
+	}
+}
+
+/**
+ * Print the text buffer from start to finish
+ * Forwards & Backwards
+ */
+void print_text (Textbuffer tb)
+{
+  printf("Forward: ");
+  for (dlink curr = tb->head; curr; curr = curr->next)
+    printf("[%s]", curr->data);
+  printf("\nBackward: ");
+  for (dlink curr = tb->tail; curr; curr = curr->prev)
+    printf("[%s]", curr->data);
+}
