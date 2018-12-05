@@ -39,7 +39,6 @@ void dlink_swap_nodes (dlink node1, dlink node2);
 
 
 // Task 1
-// Task 1
 Textbuffer textbuffer_new (const char *text)
 {
   Textbuffer tb = textbuffer_new_node(); /* init a new textbuffer */
@@ -49,7 +48,6 @@ Textbuffer textbuffer_new (const char *text)
   if (*text_dup && text_dup[strlen(text_dup)-1] == '\n')
     text_dup[strlen(text_dup)-1] = '\0'; /* remove trailing new line */
   for (; (line = strsep(&text_dup, "\n")); tb->size++) {
-    printf("line%s\n", line);
     dlink node = dlink_new_node(line);  /* create  new dlink node */
     if (!tb->head) tb->head = node;     /* set head as first node */
     if (prev) prev->next = node;        /* set pre node's next to the new node */
