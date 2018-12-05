@@ -3,9 +3,9 @@
 //
 // 2018-12-14 Chris Joy <z5113243@unsw.edu.au>
 
-#include <stdio.h> /* Remove before submission */
+#include <stdio.h>
+#include <string.h>
 #include "textbuffer.h"
-
 
 // Doubly Linked List ADT
 typedef struct dll *dlink;
