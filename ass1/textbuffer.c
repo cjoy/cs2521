@@ -29,6 +29,11 @@ dlink dlink_new_node (char *data);
 void dlink_drop (dlink list);
 void print_text (Textbuffer tb);
 
+
+
+
+
+
 // Task 1
 Textbuffer textbuffer_new (const char *text)
 {
@@ -37,9 +42,8 @@ Textbuffer textbuffer_new (const char *text)
 
 	char *line, *text_dup, *to_free;
   to_free = text_dup = strdup(text);
-  size_t size;
 
-  for (size = 0; (line = strsep(&text_dup, "\n")); size++) {
+  for (; (line = strsep(&text_dup, "\n")); tb->size++) {
     dlink node = dlink_new_node(line);  /* create  new dlink node */
     if (!tb->head) tb->head = node;     /* set head as first node */
     if (prev) prev->next = node;        /* set pre node's next to the new node */
@@ -48,9 +52,10 @@ Textbuffer textbuffer_new (const char *text)
 	}
 
   free(to_free);          /* free duplicate text */
-  tb->size = size;        /* set size */
   tb->tail = prev;        /* set tail as the last created node */
   tb->cursor = tb->head;  /* by default, we set the cursor at the head */
+
+  print_text(tb);
     
   return tb;
 }
@@ -62,6 +67,51 @@ void textbuffer_drop (Textbuffer tb)
   dlink_drop(tb->head);
   free(tb);
 }
+
+// Task 3
+size_t textbuffer_lines (Textbuffer tb)
+{
+  return tb->size;
+}
+
+// Task 4
+size_t textbuffer_bytes (Textbuffer tb)
+{
+  size_t bytes = 0;
+  for (dlink curr = tb->head; curr; curr = curr->next)
+    bytes = bytes + strlen(curr->data) + 1;
+  return bytes;
+}
+
+// Task 5
+char *textbuffer_to_str (Textbuffer tb)
+{
+  char *str = NULL;
+  size_t str_len = 0;
+  for (dlink curr = tb->head; curr; curr = curr->next) {
+    str_len = (str ? strlen(str) : 0) + strlen(curr->data) + 1;
+    
+    str = realloc(str, str_len);
+    
+    strcat(str, curr->data);
+  }
+  return str;
+}
+
+
+
+
+// Task 6
+// Task 7
+// Task 8
+// Task 9
+// Task 10
+// Task 11
+// Task 12
+// Task 13
+
+
+
 
 
 // Helper Functions Below (ie. functions not part of spec)
@@ -83,7 +133,7 @@ dlink dlink_new_node (char *data)
   dlink node = malloc(sizeof(*node));
   node->next = NULL;
   node->prev = NULL;
-  node->data = malloc(strlen(data)+1);
+  node->data = malloc(strlen(data) + 1);
   strcpy(node->data, data);
   return node;
 }
@@ -105,10 +155,13 @@ void dlink_drop (dlink list)
  */
 void print_text (Textbuffer tb)
 {
+  printf("\n------------------------------------------------------------------\n");
+  printf("Size: %zu\n", tb->size);
   printf("Forward: ");
   for (dlink curr = tb->head; curr; curr = curr->next)
     printf("[%s]", curr->data);
   printf("\nBackward: ");
   for (dlink curr = tb->tail; curr; curr = curr->prev)
     printf("[%s]", curr->data);
+  printf("\n------------------------------------------------------------------\n");
 }
