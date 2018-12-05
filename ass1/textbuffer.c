@@ -4,6 +4,7 @@
 // 2018-12-14 Chris Joy <z5113243@unsw.edu.au>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "textbuffer.h"
 
