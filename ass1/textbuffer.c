@@ -86,16 +86,22 @@ size_t textbuffer_bytes (Textbuffer tb)
 // Task 5
 char *textbuffer_to_str (Textbuffer tb)
 {
-  char *str = NULL;
-  size_t str_len = 0;
+  char *buff = NULL;
+  size_t buff_len = 0;
+
+  size_t i = 0;
   for (dlink curr = tb->head; curr; curr = curr->next) {
-    str_len = (str ? strlen(str) : 0) + strlen(curr->data) + 1;
+    buff_len = buff_len + strlen(curr->data) + 1;
     
-    str = realloc(str, str_len);
+    buff = realloc(buff, buff_len);
     
-    strcat(str, curr->data);
+    if (i == 0) strcpy(buff, curr->data);
+    if (i > 0) strcat(buff, curr->data);
+    buff[buff_len-1] = '\n';
+
+    i++;
   }
-  return str;
+  return buff;
 }
 
 
