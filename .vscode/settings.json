@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "textbuffer.h": "c"
+    "textbuffer.h": "c",
+    "queue.h": "c"
   }
 }

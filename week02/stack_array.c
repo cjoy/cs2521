@@ -52,6 +52,10 @@ void stack_drop (stack *s)
 void stack_push (stack *s, Item it)
 {
 	assert (s != NULL);
+	if (s->n_items >= s->capacity) {
+		s->items = realloc(s->items, s->capacity * sizeof(Item) * 2);
+		s->capacity = s->capacity * 2;
+	}
 	s->items[s->n_items] = it;
 	s->n_items++;
 	return;
@@ -61,6 +65,14 @@ void stack_push (stack *s, Item it)
 Item stack_pop (stack *s)
 {
 	assert (s != NULL);
+	if (s->n_items <= 0) {
+    fprintf(stderr, "can't pop from empty stack");
+    abort();		
+	}
+	if (s->n_items <= s->capacity/4) {
+		s->items = realloc(s->items, (s->capacity * sizeof(Item)) / 2);
+		s->capacity = s->capacity / 2;
+	}
 	Item it = s->items[s->n_items - 1];
 	s->n_items--;
 	return it;
@@ -75,5 +87,49 @@ size_t stack_size (stack *s)
 
 void white_box_tests (void)
 {
-	// ... you need to write these!
+	{
+		puts("WB Test 1: testing push capacity resizing");
+		stack *s = stack_new();
+		for (Item i = 1; i <= 12; i++)
+			stack_push(s, i);
+		assert(stack_size(s) == 12);
+		assert(s->capacity == 20);
+		for (Item i = 1; i <= 10; i++)
+			stack_push(s, i);
+		assert(stack_size(s) == 22);
+		assert(s->capacity == 40);
+		stack_drop(s);
+	}
+	{
+		puts("WB Test 2: testing pop capacity resizing");
+		stack *s = stack_new();
+		stack_push(s, 1);
+		stack_push(s, 2);
+		stack_push(s, 3);
+		assert(stack_size(s) == 3);
+		stack_pop(s);
+		stack_pop(s);
+		assert(stack_size(s) == 1);
+		assert(s->capacity == 5);
+		stack_pop(s);
+		assert(stack_size(s) == 0);
+		assert(s->capacity == 2);
+	}
+	{
+		puts("WB Test 3: testing push & pop capacity resizing");
+		stack *s = stack_new();
+		for (Item i = 1; i <= 12; i++)
+			stack_push(s, i);
+		assert(stack_size(s) == 12);
+		assert(s->capacity == 20);
+		for (Item i = 1; i <= 10; i++)
+			stack_push(s, i);
+		assert(stack_size(s) == 22);
+		assert(s->capacity == 40);
+		for (Item i = 1; i <= 15; i++)
+			stack_pop(s);
+		assert(stack_size(s) == 7);
+		assert(s->capacity == 20);
+		stack_drop(s);
+	}
 }
