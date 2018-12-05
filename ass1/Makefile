@@ -20,3 +20,4 @@ clean:
 .PHONY: give
 give:
 	give cs2521 assign1 textbuffer.c test_textbuffer.c
+

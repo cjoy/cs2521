@@ -29,7 +29,7 @@ int main (void)
 	printf("After Swap String:\n %s\n", textbuffer_to_str(tb));
 
 
-	textbuffer_drop (tb);
+	// textbuffer_drop (tb);
 
 	printf("All tests passed. You are awesome!");
 	return EXIT_SUCCESS;

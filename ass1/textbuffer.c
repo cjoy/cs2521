@@ -57,7 +57,7 @@ Textbuffer textbuffer_new (const char *text)
   free(to_free);          /* free duplicate text */
   tb->tail = prev;        /* set tail as the last created node */
   tb->cursor = tb->head;  /* by default, we set the cursor at the head */
-  print_text(tb);    
+  // print_text(tb);    
   return tb;
 }
 
