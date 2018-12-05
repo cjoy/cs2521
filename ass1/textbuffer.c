@@ -16,6 +16,7 @@ struct dll {
 };
 
 // Textbuffer ADT
+typedef struct textbuffer *Textbuffer;
 struct textbuffer {
   dlink cursor; /* current buffer node */
   dlink head;   /* first node in text buffer */
