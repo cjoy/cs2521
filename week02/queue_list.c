@@ -18,7 +18,7 @@ typedef struct queue queue;
 typedef struct queue_node queue_node;
 
 struct queue {
-    size_t n_items;
+	size_t n_items;
 	queue_node *head, *tail;
 };
 
@@ -42,9 +42,13 @@ queue *queue_new (void)
 void queue_drop (queue *q)
 {
 	assert (q != NULL);
-	for (queue_node *curr = q->head; curr != NULL; curr = curr->next)
-		free (curr);
-    free (q);
+	queue_node *curr = q->head;
+	queue_node *next;
+	for (; curr; curr = next) {
+		next = curr->next;
+		free(curr);
+	}
+	free (q);
 }
 
 /** Add an item to the end of a Queue.
@@ -52,12 +56,13 @@ void queue_drop (queue *q)
 void queue_en (queue *q, Item it)
 {
 	queue_node *node = queue_node_new (it);
-	if (q->head != NULL) {
-		q->head->next = node;
+	if (!q->tail) {
+		q->head = q->tail = node;
 	} else {
+		q->tail->next = node;
 		q->tail = node;
 	}
-	q->head = node;
+	q->n_items++;
 }
 
 /** Remove an item from the front of a Queue.
@@ -68,6 +73,7 @@ Item queue_de (queue *q)
 	queue_node *del = q->head;
 	q->head = q->head->next;
 	free (del);
+	q->n_items--;
 	return it;
 }
 

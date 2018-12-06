@@ -49,7 +49,7 @@ void test_one_item_queue(void)
 
 void test_two_item_queue(void)
 {
-	puts ("BB Test 2: testing an two item queue.");
+	puts ("BB Test 3: testing an two item queue.");
 	Queue q = queue_new ();
 	queue_en (q, 1);
 	queue_en (q, 2);
