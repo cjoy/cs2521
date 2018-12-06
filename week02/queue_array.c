@@ -2,7 +2,7 @@
 // COMP2521 19T0 -- A Queue ADT implementation, using arrays.
 //
 // 2018-12-01	Jashank Jeremy <jashankj@cse.unsw.edu.au>
-// YYYY-mm-dd   Your Name Here <zNNNNNNN@student.unsw.edu.au>
+// 2018-12-06 Chris Joy <z5113243@student.unsw.edu.au>
 
 #include <assert.h>
 #include <err.h>
@@ -102,7 +102,7 @@ size_t queue_size (queue *q)
 void white_box_tests (void)
 {
 	{
-		puts("WB Test 1: check one item queue end and start index");
+		puts("WB Test 1: simple index check for enq");
 		Queue q = queue_new();
 		queue_en(q, 1);
 		assert(q->head == 0);
@@ -112,6 +112,26 @@ void white_box_tests (void)
 		assert(q->tail == 1);
 	}
 	{
-		
+		puts("WB Test 2: checking if tail wraps around "
+				 "array when tail reaches capacity");
+		Queue q = queue_new();
+		for (Item i = 0; i < q->capacity; i++)
+			queue_en(q, i);
+		assert(queue_de(q) == 0);
+		assert(queue_de(q) == 1);
+		assert(queue_de(q) == 2);
+		queue_en(q, 2);
+		assert(q->tail == 0);
+	}
+	{
+		puts("WB Test 2: checking if head wraps around "
+				 "array when tail reaches capacity");
+		Queue q = queue_new();
+		for (Item i = 0; i < q->capacity; i++)
+			queue_en(q, i);
+		assert(queue_de(q) == 0);
+		assert(queue_de(q) == 1);
+		queue_en(q, 34);
+		assert(q->head == 2);
 	}
 }
