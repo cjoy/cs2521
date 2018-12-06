@@ -2,7 +2,7 @@
 // COMP2521 19T0 -- Test a Stack ADT implementation.
 //
 // 2018-11-29	Jashank Jeremy <jashankj@cse.unsw.edu.au>
-// YYYY-mm-dd	Your Name Here <zNNNNNNN@student.unsw.edu.au>
+// 2018-12-06	Chris Joy <z5113243@student.unsw.edu.au>
 
 #include <assert.h>
 #include <stdio.h>
@@ -27,6 +27,7 @@ int main (void)
 	test_thousand_item_stack ();
 	test_million_item_stack ();
 	test_rapid_push_pop ();
+
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
 }
@@ -44,12 +45,9 @@ static void test_one_item_stack (void)
 	puts ("BB Test 2: testing a stack with one item.");
 	Stack s = stack_new ();
 	stack_push (s, 1);
-
 	assert (stack_size (s) == 1);
-
 	assert (stack_pop (s) == 1);
 	assert (stack_size (s) == 0);
-
 	stack_drop (s);
 }
 

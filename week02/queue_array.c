@@ -21,6 +21,8 @@ typedef struct queue queue;
 struct queue {
 	size_t n_items;
 	size_t capacity;
+	ssize_t head;
+	ssize_t tail;
 	Item *items;
 };
 
@@ -30,7 +32,7 @@ queue *queue_new (void)
 	queue *new = malloc (sizeof *new);
 	if (new == NULL)
 		err (EX_OSERR, "couldn't allocate queue");
-	(*new) = (queue) { .n_items = 0, .capacity = DEFAULT_SIZE };
+	(*new) = (queue) { .n_items = 0, .capacity = DEFAULT_SIZE, .head = -1, .tail = 0 };
 
 	new->items = calloc (DEFAULT_SIZE, sizeof(Item));
 	if (new->items == NULL)
@@ -54,7 +56,17 @@ void queue_en (queue *q, Item it)
 {
 	assert (q != NULL);
 	assert (q->n_items < q->capacity);
-	q->items[q->n_items++] = it;
+
+	if ((size_t)q->tail == q->capacity-1) {
+		q->tail = 0;
+	} else if (q->head == -1) { 
+		q->head = 0;
+	} else {
+		q->tail++;
+	}
+
+	q->items[q->tail] = it;
+	q->n_items++;
 }
 
 /** Remove an item from the front of a Queue.  $ O(n) $.
@@ -67,11 +79,15 @@ Item queue_de (queue *q)
 		abort();
 	}
 
-	// shift the elements across
-	Item it = q->items[0];
+	Item it = q->items[q->head];
+
+	if ((size_t)q->head == q->capacity-1) {
+		q->head = 0;
+	} else {
+		q->head++;
+	}
+
 	q->n_items--;
-	for (size_t i = 0; i < q->n_items; i++)
-		q->items[i] = q->items[i + 1];
 
 	return it;
 }
@@ -85,5 +101,17 @@ size_t queue_size (queue *q)
 
 void white_box_tests (void)
 {
-	// ... you need to write these!
+	{
+		puts("WB Test 1: check one item queue end and start index");
+		Queue q = queue_new();
+		queue_en(q, 1);
+		assert(q->head == 0);
+		assert(q->tail == 0);
+		queue_en(q, 2);
+		assert(q->head == 0);
+		assert(q->tail == 1);
+	}
+	{
+		
+	}
 }

@@ -2,7 +2,7 @@
 // COMP2521 19T0 -- A Stack ADT implementation, using arrays.
 //
 // 2018-11-29	Jashank Jeremy <jashankj@cse.unsw.edu.au>
-// YYYY-mm-dd   Your Name Here <zNNNNNNN@student.unsw.edu.au>
+// 2018-12-06	Chris Joy <z5113243@student.unsw.edu.au>
 
 #include <assert.h>
 #include <err.h>
@@ -52,12 +52,12 @@ void stack_drop (stack *s)
 void stack_push (stack *s, Item it)
 {
 	assert (s != NULL);
-	if (s->n_items >= s->capacity) {
-		s->items = realloc(s->items, s->capacity * sizeof(Item) * 2);
-		s->capacity = s->capacity * 2;
-	}
 	s->items[s->n_items] = it;
 	s->n_items++;
+	if (s->n_items+1 >= s->capacity) {
+		s->items = realloc(s->items, s->capacity * sizeof(Item) * 2);
+		s->capacity *= 2;
+	}
 	return;
 }
 
@@ -69,12 +69,12 @@ Item stack_pop (stack *s)
     fprintf(stderr, "can't pop from empty stack");
     abort();		
 	}
-	if (s->n_items <= s->capacity/4) {
+	Item it = s->items[s->n_items - 1];
+	s->n_items--;
+	if (s->n_items <= s->capacity/4 && s->capacity > DEFAULT_SIZE) {
 		s->items = realloc(s->items, (s->capacity * sizeof(Item)) / 2);
 		s->capacity = s->capacity / 2;
 	}
-	Item it = s->items[s->n_items - 1];
-	s->n_items--;
 	return it;
 }
 
@@ -87,6 +87,19 @@ size_t stack_size (stack *s)
 
 void white_box_tests (void)
 {
+	{
+		puts("WB Test 0: boundary check for capacity resizing");
+		stack *s = stack_new();
+		Item i = 1;
+		for (; i <= 10; i++) {
+			stack_push(s, i);
+			printf("stack size: %zu\n", s->n_items);
+		}
+		assert(s->capacity == DEFAULT_SIZE*2);
+		for (; i < 21; i++)
+			stack_push(s, i);
+		assert(s->capacity == DEFAULT_SIZE*4);
+	}
 	{
 		puts("WB Test 1: testing push capacity resizing");
 		stack *s = stack_new();
@@ -110,14 +123,15 @@ void white_box_tests (void)
 		stack_pop(s);
 		stack_pop(s);
 		assert(stack_size(s) == 1);
-		assert(s->capacity == 5);
+		assert(s->capacity == DEFAULT_SIZE);
 		stack_pop(s);
 		assert(stack_size(s) == 0);
-		assert(s->capacity == 2);
+		assert(s->capacity == DEFAULT_SIZE);
 	}
 	{
 		puts("WB Test 3: testing push & pop capacity resizing");
 		stack *s = stack_new();
+		assert(s->capacity == DEFAULT_SIZE);
 		for (Item i = 1; i <= 12; i++)
 			stack_push(s, i);
 		assert(stack_size(s) == 12);

@@ -26,11 +26,11 @@ struct textbuffer {
 };
 
 // Helper function prototypes
-Textbuffer textbuffer_new_node(void);
+Textbuffer textbuffer_new_node (void);
 dlink dlink_new_node (char *data);
 void dlink_drop (dlink list);
 void print_text (Textbuffer tb);
-dlink dlink_lookup(dlink list, size_t index);
+dlink dlink_lookup (dlink list, size_t index);
 void dlink_swap_nodes (dlink node1, dlink node2);
 
 

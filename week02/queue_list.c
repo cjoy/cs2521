@@ -2,7 +2,7 @@
 // COMP2521 19T0 -- A Queue ADT implementation, using linked lists.
 //
 // 2018-12-01	Jashank Jeremy <jashankj@cse.unsw.edu.au>
-// YYYY-mm-dd	Your Name Here <zNNNNNNN@student.unsw.edu.au>
+// 2018-12-06	Chris Joy <z5113243@student.unsw.edu.au>
 
 #include <assert.h>
 #include <err.h>
@@ -48,7 +48,7 @@ void queue_drop (queue *q)
 		next = curr->next;
 		free(curr);
 	}
-	free (q);
+	free(q);
 }
 
 /** Add an item to the end of a Queue.
@@ -94,5 +94,40 @@ static queue_node *queue_node_new (Item it)
 
 void white_box_tests (void)
 {
-	// ... you need to write these!
+	{
+		puts("WB Test 1: testing empty q");
+		queue *q = queue_new();
+		assert(q->n_items == 0);
+		assert(q->head == NULL);
+		assert(q->head == q->tail);
+		queue_drop(q);
+	}
+	{
+		puts("WB Test 2: testing enq on single item");
+		queue *q = queue_new();
+		queue_en(q, 1);
+		assert(q->n_items == 1);
+		assert(q->head == q->tail);		
+		queue_drop(q);
+	}
+	{
+		puts("WB Test 3: testing enq with 1mil items");
+		queue *q = queue_new();
+		Item n = 1000000;
+		for (Item i = 1; i <= n; i++)
+			queue_en(q, i);
+		assert(q->n_items == (size_t)n);
+		queue_drop(q);
+	}
+	{
+		puts("WB Test 4: testing deq with 1mil items");
+		queue *q = queue_new();
+		Item n = 1000000;
+		for (Item i = 1; i <= n; i++)
+			queue_en(q, i);
+		for (Item i = 1; i <= n; i++)
+			assert(queue_de(q) == i);
+		assert(q->n_items == 0);
+		queue_drop(q);
+	}
 }
