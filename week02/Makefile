@@ -1,7 +1,7 @@
 # COMP2521 19T0 ... lab 2 makefile
 
-CC	 = 2521 3c
-CC	 = 3c
+CC	 = 2521 3c +leak
+# CC	 = 3c
 
 .PHONY: all
 all: test_stack test_queue_array test_queue_list

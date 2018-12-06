@@ -115,7 +115,7 @@ void white_box_tests (void)
 		puts("WB Test 2: checking if tail wraps around "
 				 "array when tail reaches capacity");
 		Queue q = queue_new();
-		for (Item i = 0; i < q->capacity; i++)
+		for (Item i = 0; (size_t)i < q->capacity; i++)
 			queue_en(q, i);
 		assert(queue_de(q) == 0);
 		assert(queue_de(q) == 1);
@@ -127,7 +127,7 @@ void white_box_tests (void)
 		puts("WB Test 2: checking if head wraps around "
 				 "array when tail reaches capacity");
 		Queue q = queue_new();
-		for (Item i = 0; i < q->capacity; i++)
+		for (Item i = 0; (size_t)i < q->capacity; i++)
 			queue_en(q, i);
 		assert(queue_de(q) == 0);
 		assert(queue_de(q) == 1);
