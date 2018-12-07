@@ -31,11 +31,6 @@ dlink dlink_new_node (char *data);
 void dlink_drop (dlink list);
 void print_text (Textbuffer tb);
 dlink dlink_lookup (dlink list, size_t index);
-void dlink_swap_nodes (dlink node1, dlink node2);
-
-
-
-
 
 
 // Task 1
@@ -57,7 +52,7 @@ Textbuffer textbuffer_new (const char *text)
   free(to_free);          /* free duplicate text */
   tb->tail = prev;        /* set tail as the last created node */
   tb->cursor = tb->head;  /* by default, we set the cursor at the head */
-  // print_text(tb);    
+  print_text(tb);
   return tb;
 }
 
@@ -101,11 +96,6 @@ char *textbuffer_to_str (Textbuffer tb)
   return buff;
 }
 
-
-
-
-
-
 // Task 6
 void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
 {
@@ -113,9 +103,57 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
     fprintf(stderr, "pos{1|2} out of range");
     abort();
   }
-  dlink node1 = dlink_lookup(tb->head, pos1);
-  dlink node2 = dlink_lookup(tb->head, pos2);
-  dlink_swap_nodes(node1, node2);
+
+  /* initialise positions in ascending order where p1 < p2 */
+  size_t p1; size_t p2;
+  if (pos1 < pos2) {
+    p1 = pos1; p2 = pos2;
+  } else {
+    p1 = pos2; p2 = pos1;
+  }
+
+  dlink n1 = dlink_lookup(tb->head, p1);
+  dlink n2 = dlink_lookup(tb->head, p2);
+  dlink t1[] = { n1->prev, n1->next };
+
+  if (n1 == n2) return;
+
+  /* swap textbuffer's head and tail */
+  /* CASE: <-[n1]-> <-[]-> <-[]-> <-[]-> <-[n2]-> */
+  if (tb->head == n1 && tb->tail == n2) {
+    tb->head = n2;
+    tb->tail = n1;
+  }
+  /* CASE: <-[n1]-> <-[]-> <-[]-> <-[n2]-> <-[]-> */
+  else if (tb->head == n1 && tb->tail != n2) {
+    tb->head = n2;
+    n2->next->prev = n1;
+  }
+  /* CASE: <-[]-> <-[n1]-> <-[]-> <-[]-> <-[n2]-> */
+  else if (tb->head != n1 && tb->tail == n2) {
+    tb->tail = n1;
+    n1->prev->next = n2;
+  }
+  /* CASE: <-[]-> <-[n1]-> <-[]-> <-[n2]-> <-[]-> */
+  else if (tb->head != n1 && tb->tail != n2) {
+    n1->prev->next = n2;
+    n2->next->prev = n1;
+  }
+
+  /* swap inner nodes */
+  n1->next->prev = n2;
+  n2->prev->next = n1;
+  /* swap n1 with n2 */
+  n1->prev = n2->prev;
+  n1->next = n2->next;
+  /* swap n2 with n1 */
+  n2->prev = t1[0];
+  n2->next = t1[1];
+
+  // puts(n1->data);
+  // puts(n2->data);
+
+  // print_text(tb);
 }
 
 
@@ -175,15 +213,6 @@ dlink dlink_lookup (dlink list, size_t index)
   return NULL;
 }
 
-void dlink_swap_nodes (dlink node1, dlink node2)
-{
-  dlink node1_prev_tmp = node1->prev;
-  dlink node1_next_tmp = node1->next;
-  node1->next = node2->next;
-  node1->prev = node2->prev;
-  node2->prev = node1_prev_tmp;
-  node2->next = node1_next_tmp;
-}
 
 /**
  * Print the text buffer from start to finish
@@ -201,12 +230,3 @@ void print_text (Textbuffer tb)
     printf("[%s]", curr->data);
   printf("\n------------------------------------------------------------------\n");
 }
-
-
-
-
-
-
-
-// TODO: Remove Old Code
-

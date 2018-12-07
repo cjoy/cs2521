@@ -24,13 +24,13 @@ int main (void)
 	
 	printf("Number of valid lines: %zu\n", textbuffer_lines(tb));
 	printf("Total number of bytes in textbuffer: %zu\n", textbuffer_bytes(tb));
-	printf("Before Swap String:\n %s\n", textbuffer_to_str(tb));
-	textbuffer_swap (tb, 1, 6);
-	printf("After Swap String:\n %s\n", textbuffer_to_str(tb));
+
+	// TODO: consecutive lines can't be switched
+	textbuffer_swap (tb, 1, 2);
 
 
-	// textbuffer_drop (tb);
+	textbuffer_drop (tb);
 
-	printf("All tests passed. You are awesome!");
+	puts("All tests passed. You are awesome!");
 	return EXIT_SUCCESS;
 }
