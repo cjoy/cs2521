@@ -147,24 +147,55 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
 // Task 7
 void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
 {
-  if (tb1->size-1 < pos) {
+  if (!tb1 || !tb2) {
+    fprintf(stderr, "tb{1|2} doesn't exist");
+    abort();
+  }
+  if (tb1->size < pos) {
     fprintf(stderr, "pos out of range");
     abort();
   }
 
-  // remember to increase the size of tb ie. |tb1| += |tb2|
+  /* account for edge cases */
+  if (tb1 == tb2) return;
+  if (tb1->size == 0) { tb1 = tb2; return; } 
+  if (tb2->size == 0) return;
+
+  dlink A_start = dlink_lookup(tb1->head, pos);
+  dlink A_end = tb1->tail;
+  dlink B_start = tb2->head;
+  dlink B_end = tb2->tail;
+  size_t final_size = tb1->size + tb2->size;
+
+  if (pos == 0) {
+    /* inserting at start of tb1 */
+    tb1->head = B_start;
+    B_end->next = A_start;
+    A_start->prev = B_end;
+  } else if (pos == tb1->size) {
+    /* inserting at end of tb1 */
+    tb2->head->prev = tb1->tail;
+    tb1->tail->next = tb2->head;
+    tb1->tail = tb2->tail;
+  } else {
+    /* somewhere in the middle */
+    A_start->prev->next = B_start;
+    B_end->next = A_start;
+    B_start->prev = A_start->prev;
+    A_start->prev = B_end;
+  }
+ 
+  tb1->size += tb2->size;
 }
-
-
-
-
-
-
-
-
 
 // Task 8
 // void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2);
+
+
+
+
+
+
 
 
 // Task 9
