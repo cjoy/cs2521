@@ -32,7 +32,6 @@ void dlink_drop (dlink list);
 void print_text (Textbuffer tb);
 dlink dlink_lookup (dlink list, size_t index);
 
-
 // Task 1
 Textbuffer textbuffer_new (const char *text)
 {
@@ -52,7 +51,6 @@ Textbuffer textbuffer_new (const char *text)
   free(to_free);          /* free duplicate text */
   tb->tail = prev;        /* set tail as the last created node */
   tb->cursor = tb->head;  /* by default, we set the cursor at the head */
-  print_text(tb);
   return tb;
 }
 
@@ -112,65 +110,90 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
     p1 = pos2; p2 = pos1;
   }
 
-  dlink n1 = dlink_lookup(tb->head, p1);
-  dlink n2 = dlink_lookup(tb->head, p2);
-  dlink t1[] = { n1->prev, n1->next };
+  /* retrieve nodes */
+  dlink A = dlink_lookup(tb->head, p1);
+  dlink B = dlink_lookup(tb->head, p2);
 
-  if (n1 == n2) return;
+  /* if nodes are the same do nothing */
+  if (A == B) return;
 
-  /* swap textbuffer's head and tail */
-  /* CASE: <-[n1]-> <-[]-> <-[]-> <-[]-> <-[n2]-> */
-  if (tb->head == n1 && tb->tail == n2) {
-    tb->head = n2;
-    tb->tail = n1;
-  }
-  /* CASE: <-[n1]-> <-[]-> <-[]-> <-[n2]-> <-[]-> */
-  else if (tb->head == n1 && tb->tail != n2) {
-    tb->head = n2;
-    n2->next->prev = n1;
-  }
-  /* CASE: <-[]-> <-[n1]-> <-[]-> <-[]-> <-[n2]-> */
-  else if (tb->head != n1 && tb->tail == n2) {
-    tb->tail = n1;
-    n1->prev->next = n2;
-  }
-  /* CASE: <-[]-> <-[n1]-> <-[]-> <-[n2]-> <-[]-> */
-  else if (tb->head != n1 && tb->tail != n2) {
-    n1->prev->next = n2;
-    n2->next->prev = n1;
+  /* change head and tail if swap node at ends of list */
+  if (tb->head == A) tb->head = B;
+  if (tb->tail == B) tb->tail = A;
+
+  dlink tmp[] = { A->prev, B->prev, A->next, B->next };
+
+  /* if neighbors else... */
+  if (( A->next == B && B->prev == A ) || ( A->prev == B && B->next == A )) {
+    A->prev = tmp[2];
+    B->prev = tmp[0];
+    A->next = tmp[3];
+    B->next = tmp[1];
+  } else {
+    A->prev = tmp[1];
+    B->prev = tmp[0];
+    A->next = tmp[3];
+    B->next = tmp[2];
   }
 
-  /* swap inner nodes */
-  n1->next->prev = n2;
-  n2->prev->next = n1;
-  /* swap n1 with n2 */
-  n1->prev = n2->prev;
-  n1->next = n2->next;
-  /* swap n2 with n1 */
-  n2->prev = t1[0];
-  n2->next = t1[1];
+  /* relink outer nodes if they exist */
+  if (A->prev) A->prev->next = A;
+  if (A->next) A->next->prev = A;
+  if (B->prev) B->prev->next = B;
+  if (B->next) B->next->prev = B;
+}
 
-  // puts(n1->data);
-  // puts(n2->data);
 
-  // print_text(tb);
+// Task 7
+void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
+{
+  if (tb1->size-1 < pos) {
+    fprintf(stderr, "pos out of range");
+    abort();
+  }
+
+  // remember to increase the size of tb ie. |tb1| += |tb2|
 }
 
 
 
-// Task 7
+
+
+
+
+
+
 // Task 8
+// void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2);
+
+
 // Task 9
+// Textbuffer textbuffer_cut (Textbuffer tb, size_t from, size_t to);
+
 // Task 10
+// Textbuffer textbuffer_copy (Textbuffer tb, size_t from, size_t to);
+
+
 // Task 11
+// void textbuffer_delete (Textbuffer tb, size_t from, size_t to);
+
+
 // Task 12
+// ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev);
+
+
 // Task 13
+// void textbuffer_replace (Textbuffer tb, char *match, char *replace);
 
 
 
 
 
-// Helper Functions Below (ie. functions not part of spec)
+
+
+
+
+// Helper Functions
 
 // Initialise a new textbuffer
 Textbuffer textbuffer_new_node(void)
@@ -212,6 +235,8 @@ dlink dlink_lookup (dlink list, size_t index)
     if (i == index) return list;
   return NULL;
 }
+
+
 
 
 /**
