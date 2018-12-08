@@ -100,7 +100,6 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
     fprintf (stderr, "pos{1|2} out of range");
     abort ();
   }
-
   /* initialise positions in ascending order where p1 < p2 */
   size_t p1; size_t p2;
   if (pos1 < pos2) {
@@ -108,20 +107,16 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
   } else {
     p1 = pos2; p2 = pos1;
   }
-
   /* retrieve nodes */
   dlink A = dlink_lookup (tb->head, p1);
   dlink B = dlink_lookup (tb->head, p2);
-
   /* if nodes are the same do nothing */
   if (A == B) return;
-
   /* change head and tail if swap node at ends of list */
   if (tb->head == A) tb->head = B;
   if (tb->tail == B) tb->tail = A;
-
+  /* tmp array keeps track of A & B links */
   dlink tmp[] = { A->prev, B->prev, A->next, B->next };
-
   /* if neighbors no need to replace outer nodes... */
   if (( A->next == B && B->prev == A ) || ( A->prev == B && B->next == A )) {
     A->prev = tmp[2];
@@ -134,7 +129,6 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
     A->next = tmp[3];
     B->next = tmp[2];
   }
-
   /* relink outer nodes if they exist */
   if (A->prev) A->prev->next = A;
   if (A->next) A->next->prev = A;
@@ -263,7 +257,62 @@ ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev)
 
 
 // Task 13
-// void textbuffer_replace (Textbuffer tb, char *match, char *replace);
+char *str_replace (char *orig, char *rep, char *with)
+{
+  char *result; // the return string
+  char *ins;    // the next insert point
+  char *tmp;    // varies
+  int len_rep;  // length of rep (the string to remove)
+  int len_with; // length of with (the string to replace rep with)
+  int len_front; // distance between rep and end of last rep
+  int count;    // number of replacements
+
+  // sanity checks and initialization
+  if (!orig || !rep)
+      return NULL;
+  len_rep = strlen(rep);
+  if (len_rep == 0)
+      return NULL; // empty rep causes infinite loop during count
+  if (!with)
+      with = "";
+  len_with = strlen(with);
+
+  // count the number of replacements needed
+  ins = orig;
+  for (count = 0; tmp = strstr(ins, rep); ++count) {
+      ins = tmp + len_rep;
+  }
+
+  tmp = result = malloc(strlen(orig) + (len_with - len_rep) * count + 1);
+
+  if (!result)
+      return NULL;
+
+  // first time through the loop, all the variable are set correctly
+  // from here on,
+  //    tmp points to the end of the result string
+  //    ins points to the next occurrence of rep in orig
+  //    orig points to the remainder of orig after "end of rep"
+  while (count--) {
+      ins = strstr(orig, rep);
+      len_front = ins - orig;
+      tmp = strncpy(tmp, orig, len_front) + len_front;
+      tmp = strcpy(tmp, with) + len_with;
+      orig += len_front + len_rep; // move to next "end of rep"
+  }
+  strcpy(tmp, orig);
+  return result;
+}
+
+void textbuffer_replace (Textbuffer tb, char *match, char *replace)
+{
+  for (dlink curr = tb->head; curr; curr = curr->next)
+    if (strstr (curr->data, match)) {
+      char *old = curr->data;
+      curr->data = str_replace(curr->data, match, replace);
+      free(old);
+    }
+}
 
 
 // Helper Functions

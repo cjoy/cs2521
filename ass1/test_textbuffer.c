@@ -38,7 +38,7 @@ int main (void)
 	test_tb_copy ();
 	test_tb_delete ();
 	test_tb_search ();
-	// test_tb_replace ();
+	test_tb_replace ();
 
 	puts ("All tests passed. You are awesome!");
 	return EXIT_SUCCESS;
@@ -516,7 +516,20 @@ void test_tb_replace (void)
 {
 	puts ("textbuffer_replace():");
 	{
-		puts ("- testing ");
+		puts ("- testing replace with empty string");
+		Textbuffer tb = textbuffer_new ("the cat sat mat\nthe cat ate hat\ncat had a bat\n");
+		textbuffer_replace (tb, "cat", "");
+		puts (textbuffer_to_str (tb));
+		assert (strcmp (textbuffer_to_str (tb), "the  sat mat\nthe  ate hat\n had a bat\n") == 0);
+		textbuffer_drop (tb);
+	}
+	{
+		puts ("- testing replacing a multiple line textbuffer");
+		Textbuffer tb = textbuffer_new ("the cat sat mat\nthe cat ate hat\ncat had a bat\n");
+		textbuffer_replace (tb, "cat", "dog");
+		puts (textbuffer_to_str (tb));
+		assert (strcmp (textbuffer_to_str (tb), "the dog sat mat\nthe dog ate hat\ndog had a bat\n") == 0);
+		textbuffer_drop (tb);
 	}
 	puts ("");
 }
