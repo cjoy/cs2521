@@ -19,7 +19,6 @@ struct dll {
 // Textbuffer ADT
 typedef struct textbuffer *Textbuffer;
 struct textbuffer {
-  dlink cursor; /* current buffer node */
   dlink head;   /* first node in text buffer */
   dlink tail;   /* last node in text buffer */
   size_t size;  /* total number of nodes */
@@ -50,7 +49,6 @@ Textbuffer textbuffer_new (const char *text)
 	}
   free (to_free);          /* free duplicate text */
   tb->tail = prev;        /* set tail as the last created node */
-  tb->cursor = tb->head;  /* by default, we set the cursor at the head */
   return tb;
 }
 
@@ -99,7 +97,7 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
 {
   if (pos1 >= tb->size || pos2  >= tb->size) {
     fprintf (stderr, "pos{1|2} out of range");
-    abort();
+    abort ();
   }
 
   /* initialise positions in ascending order where p1 < p2 */
@@ -149,11 +147,11 @@ void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
 {
   if (!tb1 || !tb2) {
     fprintf (stderr, "tb{1|2} doesn't exist");
-    abort();
+    abort ();
   }
   if (tb1->size < pos) {
     fprintf (stderr, "pos out of range");
-    abort();
+    abort ();
   }
 
   /* account for edge cases */
@@ -162,10 +160,8 @@ void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
   if (tb2->size == 0) return;
 
   dlink A_start = dlink_lookup (tb1->head, pos);
-  dlink A_end = tb1->tail;
   dlink B_start = tb2->head;
   dlink B_end = tb2->tail;
-  size_t final_size = tb1->size + tb2->size;
 
   if (pos == 0) {
     /* inserting at start of tb1 */
@@ -195,14 +191,57 @@ void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2)
 }
 
 // Task 9
-// Textbuffer textbuffer_cut (Textbuffer tb, size_t from, size_t to);
+Textbuffer textbuffer_cut (Textbuffer tb, size_t from, size_t to)
+{
+  Textbuffer tb_copy = textbuffer_copy (tb, from, to);
+  textbuffer_delete (tb, from, to);
+  return tb_copy;
+}
 
 // Task 10
-// Textbuffer textbuffer_copy (Textbuffer tb, size_t from, size_t to);
-
+Textbuffer textbuffer_copy (Textbuffer tb, size_t from, size_t to)
+{
+  if (from > to || tb->size-1 < to || tb->size-1 < from) {
+    fprintf (stderr, "'from' or 'to' out of range");
+    abort ();
+  }
+  Textbuffer tb_copy = textbuffer_new_node ();
+  dlink prev = NULL;
+  dlink curr = tb->head;
+  for (size_t i = 0; curr; curr = curr->next, i++) {
+    if (from <= i && i <= to) {
+      dlink node = dlink_new_node (curr->data);
+      if (!tb_copy->head) tb_copy->head = node;
+      if (prev) prev->next = node;
+      node->prev = prev;
+      prev = node;
+      tb_copy->size++;
+    }
+  }
+  tb_copy->tail = prev;
+  return tb_copy;
+}
 
 // Task 11
-// void textbuffer_delete (Textbuffer tb, size_t from, size_t to);
+void textbuffer_delete (Textbuffer tb, size_t from, size_t to)
+{
+  if (from > to || tb->size-1 < to || tb->size-1 < from) {
+    fprintf (stderr, "'from' or 'to' out of range");
+    abort ();
+  }
+
+  dlink from_node = dlink_lookup (tb->head, from);
+  dlink to_node = dlink_lookup (tb->head, to);
+
+  if (from_node == tb->head) {
+    tb->head = to_node->next;
+  }
+
+  from_node->prev->next = to_node->next;
+  to_node->next->prev = from_node->prev;
+
+  // dlink_drop(from_node);
+}
 
 
 // Task 12
@@ -234,9 +273,8 @@ Textbuffer textbuffer_new_node(void)
   Textbuffer tb = malloc (sizeof (*tb));
   tb->head = NULL;
   tb->tail = NULL;
-  tb->cursor = NULL;
   tb->size = 0;
-  return tb;  
+  return tb;
 }
 
 // Initialise a new doubly-linked list node

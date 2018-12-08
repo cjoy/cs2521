@@ -34,8 +34,8 @@ int main (void)
 	test_tb_insert ();
 	test_tb_paste ();
 	// test_tb_cut ();
-	// test_tb_copy ();
-	// test_tb_delete ();
+	test_tb_copy ();
+	test_tb_delete ();
 	test_tb_search ();
 	// test_tb_replace ();
 
@@ -287,16 +287,33 @@ void test_tb_copy (void)
 {
 	puts ("textbuffer_copy():");
 	{
-		puts ("- testing ");
+		puts ("- testing simple copy");
+		Textbuffer tb = textbuffer_new ("a\nb\nc\nd\ne\n");
+		Textbuffer cp = textbuffer_copy (tb, 1, 3);
+		assert (strcmp (textbuffer_to_str (cp), "b\nc\nd\n") == 0);
 	}
+	{
+		puts ("- testing copy one line");
+		Textbuffer tb = textbuffer_new ("a\nb\nc\nd\ne\n");
+		Textbuffer cp = textbuffer_copy (tb, 1, 1);
+		assert (strcmp (textbuffer_to_str (cp), "b\n") == 0);
+	}
+	puts ("");
 }
 
 void test_tb_delete (void)
 {
 	puts ("textbuffer_delete():");
 	{
-		puts ("- testing ");
+		puts ("- testing delete multiple lines");
+		Textbuffer tb = textbuffer_new ("a\nb\nc\nd\ne\n");
+		textbuffer_delete (tb, 1, 3);
+
+		puts (textbuffer_to_str (tb));
+		
+		assert (strcmp (textbuffer_to_str (tb), "a\ne\n") == 0);
 	}
+	puts ("");
 }
 
 void test_tb_search (void)
@@ -318,6 +335,7 @@ void test_tb_search (void)
 		assert (textbuffer_search(tb, "the", true) == 2);
 		assert (textbuffer_search(tb, "banana", true) == -1);
 	}
+	puts ("");
 }
 
 void test_tb_replace (void)
