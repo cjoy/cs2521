@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "textbuffer.h"
 
@@ -35,7 +36,7 @@ int main (void)
 	// test_tb_cut ();
 	// test_tb_copy ();
 	// test_tb_delete ();
-	// test_tb_search ();
+	test_tb_search ();
 	// test_tb_replace ();
 
 	puts("All tests passed. You are awesome!");
@@ -302,7 +303,20 @@ void test_tb_search (void)
 {
 	puts("textbuffer_search():");
 	{
-		puts("- testing ");
+		puts("- testing a simple string");
+		Textbuffer tb = textbuffer_new("the cat sat mat\nthe cat ate hat\ncat had a bat\n");
+		assert(textbuffer_search(tb, "cat", false) == 3);
+		assert(textbuffer_search(tb, "sat", false) == 1);
+		assert(textbuffer_search(tb, "the", false) == 2);
+		assert(textbuffer_search(tb, "banana", false) == -1);
+	}
+	{
+		puts("- testing a simple string in reverse");
+		Textbuffer tb = textbuffer_new("the cat sat mat\nthe cat ate hat\ncat had a bat\n");
+		assert(textbuffer_search(tb, "cat", true) == 3);
+		assert(textbuffer_search(tb, "sat", true) == 1);
+		assert(textbuffer_search(tb, "the", true) == 2);
+		assert(textbuffer_search(tb, "banana", true) == -1);
 	}
 }
 

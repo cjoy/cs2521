@@ -206,7 +206,13 @@ void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2)
 
 
 // Task 12
-// ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev);
+ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev)
+{
+  ssize_t found = 0;
+  for (dlink curr = (rev ? tb->tail : tb->head); curr; curr = (rev ? curr->prev : curr->next))
+    if (strstr(curr->data, match)) found++;
+  return (found == 0 ? -1 : found);
+}
 
 
 // Task 13
