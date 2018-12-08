@@ -31,6 +31,7 @@ dlink dlink_new_node (char *data);
 size_t dlink_drop (dlink list);
 void print_text (Textbuffer tb);
 dlink dlink_lookup (dlink list, size_t index);
+char *str_replace (const char *string, const char *match, const char *replace);
 
 // Task 1
 Textbuffer textbuffer_new (const char *text)
@@ -139,8 +140,8 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
 // Task 7
 void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
 {
-  assert(tb1 != NULL);
-  assert(tb2 != NULL);
+  assert(tb1);
+  assert(tb2);
   if (tb1->size < pos) {
     fprintf (stderr, "pos out of range");
     abort ();
@@ -255,57 +256,11 @@ ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev)
   return (found == 0 ? -1 : found);
 }
 
-
 // Task 13
-char *str_replace (char *orig, char *rep, char *with)
-{
-  char *result; // the return string
-  char *ins;    // the next insert point
-  char *tmp;    // varies
-  int len_rep;  // length of rep (the string to remove)
-  int len_with; // length of with (the string to replace rep with)
-  int len_front; // distance between rep and end of last rep
-  int count;    // number of replacements
-
-  // sanity checks and initialization
-  if (!orig || !rep)
-      return NULL;
-  len_rep = strlen(rep);
-  if (len_rep == 0)
-      return NULL; // empty rep causes infinite loop during count
-  if (!with)
-      with = "";
-  len_with = strlen(with);
-
-  // count the number of replacements needed
-  ins = orig;
-  for (count = 0; tmp = strstr(ins, rep); ++count) {
-      ins = tmp + len_rep;
-  }
-
-  tmp = result = malloc(strlen(orig) + (len_with - len_rep) * count + 1);
-
-  if (!result)
-      return NULL;
-
-  // first time through the loop, all the variable are set correctly
-  // from here on,
-  //    tmp points to the end of the result string
-  //    ins points to the next occurrence of rep in orig
-  //    orig points to the remainder of orig after "end of rep"
-  while (count--) {
-      ins = strstr(orig, rep);
-      len_front = ins - orig;
-      tmp = strncpy(tmp, orig, len_front) + len_front;
-      tmp = strcpy(tmp, with) + len_with;
-      orig += len_front + len_rep; // move to next "end of rep"
-  }
-  strcpy(tmp, orig);
-  return result;
-}
-
 void textbuffer_replace (Textbuffer tb, char *match, char *replace)
 {
+  assert(tb);
+  if (strcmp(match, "") == 0) return;
   for (dlink curr = tb->head; curr; curr = curr->next)
     if (strstr (curr->data, match)) {
       char *old = curr->data;
@@ -355,6 +310,37 @@ dlink dlink_lookup (dlink list, size_t index)
   for (size_t i = 0; list; i++, list = list->next)
     if (i == index) return list;
   return NULL;
+}
+
+char *str_replace (const char *string, const char *match, const char *replace) 
+{
+  char *result;
+  size_t i, cnt = 0;
+  size_t replacelen = strlen (replace);
+  size_t matchlen = strlen (match);
+  // Counting the number of times old word 
+  // occur in the string 
+  for (i = 0; string[i] != '\0'; i++) {
+    if (strstr (&string[i], match) == &string[i]) {
+      cnt++;
+      // Jumping to index after the old word.
+      i += matchlen - 1;
+    }
+  }
+  // Making new string of enough length 
+  result = malloc (i + cnt * (replacelen - matchlen) + 1); 
+  i = 0;
+  while (*string) { 
+    // compare the substring with the result 
+    if (strstr (string, match) == string) { 
+      strcpy (&result[i], replace); 
+      i += replacelen;
+      string += matchlen;
+    }
+    else result[i++] = *string++; 
+  }
+  result[i] = '\0'; 
+  return result; 
 }
 
 // Print the text buffer from start to finish - Forwards & Backwards
