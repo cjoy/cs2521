@@ -31,7 +31,7 @@ int main (void)
 	test_tb_to_str ();
 	test_tb_swap ();
 	test_tb_insert ();
-	// test_tb_paste ();
+	test_tb_paste ();
 	// test_tb_cut ();
 	// test_tb_copy ();
 	// test_tb_delete ();
@@ -260,7 +260,15 @@ void test_tb_paste (void)
 {
 	puts("textbuffer_paste():");
 	{
-		puts("- testing ");
+		puts("- testing duplicates tb2 and inserts somewhere in the middle");
+		Textbuffer tb1 = textbuffer_new("a+\nb+\nc+\n");
+		Textbuffer tb2 = textbuffer_new("a-\nb-\nc-\n");
+		textbuffer_paste (tb1, 2, tb2);
+		assert(textbuffer_lines(tb1) == 6);
+		assert(strcmp(textbuffer_to_str(tb1), "a+\nb+\na-\nb-\nc-\nc+\n") == 0);
+		assert(textbuffer_lines(tb2) == 3);
+		assert(strcmp(textbuffer_to_str(tb2), "a-\nb-\nc-\n") == 0);
+		textbuffer_drop(tb1);
 	}
 	puts("");
 }

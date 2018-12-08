@@ -189,14 +189,10 @@ void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
 }
 
 // Task 8
-// void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2);
-
-
-
-
-
-
-
+void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2)
+{
+  textbuffer_insert (tb1, pos, textbuffer_new(textbuffer_to_str(tb2)));
+}
 
 // Task 9
 // Textbuffer textbuffer_cut (Textbuffer tb, size_t from, size_t to);
