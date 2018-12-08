@@ -314,24 +314,21 @@ dlink dlink_lookup (dlink list, size_t index)
 
 char *str_replace (const char *string, const char *match, const char *replace) 
 {
-  char *result;
-  size_t i, cnt = 0;
+  size_t i, len = 0;
   size_t replacelen = strlen (replace);
   size_t matchlen = strlen (match);
-  // Counting the number of times old word 
-  // occur in the string 
+  /* count occurrences of new string */ 
   for (i = 0; string[i] != '\0'; i++) {
     if (strstr (&string[i], match) == &string[i]) {
-      cnt++;
-      // Jumping to index after the old word.
+      len++;
       i += matchlen - 1;
     }
   }
-  // Making new string of enough length 
-  result = malloc (i + cnt * (replacelen - matchlen) + 1); 
+  /* allocate block for new string */
+  char *result = malloc (i + len * (replacelen - matchlen) + 1); 
   i = 0;
   while (*string) { 
-    // compare the substring with the result 
+    /* compare the substring with the result */
     if (strstr (string, match) == string) { 
       strcpy (&result[i], replace); 
       i += replacelen;
