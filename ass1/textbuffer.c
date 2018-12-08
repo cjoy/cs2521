@@ -218,10 +218,11 @@ Textbuffer textbuffer_copy (Textbuffer tb, size_t from, size_t to)
 // Task 11
 void textbuffer_delete (Textbuffer tb, size_t from, size_t to)
 {
-  if (from > to || tb->size-1 < to || tb->size-1 < from) {
+  if (tb->size-1 < from || tb->size-1 < to) {
     fprintf (stderr, "'from' or 'to' out of range");
     abort ();
   }
+  if (from > to) return;
 
   dlink from_node = dlink_lookup (tb->head, from);
   dlink to_node = dlink_lookup (tb->head, to);
