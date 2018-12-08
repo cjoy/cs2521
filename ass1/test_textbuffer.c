@@ -333,7 +333,7 @@ void test_tb_cut (void)
 		puts ("- testing cutting an one-line textbuffer");
 		Textbuffer tb = textbuffer_new ("");
 		Textbuffer cut = textbuffer_cut (tb, 0, 0);
-		assert (textbuffer_to_str (tb) == NULL);
+		assert (strcmp (textbuffer_to_str (tb), "") == 0);
 		assert (strcmp (textbuffer_to_str (cut), "\n") == 0);
 		assert (textbuffer_lines (tb) == 0);
 		assert (textbuffer_lines (cut) == 1);
@@ -377,7 +377,7 @@ void test_tb_cut (void)
 		puts ("- testing cutting the whole textbuffer");
 		Textbuffer tb = textbuffer_new ("a\nb\nc\nd\ne\n");
 		Textbuffer cut = textbuffer_cut (tb, 0, 4);
-		assert (textbuffer_to_str (tb) == NULL);
+		assert (strcmp (textbuffer_to_str (tb), "") == 0);
 		assert (strcmp (textbuffer_to_str (cut), "a\nb\nc\nd\ne\n") == 0);
 		assert (textbuffer_lines (tb) == 0);
 		assert (textbuffer_lines (cut) == 5);
@@ -433,7 +433,7 @@ void test_tb_delete (void)
 		puts ("- testing deleting only one line in one line textbuffer");
 		Textbuffer tb = textbuffer_new ("a\n");
 		textbuffer_delete (tb, 0, 0);	
-		assert (textbuffer_to_str (tb) == NULL);
+		assert (strcmp (textbuffer_to_str (tb), "") == 0);
 		assert (textbuffer_lines (tb) == 0);
 		textbuffer_drop (tb);
 	}
@@ -457,7 +457,7 @@ void test_tb_delete (void)
 		puts ("- testing delete all lines");
 		Textbuffer tb = textbuffer_new ("a\nb\nc\nd\ne\n");
 		textbuffer_delete (tb, 0, 4);
-		assert (textbuffer_to_str (tb) == NULL);
+		assert (strcmp (textbuffer_to_str (tb), "") == 0);
 		assert (textbuffer_lines (tb) == 0);
 		textbuffer_drop (tb);
 	}

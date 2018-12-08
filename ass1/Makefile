@@ -14,10 +14,9 @@ test_textbuffer.o:	test_textbuffer.c textbuffer.h
 
 .PHONY: clean
 clean:
-	-rm -f test_textbuffer test_textbuffer.o
+	-rm -f test_textbuffer test_textbuffer.o dryrun*.o
 	-rm -f textbuffer.o
 
 .PHONY: give
 give:
 	give cs2521 assign1 textbuffer.c test_textbuffer.c
-

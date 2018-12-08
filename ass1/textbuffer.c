@@ -91,7 +91,12 @@ char *textbuffer_to_str (Textbuffer tb)
     strcat (buff, "\n"); /* concatenate new line to end of string */
     i++;
   }
-  return buff;
+  char *result = buff;
+  if (i == 0) {
+    result = malloc(sizeof(char*));
+    strcpy(result, "");
+  }
+  return result;
 }
 
 // Task 6
