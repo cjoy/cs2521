@@ -35,20 +35,20 @@ dlink dlink_lookup (dlink list, size_t index);
 // Task 1
 Textbuffer textbuffer_new (const char *text)
 {
-  Textbuffer tb = textbuffer_new_node(); /* init a new textbuffer */
+  Textbuffer tb = textbuffer_new_node (); /* init a new textbuffer */
   dlink prev = NULL; /* temp prev node, so we can set dlink->prev */
 	char *line, *text_dup, *to_free;
-  to_free = text_dup = strdup(text);
-  if (*text_dup && text_dup[strlen(text_dup)-1] == '\n')
-    text_dup[strlen(text_dup)-1] = '\0'; /* remove trailing new line */
-  for (; (line = strsep(&text_dup, "\n")); tb->size++) {
-    dlink node = dlink_new_node(line);  /* create  new dlink node */
+  to_free = text_dup = strdup (text);
+  if (*text_dup && text_dup[strlen (text_dup)-1] == '\n')
+    text_dup[strlen (text_dup)-1] = '\0'; /* remove trailing new line */
+  for (; (line = strsep (&text_dup, "\n")); tb->size++) {
+    dlink node = dlink_new_node (line);  /* create  new dlink node */
     if (!tb->head) tb->head = node;     /* set head as first node */
     if (prev) prev->next = node;        /* set pre node's next to the new node */
     node->prev = prev;                  /* set prev */
     prev = node;                        /* new node now becomes prev */
 	}
-  free(to_free);          /* free duplicate text */
+  free (to_free);          /* free duplicate text */
   tb->tail = prev;        /* set tail as the last created node */
   tb->cursor = tb->head;  /* by default, we set the cursor at the head */
   return tb;
@@ -58,8 +58,8 @@ Textbuffer textbuffer_new (const char *text)
 void textbuffer_drop (Textbuffer tb)
 {
   if (!tb) return;
-  dlink_drop(tb->head);
-  free(tb);
+  dlink_drop (tb->head);
+  free (tb);
 }
 
 // Task 3
@@ -73,7 +73,7 @@ size_t textbuffer_bytes (Textbuffer tb)
 {
   size_t bytes = 0;
   for (dlink curr = tb->head; curr; curr = curr->next)
-    bytes = bytes + strlen(curr->data) + 1;
+    bytes = bytes + strlen (curr->data) + 1;
   return bytes;
 }
 
@@ -84,11 +84,11 @@ char *textbuffer_to_str (Textbuffer tb)
   size_t buff_len = 0;
   size_t i = 0;
   for (dlink curr = tb->head; curr; curr = curr->next) {
-    buff_len = (buff ? strlen(buff) : 0) + strlen(curr->data) + 2;
-    buff = realloc(buff, buff_len);
-    if (i == 0) strcpy(buff, curr->data);
-    if (i > 0) strcat(buff, curr->data);
-    strcat(buff, "\n"); /* concatenate new line to end of string */
+    buff_len = (buff ? strlen (buff) : 0) + strlen (curr->data) + 2;
+    buff = realloc (buff, buff_len);
+    if (i == 0) strcpy (buff, curr->data);
+    if (i > 0) strcat (buff, curr->data);
+    strcat (buff, "\n"); /* concatenate new line to end of string */
     i++;
   }
   return buff;
@@ -98,7 +98,7 @@ char *textbuffer_to_str (Textbuffer tb)
 void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
 {
   if (pos1 >= tb->size || pos2  >= tb->size) {
-    fprintf(stderr, "pos{1|2} out of range");
+    fprintf (stderr, "pos{1|2} out of range");
     abort();
   }
 
@@ -111,8 +111,8 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
   }
 
   /* retrieve nodes */
-  dlink A = dlink_lookup(tb->head, p1);
-  dlink B = dlink_lookup(tb->head, p2);
+  dlink A = dlink_lookup (tb->head, p1);
+  dlink B = dlink_lookup (tb->head, p2);
 
   /* if nodes are the same do nothing */
   if (A == B) return;
@@ -148,11 +148,11 @@ void textbuffer_swap (Textbuffer tb, size_t pos1, size_t pos2)
 void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
 {
   if (!tb1 || !tb2) {
-    fprintf(stderr, "tb{1|2} doesn't exist");
+    fprintf (stderr, "tb{1|2} doesn't exist");
     abort();
   }
   if (tb1->size < pos) {
-    fprintf(stderr, "pos out of range");
+    fprintf (stderr, "pos out of range");
     abort();
   }
 
@@ -161,7 +161,7 @@ void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
   if (tb1->size == 0) { tb1 = tb2; return; } 
   if (tb2->size == 0) return;
 
-  dlink A_start = dlink_lookup(tb1->head, pos);
+  dlink A_start = dlink_lookup (tb1->head, pos);
   dlink A_end = tb1->tail;
   dlink B_start = tb2->head;
   dlink B_end = tb2->tail;
@@ -191,7 +191,7 @@ void textbuffer_insert (Textbuffer tb1, size_t pos, Textbuffer tb2)
 // Task 8
 void textbuffer_paste (Textbuffer tb1, size_t pos, Textbuffer tb2)
 {
-  textbuffer_insert (tb1, pos, textbuffer_new(textbuffer_to_str(tb2)));
+  textbuffer_insert (tb1, pos, textbuffer_new (textbuffer_to_str (tb2)));
 }
 
 // Task 9
@@ -210,7 +210,7 @@ ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev)
 {
   ssize_t found = 0;
   for (dlink curr = (rev ? tb->tail : tb->head); curr; curr = (rev ? curr->prev : curr->next))
-    if (strstr(curr->data, match)) found++;
+    if (strstr (curr->data, match)) found++;
   return (found == 0 ? -1 : found);
 }
 
@@ -231,7 +231,7 @@ ssize_t textbuffer_search (Textbuffer tb, char *match, bool rev)
 // Initialise a new textbuffer
 Textbuffer textbuffer_new_node(void)
 {
-  Textbuffer tb = malloc(sizeof(*tb));
+  Textbuffer tb = malloc (sizeof (*tb));
   tb->head = NULL;
   tb->tail = NULL;
   tb->cursor = NULL;
@@ -242,11 +242,11 @@ Textbuffer textbuffer_new_node(void)
 // Initialise a new doubly-linked list node
 dlink dlink_new_node (char *data)
 {
-  dlink node = malloc(sizeof(*node));
+  dlink node = malloc (sizeof (*node));
   node->next = NULL;
   node->prev = NULL;
-  node->data = malloc(strlen(data) + 1);
-  strcpy(node->data, data);
+  node->data = malloc (strlen (data) + 1);
+  strcpy (node->data, data);
   return node;
 }
 
@@ -257,7 +257,7 @@ void dlink_drop (dlink list)
 	while (list) {
 		node = list;
 		list = list->next;
-		free(node);
+		free (node);
 	}
 }
 
@@ -278,13 +278,13 @@ dlink dlink_lookup (dlink list, size_t index)
  */
 void print_text (Textbuffer tb)
 {
-  printf("\n------------------------------------------------------------------\n");
-  printf("Size: %zu\n", tb->size);
-  printf("Forward: ");
+  printf ("\n------------------------------------------------------------------\n");
+  printf ("Size: %zu\n", tb->size);
+  printf ("Forward: ");
   for (dlink curr = tb->head; curr; curr = curr->next)
-    printf("[%s]", curr->data);
-  printf("\nBackward: ");
+    printf ("[%s]", curr->data);
+  printf ("\nBackward: ");
   for (dlink curr = tb->tail; curr; curr = curr->prev)
-    printf("[%s]", curr->data);
-  printf("\n------------------------------------------------------------------\n");
+    printf ("[%s]", curr->data);
+  printf ("\n------------------------------------------------------------------\n");
 }
