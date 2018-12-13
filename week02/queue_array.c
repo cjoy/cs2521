@@ -114,9 +114,11 @@ void white_box_tests (void)
 		queue_en(q, 1);
 		assert(q->head == 0);
 		assert(q->tail == 0);
+		assert(q->n_items == 1);
 		queue_en(q, 2);
 		assert(q->head == 0);
 		assert(q->tail == 1);
+		assert(q->n_items == 2);
 	}
 	{
 		puts("WB Test 2: checking if tail wraps around "
@@ -125,9 +127,13 @@ void white_box_tests (void)
 		for (Item i = 0; (size_t)i < q->capacity; i++)
 			queue_en(q, i);
 		assert(queue_de(q) == 0);
+		assert(q->n_items == q->capacity-1);
 		assert(queue_de(q) == 1);
+		assert(q->n_items == q->capacity-2);
 		assert(queue_de(q) == 2);
+		assert(q->n_items == q->capacity-3);
 		queue_en(q, 2);
+		assert(q->n_items == q->capacity-2);
 		assert(q->tail == 0);
 	}
 	{
