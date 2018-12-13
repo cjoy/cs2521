@@ -102,6 +102,13 @@ size_t queue_size (queue *q)
 void white_box_tests (void)
 {
 	{
+		puts("WB Test 0: empty queue");
+		Queue q = queue_new();
+		assert(q->head == -1);
+		assert(q->tail == 0);
+		assert(q->n_items == 0);
+	}
+	{
 		puts("WB Test 1: simple index check for enq");
 		Queue q = queue_new();
 		queue_en(q, 1);
