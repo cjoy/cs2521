@@ -58,7 +58,7 @@ void test_tb_new (void)
 {
 	puts ("textbuffer_new ():");
 	{
-		puts ("- testing empty string");
+		puts ("- testing empty text buffer");
 		Textbuffer tb = textbuffer_new (EMPTY_STR);
 		assert (textbuffer_lines (tb) == 1);
 		textbuffer_drop (tb);
@@ -70,13 +70,13 @@ void test_tb_new (void)
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing string with consecutive new lines");
+		puts ("- testing text buffer with consecutive new lines");
 		Textbuffer tb = textbuffer_new ("hello world\nanother one\n\nblah\n");
 		assert (textbuffer_lines (tb) == 4);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing string that terminates early");
+		puts ("- testing text buffer that terminates early");
 		Textbuffer tb = textbuffer_new ("this is cool\nblah blah\n\0\nblah\n");
 		assert (textbuffer_lines (tb) == 2);
 		textbuffer_drop (tb);
@@ -121,70 +121,70 @@ void test_tb_swap (void)
 {
 	puts ("textbuffer_swap ():");
 	{
-		puts ("- testing case: H <-[]-> <-[pos1]-> <-[]-> <-[pos3]-> <-[]-> T");
+		puts ("- testing swapping middle non-consecutive nodes");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 1, 3);
 		assert (strcmp (textbuffer_to_str (tb), "0\n3\n2\n1\n4\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[pos0]-> <-[]-> <-[]-> <-[]-> <-[pos4]-> T");
+		puts ("- testing swapping head with tail nodes");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 0, 4);
 		assert (strcmp (textbuffer_to_str (tb), "4\n1\n2\n3\n0\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[pos0]-> <-[]-> <-[]-> <-[pos3]-> <-[]-> T");
+    puts ("- testing swapping head with middle node");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 0, 3);
 		assert (strcmp (textbuffer_to_str (tb), "3\n1\n2\n0\n4\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[]-> <-[pos1]-> <-[]-> <-[]-> <-[pos4]-> T");
+		puts ("- testing swapping middle with tail nodes");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 1, 4);
 		assert (strcmp (textbuffer_to_str (tb), "0\n4\n2\n3\n1\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- reverse case: H <-[]-> <-[pos1]-> <-[]-> <-[]-> <-[pos4]-> T");
+		puts ("- reverse case: testing swapping middle with tail nodes");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 4, 1);
 		assert (strcmp (textbuffer_to_str (tb), "0\n4\n2\n3\n1\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[]-> <-[pos1]-> <-[pos2]-> <-[]-> <-[]-> T");
+		puts ("- testing swapping consecutive middle nodes");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 1, 2);
 		assert (strcmp (textbuffer_to_str (tb), "0\n2\n1\n3\n4\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- reverse case: H <-[]-> <-[pos1]-> <-[pos2]-> <-[]-> <-[]-> T");
+		puts ("- reverse case: testing swapping consecutive middle nodes");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 2, 1);
 		assert (strcmp (textbuffer_to_str (tb), "0\n2\n1\n3\n4\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[pos0]-> <-[pos1]-> <-[]-> <-[]-> <-[]-> T");
+		puts ("- testing swapping head with consecutive middle node");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 0, 1);
 		assert (strcmp (textbuffer_to_str (tb), "1\n0\n2\n3\n4\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[]-> <-[]-> <-[]-> <-[pos3]-> <-[pos4]-> T");
+		puts ("- testing swapping tail with consecutive middle node");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 3, 4);
 		assert (strcmp (textbuffer_to_str (tb), "0\n1\n2\n4\n3\n") == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing case: H <-[]-> <-[]-> <-[]-> <-[pos3|pos3]-> <-[]-> T");
+		puts ("- testing swapping same node");
 		Textbuffer tb = textbuffer_new (TEST_STR_1);
 		textbuffer_swap (tb, 3, 3);
 		assert (strcmp (textbuffer_to_str (tb), "0\n1\n2\n3\n4\n") == 0);
@@ -197,13 +197,13 @@ void test_tb_bytes (void)
 {
 	puts ("textbuffer_bytes ():");
 	{
-		puts ("- testing empty string");
+		puts ("- testing empty text buffer");
 		Textbuffer tb = textbuffer_new (EMPTY_STR);
 		assert (textbuffer_bytes (tb) == 1);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing simple multiline string");
+		puts ("- testing simple multiline text buffer");
 		Textbuffer tb = textbuffer_new (TEST_STR_6);
 		assert (textbuffer_bytes (tb) == 6);
 		textbuffer_drop (tb);
@@ -215,7 +215,7 @@ void test_tb_bytes (void)
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing multiline / empty line string");
+		puts ("- testing multiline / empty line text buffer");
 		Textbuffer tb = textbuffer_new ("1\n2\n3\n4\n5\n6\ninserting\nlinked\n\nlist\n");
 		assert (textbuffer_bytes (tb) == 35);
 		textbuffer_drop (tb);
@@ -476,7 +476,7 @@ void test_tb_delete (void)
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing deleting first line in two textbuffer");
+		puts ("- testing deleting first line in two line textbuffer");
 		Textbuffer tb = textbuffer_new ("a\nb\n");
 		textbuffer_delete (tb, 0, 0);	
 		assert (strcmp (textbuffer_to_str (tb), "b\n") == 0);
@@ -484,7 +484,7 @@ void test_tb_delete (void)
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing deleting tail in two textbuffer");
+		puts ("- testing deleting tail in two line textbuffer");
 		Textbuffer tb = textbuffer_new ("a\nb\n");
 		textbuffer_delete (tb, 1, 1);	
 		assert (strcmp (textbuffer_to_str (tb), "a\n") == 0);
@@ -530,7 +530,7 @@ void test_tb_search (void)
 {
 	puts ("textbuffer_search ():");
 	{
-		puts ("- testing a simple string");
+		puts ("- testing a simple text buffer");
 		Textbuffer tb = textbuffer_new (TEST_STR_3);
 		assert (textbuffer_search (tb, "cat", false) == 3);
 		assert (textbuffer_search (tb, "sat", false) == 1);
@@ -539,7 +539,7 @@ void test_tb_search (void)
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing a simple string in reverse");
+		puts ("- testing a simple text buffer in reverse");
 		Textbuffer tb = textbuffer_new (TEST_STR_3);
 		assert (textbuffer_search (tb, "cat", true) == 3);
 		assert (textbuffer_search (tb, "sat", true) == 1);
@@ -554,14 +554,14 @@ void test_tb_replace (void)
 {
 	puts ("textbuffer_replace ():");
 	{
-		puts ("- testing replace empty match with string");
+		puts ("- testing replace empty match with text buffer");
 		Textbuffer tb = textbuffer_new (TEST_STR_2);
 		textbuffer_replace (tb, EMPTY_STR, "cat");
 		assert (strcmp (textbuffer_to_str (tb), TEST_STR_2) == 0);
 		textbuffer_drop (tb);
 	}
 	{
-		puts ("- testing replace non-empty match with empty string");
+		puts ("- testing replace non-empty match with empty text buffer");
 		Textbuffer tb = textbuffer_new (TEST_STR_3);
 		textbuffer_replace (tb, "cat", EMPTY_STR);
 		assert (strcmp (textbuffer_to_str (tb), "the  sat mat\nthe  ate hat\n had a bat\n") == 0);
@@ -572,6 +572,16 @@ void test_tb_replace (void)
 		Textbuffer tb = textbuffer_new (TEST_STR_3);
 		textbuffer_replace (tb, "cat", "dog");
 		assert (strcmp (textbuffer_to_str (tb), "the dog sat mat\nthe dog ate hat\ndog had a bat\n") == 0);
+		textbuffer_drop (tb);
+	}
+	{
+		puts ("- testing replacing a multiple line textbuffer of different size");
+		Textbuffer tb = textbuffer_new (TEST_STR_3);
+		size_t pre_bytes = textbuffer_bytes (tb);
+		textbuffer_replace (tb, "cat", "elephant");
+		size_t post_bytes = textbuffer_bytes (tb);
+		assert (strcmp (textbuffer_to_str (tb), "the elephant sat mat\nthe elephant ate hat\nelephant had a bat\n") == 0);
+		assert (pre_bytes < post_bytes);
 		textbuffer_drop (tb);
 	}
 	puts (EMPTY_STR);
