@@ -9,6 +9,8 @@
 #include <string.h>
 #include "textbuffer.h"
 
+#define EMPTY_STR ""
+
 // Doubly Linked List ADT
 typedef struct dll *dlink;
 struct dll {
@@ -29,7 +31,6 @@ struct textbuffer {
 Textbuffer textbuffer_new_node (void);
 dlink dlink_new_node (char *data);
 size_t dlink_drop (dlink list);
-void print_text (Textbuffer tb);
 dlink dlink_lookup (dlink list, size_t index);
 char *str_replace (const char *string, const char *match, const char *replace);
 
@@ -43,7 +44,7 @@ Textbuffer textbuffer_new (const char *text)
   if (*text_dup && text_dup[strlen (text_dup)-1] == '\n')
     text_dup[strlen (text_dup)-1] = '\0'; /* remove trailing new line */
   for (; (line = strsep (&text_dup, "\n")); tb->size++) {
-    dlink node = dlink_new_node (line);  /* create  new dlink node */
+    dlink node = dlink_new_node (line); /* create  new dlink node */
     if (!tb->head) tb->head = node;     /* set head as first node */
     if (prev) prev->next = node;        /* set pre node's next to the new node */
     node->prev = prev;                  /* set prev */
@@ -73,7 +74,7 @@ size_t textbuffer_bytes (Textbuffer tb)
 {
   size_t bytes = 0;
   for (dlink curr = tb->head; curr; curr = curr->next)
-    bytes += strlen (curr->data) + 1; /* + 1 for extra one line */
+    bytes += strlen (curr->data) + 1; /* + 1 for new line */
   return bytes;
 }
 
@@ -83,18 +84,17 @@ char *textbuffer_to_str (Textbuffer tb)
   char *buff = NULL;
   size_t buff_len = 0;
   size_t i = 0;
-  for (dlink curr = tb->head; curr; curr = curr->next) {
+  for (dlink curr = tb->head; curr; curr = curr->next, i++) {
     buff_len = (buff ? strlen (buff) : 0) + strlen (curr->data) + 2;
     buff = realloc (buff, buff_len);
     if (i == 0) strcpy (buff, curr->data);
     if (i > 0) strcat (buff, curr->data);
     strcat (buff, "\n"); /* concatenate new line to end of string */
-    i++;
   }
   char *result = buff;
   if (i == 0) {
-    result = malloc(sizeof(char*));
-    strcpy(result, "");
+    result = malloc (sizeof (char*));
+    strcpy (result, "");
   }
   return result;
 }
@@ -318,6 +318,8 @@ dlink dlink_lookup (dlink list, size_t index)
   return NULL;
 }
 
+// Given a array to a string, create a new array buffer that 
+// replaces matches with the given string.
 char *str_replace (const char *string, const char *match, const char *replace) 
 {
   size_t i, len = 0;
@@ -346,16 +348,89 @@ char *str_replace (const char *string, const char *match, const char *replace)
   return result; 
 }
 
-// Print the text buffer from start to finish - Forwards & Backwards
-void print_text (Textbuffer tb)
+// White-box tests
+void white_box_tests ()
 {
-  puts ("------------------------------------------------------------------");
-  printf ("Size: %zu\n", tb->size);
-  printf ("Forward: ");
-  for (dlink curr = tb->head; curr; curr = curr->next)
-    printf ("[%s]", curr->data);
-  printf ("\nBackward: ");
-  for (dlink curr = tb->tail; curr; curr = curr->prev)
-    printf ("[%s]", curr->data);
-  puts ("------------------------------------------------------------------\n");
+  {
+    puts ("textbuffer_new ():");
+    {
+      puts ("- testing empty string");
+      Textbuffer tb = textbuffer_new (EMPTY_STR);
+      assert (tb->size == 1);
+      assert (tb->head = tb->tail);
+      textbuffer_drop (tb);
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_bytes ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_to_str ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_swap ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_insert ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_paste ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_cut ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_copy ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_delete ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_search ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
+  {
+    puts ("textbuffer_replace ():");
+    {
+      puts ("- testing ");
+    }
+    puts (EMPTY_STR);
+  }
 }
+

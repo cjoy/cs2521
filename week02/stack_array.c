@@ -67,7 +67,7 @@ Item stack_pop (stack *s)
 	assert (s != NULL);
 	if (s->n_items <= 0) {
     fprintf(stderr, "can't pop from empty stack");
-    abort();		
+    abort();
 	}
 	Item it = s->items[s->n_items - 1];
 	s->n_items--;
@@ -88,17 +88,22 @@ size_t stack_size (stack *s)
 void white_box_tests (void)
 {
 	{
+		puts("WB Test -1: check empty stack");
+		stack *s = stack_new();
+		assert(s->capacity = DEFAULT_SIZE);
+		assert(!s->items[0]);
+	}
+	{
 		puts("WB Test 0: boundary check for capacity resizing");
 		stack *s = stack_new();
 		Item i = 1;
-		for (; i <= 10; i++) {
+		for (; i <= 10; i++)
 			stack_push(s, i);
-			printf("stack size: %zu\n", s->n_items);
-		}
 		assert(s->capacity == DEFAULT_SIZE*2);
 		for (; i < 21; i++)
 			stack_push(s, i);
 		assert(s->capacity == DEFAULT_SIZE*4);
+		stack_drop(s);
 	}
 	{
 		puts("WB Test 1: testing push capacity resizing");
@@ -127,6 +132,7 @@ void white_box_tests (void)
 		stack_pop(s);
 		assert(stack_size(s) == 0);
 		assert(s->capacity == DEFAULT_SIZE);
+		stack_drop(s);
 	}
 	{
 		puts("WB Test 3: testing push & pop capacity resizing");

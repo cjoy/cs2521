@@ -187,6 +187,8 @@ void textbuffer_undo (Textbuffer tb);
  */
 void textbuffer_redo (Textbuffer tb);
 
+void white_box_tests (void);
+
 
 /**
  * CHALLENGE:
