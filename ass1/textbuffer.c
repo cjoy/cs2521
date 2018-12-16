@@ -326,8 +326,7 @@ dlink dlink_lookup (dlink list, size_t index)
   return NULL;
 }
 
-// Given a array to a string, create a new array buffer that 
-// replaces matches with the given string.
+// Replace string match and dynamically resize new string buffer
 char *str_replace (const char *string, const char *match, const char *replace) 
 {
   size_t i, len = 0;
