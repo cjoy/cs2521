@@ -789,8 +789,8 @@ void white_box_tests ()
       Textbuffer tb = textbuffer_new (EMPTY_STR);
       Textbuffer cp = textbuffer_copy (tb, 0, 0);
       assert (strcmp (textbuffer_to_str (cp), "\n") == 0);
-      assert (tb->size = 1);
-      assert (cp->size = 1);
+      assert (tb->size == 1);
+      assert (cp->size == 1);
       textbuffer_drop (tb);
       textbuffer_drop (cp);
     }
@@ -799,8 +799,8 @@ void white_box_tests ()
       Textbuffer tb = textbuffer_new (TEST_STR_7);
       Textbuffer cp = textbuffer_copy (tb, 1, 3);
       assert (strcmp (textbuffer_to_str (cp), "b\nc\nd\n") == 0);
-      assert (tb->size = 4);
-      assert (cp->size = 3);
+      assert (tb->size == 4);
+      assert (cp->size == 3);
       textbuffer_drop (tb);
       textbuffer_drop (cp);
     }
@@ -810,8 +810,8 @@ void white_box_tests ()
       Textbuffer tb = textbuffer_new (str);
       Textbuffer cp = textbuffer_copy (tb, 0, 4);
       assert (strcmp (textbuffer_to_str (cp), str) == 0);
-      assert (tb->size = 4);
-      assert (cp->size = 4);
+      assert (tb->size == 4);
+      assert (cp->size == 4);
       textbuffer_drop (tb);
       textbuffer_drop (cp);
     }
@@ -820,8 +820,8 @@ void white_box_tests ()
       Textbuffer tb = textbuffer_new (TEST_STR_7);
       Textbuffer cp = textbuffer_copy (tb, 1, 1);
       assert (strcmp (textbuffer_to_str (cp), "b\n") == 0);
-      assert (tb->size = 4);
-      assert (cp->size = 1);
+      assert (tb->size == 4);
+      assert (cp->size == 1);
       assert (cp->head == cp->tail);
       textbuffer_drop (tb);
       textbuffer_drop (cp);
