@@ -161,11 +161,12 @@ size_t btree_size (btree_node *tree)
 }
 
 /** Returns the number of leaf nodes in the tree. */
-size_t btree_size_leaf (BTreeNode tree __unused)
+size_t btree_size_leaf (BTreeNode tree)
 {
-	warnx ("btree_size_leaf unimplemented");
-	// implement me!
-	return 0;
+	if (!tree) return 0;
+	if (!tree->left && !tree->right) return 1;
+	else return btree_size_leaf (tree->left)
+				+ btree_size_leaf (tree->right);
 }
 
 /** Returns the height of a tree. */
@@ -179,10 +180,13 @@ size_t btree_height (btree_node *tree)
 }
 
 /** Destroy a tree, releasing all resources it requires. */
-void btree_drop (btree_node *tree __unused)
+void btree_drop (btree_node *tree)
 {
-	warnx ("btree_drop unimplemented");
-	// implement me!
+	if (!tree) return;
+	btree_drop (tree->left);
+	btree_drop (tree->right);
+	item_drop (tree->item);
+	free (tree);
 }
 
 /**

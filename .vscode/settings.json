@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "textbuffer.h": "c",
-    "queue.h": "c"
+    "queue.h": "c",
+    "btree.h": "c"
   }
 }
