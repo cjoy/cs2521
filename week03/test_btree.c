@@ -18,7 +18,6 @@ static void node_print (BTreeNode node);
 
 int main (void)
 {
-	white_box_tests ();
 	{
 		puts ("BB Test: Testing empty btree");
 		BTreeNode tree = NULL;
