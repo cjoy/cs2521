@@ -11,6 +11,7 @@
 #include <sysexits.h>
 
 #include "btree.h"
+#include "queue.h"
 #include "item.h"
 #include "item_int.h"
 #include "testable.h"
@@ -197,9 +198,29 @@ void btree_drop (btree_node *tree)
  */
 size_t btree_count_if (btree_node *tree, btree_pred_fp pred)
 {
-	warnx ("btree_count_if unimplemented");
-	// implement me!
-	return 0;
+	if (!tree) return 0;
+	return (pred (tree->item) == true ? 1 : 0) +
+			btree_count_if (tree->left, pred) +
+			btree_count_if (tree->right, pred);
+}
+
+
+/** Is an item even? */
+bool even_p (Item it)
+{
+	return int_item (it) % 2 == 0 ? true : false;
+}
+
+/** Is an item odd? */
+bool odd_p (Item it)
+{
+	return even_p (it) == false ? true : false;
+}
+
+/** Is an item negative? */
+bool negative_p (Item it)
+{
+	return int_item (it) < 0 ? true : false;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -268,11 +289,21 @@ static void btree_traverse_postfix (
  * @param state	the current state of the traversal
  */
 static void btree_traverse_level (
-	btree_node *tree __unused,
-	traverse_state *state __unused)
+	btree_node *tree,
+	traverse_state *state)
 {
-	warnx ("btree_traverse_level unimplemented");
-	// implement me!
+	if (!tree) return;
+
+	Queue q = queue_new ();
+	queue_en (q, tree);
+
+	while (queue_size (q) > 0) {
+		btree_node *node = queue_de (q);
+		btree_traverse_visit (node, state);
+		if (node->left) queue_en (q, node->left);
+		if (node->right) queue_en (q, node->right);
+	}
+	
 }
 
 /**
