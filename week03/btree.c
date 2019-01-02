@@ -165,8 +165,8 @@ size_t btree_size_leaf (BTreeNode tree)
 {
 	if (!tree) return 0;
 	if (!tree->left && !tree->right) return 1;
-	else return btree_size_leaf (tree->left)
-				+ btree_size_leaf (tree->right);
+	return btree_size_leaf (tree->left) +
+				 btree_size_leaf (tree->right);
 }
 
 /** Returns the height of a tree. */

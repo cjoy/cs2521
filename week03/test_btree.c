@@ -13,6 +13,7 @@
 #include "testable.h"
 
 BTreeNode arr_to_btree (const int arr[], size_t n);
+static void node_print (BTreeNode node);
 
 int main (void)
 {
@@ -42,6 +43,13 @@ int main (void)
 		assert (btree_size_leaf (tree) == 2);
 		btree_drop (tree);
 	}
+	{
+		const int items[] = {1, 2, 3, 4, 5};
+		const size_t n = 5;
+		BTreeNode tree = arr_to_btree (items, n);
+		btree_traverse (tree, BTREE_TRAVERSE_LEVEL, node_print);
+		btree_drop (tree);
+	}
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
 }
@@ -52,4 +60,12 @@ BTreeNode arr_to_btree (const int arr[], size_t n)
 	for (size_t i = 0; i < n; i++)
 		tree = btree_insert (tree, _int_item_new (arr[i]));
 	return tree;
+}
+
+static void node_print (BTreeNode node)
+{
+	Item nvalue = btree_node_value (node);
+	char *str = item_show (nvalue);
+	printf ("%s ", str);
+	free (str);
 }
