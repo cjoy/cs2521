@@ -79,6 +79,20 @@ int main (void)
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, even_p) == 2);
 	}
+	{
+		puts ("BB Test: Testing btree with 3 odd nodes");
+		const int items[] = {4, 2, 1, 3, 5};
+		const size_t n = 5;
+		BTreeNode tree = arr_to_btree (items, n);
+		assert (btree_count_if (tree, odd_p) == 3);
+	}
+	{
+		puts ("BB Test: Testing btree with 1 odd node");
+		const int items[] = {4, 2, 1, 3, -5};
+		const size_t n = 5;
+		BTreeNode tree = arr_to_btree (items, n);
+		assert (btree_count_if (tree, odd_p) == 1);
+	}
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
 }
