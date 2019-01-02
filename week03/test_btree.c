@@ -91,7 +91,7 @@ int main (void)
 		const int items[] = {4, 2, 1, 3, -5};
 		const size_t n = 5;
 		BTreeNode tree = arr_to_btree (items, n);
-		assert (btree_count_if (tree, odd_p) == 1);
+		assert (btree_count_if (tree, negative_p) == 1);
 	}
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
