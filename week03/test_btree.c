@@ -15,7 +15,7 @@
 
 BTreeNode arr_to_btree (const int arr[], const size_t n);
 static void node_print (BTreeNode node);
-bool tree_cmp (const int truth[], BTreeNode *arr, const size_t n);
+// bool tree_cmp (const int truth[], BTreeNode *arr, const size_t n);
 
 int main (void)
 {
@@ -50,26 +50,24 @@ int main (void)
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
-		printf("%d ->", int_item (nodes[0]));
+		printf("%d ->", btree_node_value (nodes[0]));
 		// assert (tree_cmp (items, nodes, n) == true);
 		btree_drop (tree);
 	}
-#if 0
-	{
-		puts ("BB Test: Testing tree ");
-		const int items[] = {4, 2, 1, 3};
-		const size_t n = 4;
-		BTreeNode tree = arr_to_btree (items, n);
-		btree_traverse (tree, BTREE_TRAVERSE_PREFIX, node_print);
-		puts ("");
-		btree_traverse (tree, BTREE_TRAVERSE_INFIX, node_print);
-		puts ("");
-		btree_traverse (tree, BTREE_TRAVERSE_POSTFIX, node_print);
-		puts ("");
-		btree_traverse (tree, BTREE_TRAVERSE_LEVEL, node_print);
-		btree_drop (tree);
-	}
-#endif
+	// {
+	// 	puts ("BB Test: Testing tree ");
+	// 	const int items[] = {4, 2, 1, 3};
+	// 	const size_t n = 4;
+	// 	BTreeNode tree = arr_to_btree (items, n);
+	// 	btree_traverse (tree, BTREE_TRAVERSE_PREFIX, node_print);
+	// 	puts ("");
+	// 	btree_traverse (tree, BTREE_TRAVERSE_INFIX, node_print);
+	// 	puts ("");
+	// 	btree_traverse (tree, BTREE_TRAVERSE_POSTFIX, node_print);
+	// 	puts ("");
+	// 	btree_traverse (tree, BTREE_TRAVERSE_LEVEL, node_print);
+	// 	btree_drop (tree);
+	// }
 	{
 		puts ("BB Test: Testing empty btree");
 		BTreeNode tree = NULL;
@@ -136,10 +134,10 @@ static void node_print (BTreeNode node)
 	free (str);
 }
 
-bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
-{
-	for (size_t i = 0; i < n; i++)
-		if (truth[i] != tree[i]->item)
-			return false;
-	return true;
-}
+// bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
+// {
+// 	for (size_t i = 0; i < n; i++)
+// 		if (truth[i] != tree[i]->item)
+// 			return false;
+// 	return true;
+// }
