@@ -139,7 +139,7 @@ static void node_print (BTreeNode node)
 bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
 {
 	for (size_t i = 0; i < n; i++)
-		if (truth[i] != _int_item (tree[i]))
+		if (truth[i] != int_item (tree[i]))
 			return false;
 	return true;
 }
