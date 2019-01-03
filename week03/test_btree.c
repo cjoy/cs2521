@@ -10,6 +10,7 @@
 #include <stdbool.h>
 
 #include "item_int.h"
+#include "item_btree_node.h"
 #include "btree.h"
 #include "testable.h"
 
