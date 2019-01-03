@@ -13,8 +13,9 @@
 #include "btree.h"
 #include "testable.h"
 
-BTreeNode arr_to_btree (const int arr[], size_t n);
+BTreeNode arr_to_btree (const int arr[], const size_t n);
 static void node_print (BTreeNode node);
+bool tree_cmp (const int truth[], BTreeNode *arr, const size_t n);
 
 int main (void)
 {
@@ -43,6 +44,16 @@ int main (void)
 		assert (btree_size_leaf (tree) == 2);
 		btree_drop (tree);
 	}
+	{
+		puts ("BB Test: Testing tree with for nodes using level order");
+		const int items[] = {4, 2, 1, 3};
+		const size_t n = 4;
+		BTreeNode tree = arr_to_btree (items, n);
+		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
+		assert (tree_cmp (items, nodes, n) == true);
+		free (nodes);
+		btree_drop (tree);
+	}
 #if 0
 	{
 		puts ("BB Test: Testing tree ");
@@ -63,6 +74,7 @@ int main (void)
 		puts ("BB Test: Testing empty btree");
 		BTreeNode tree = NULL;
 		assert (btree_count_if (tree, even_p) == 0);
+		btree_drop (tree);
 	}
 	{
 		puts ("BB Test: Testing btree with no even nodes");
@@ -70,6 +82,7 @@ int main (void)
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, even_p) == 0);
+		btree_drop (tree);
 	}
 	{
 		puts ("BB Test: Testing btree with 2 even nodes");
@@ -77,6 +90,7 @@ int main (void)
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, even_p) == 2);
+		btree_drop (tree);
 	}
 	{
 		puts ("BB Test: Testing btree with 3 odd nodes");
@@ -84,6 +98,7 @@ int main (void)
 		const size_t n = 5;
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, odd_p) == 3);
+		btree_drop (tree);
 	}
 	{
 		puts ("BB Test: Testing btree with 1 odd node");
@@ -91,6 +106,7 @@ int main (void)
 		const size_t n = 5;
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, negative_p) == 1);
+		btree_drop (tree);
 	}
 	{
 		puts ("BB Test: Testing btree with 3 odd nodes");
@@ -98,12 +114,13 @@ int main (void)
 		const size_t n = 5;
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, negative_p) == 3);
+		btree_drop (tree);
 	}	
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
 }
 
-BTreeNode arr_to_btree (const int arr[], size_t n)
+BTreeNode arr_to_btree (const int arr[], const size_t n)
 {
 	BTreeNode tree = NULL;
 	for (size_t i = 0; i < n; i++)
@@ -117,4 +134,12 @@ static void node_print (BTreeNode node)
 	char *str = item_show (nvalue);
 	printf ("%s ", str);
 	free (str);
+}
+
+bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
+{
+	for (size_t i = 0; i < n; i++)
+		if (truth[i] != _int_item (tree[i]))
+			return false;
+	return true;
 }
