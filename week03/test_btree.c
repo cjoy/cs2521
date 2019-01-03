@@ -44,17 +44,17 @@ int main (void)
 		assert (btree_size_leaf (tree) == 2);
 		btree_drop (tree);
 	}
-	{
-		puts ("BB Test: Testing tree with for nodes using level order");
-		const int items[] = {4, 2, 1, 3};
-		const size_t n = 4;
-		BTreeNode tree = arr_to_btree (items, n);
-		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
-		printf("%d ->", BTreeNode_item(nodes[0]));
-		assert (tree_cmp (items, nodes, n) == true);
-		free (nodes);
-		btree_drop (tree);
-	}
+	// {
+	// 	puts ("BB Test: Testing tree with for nodes using level order");
+	// 	const int items[] = {4, 2, 1, 3};
+	// 	const size_t n = 4;
+	// 	BTreeNode tree = arr_to_btree (items, n);
+	// 	BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
+	// 	printf("%d ->", BTreeNode_item(nodes[0]));
+	// 	assert (tree_cmp (items, nodes, n) == true);
+	// 	free (nodes);
+	// 	btree_drop (tree);
+	// }
 #if 0
 	{
 		puts ("BB Test: Testing tree ");
@@ -125,7 +125,7 @@ BTreeNode arr_to_btree (const int arr[], const size_t n)
 {
 	BTreeNode tree = NULL;
 	for (size_t i = 0; i < n; i++)
-		tree = btree_insert (tree, int_item_new (arr[i]));
+		tree = btree_insert (tree, BTreeNode_item_new (arr[i]));
 	return tree;
 }
 
