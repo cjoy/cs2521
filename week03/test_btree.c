@@ -10,7 +10,6 @@
 #include <stdbool.h>
 
 #include "item_int.h"
-#include "item_btree_node.h"
 #include "btree.h"
 #include "testable.h"
 
@@ -51,7 +50,7 @@ int main (void)
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
-		printf("%d ->", int_item(nodes[0]));
+		printf("%d ->", BTreeNode_item(nodes[0]));
 		// assert (tree_cmp (items, nodes, n) == true);
 		btree_drop (tree);
 	}
