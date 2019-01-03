@@ -294,6 +294,17 @@ static void btree_traverse_level (
 {
 	if (!tree) return;
 
+	// Queue q = queue_new ();
+	// queue_en (q, tree);
+
+	// while (queue_size (q) > 0) {
+	// 	btree_node *node = queue_de (q);
+	// 	btree_traverse_visit (node, state);
+	// 	if (node->left) queue_en (q, node->left);
+	// 	if (node->right) queue_en (q, node->right);
+	// }
+
+
 	Queue q = queue_new ();
 	queue_en (q, tree);
 
@@ -303,7 +314,7 @@ static void btree_traverse_level (
 		if (node->left) queue_en (q, node->left);
 		if (node->right) queue_en (q, node->right);
 	}
-	
+
 }
 
 /**
