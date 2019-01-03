@@ -50,6 +50,7 @@ int main (void)
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
+		printf("%d ->", int_item(nodes[0]));
 		assert (tree_cmp (items, nodes, n) == true);
 		free (nodes);
 		btree_drop (tree);
@@ -138,10 +139,8 @@ static void node_print (BTreeNode node)
 
 bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
 {
-	for (size_t i = 0; i < n; i++) {
-		printf("%d ->", int_item(tree[i]));
-		if (truth[i] != tree[i])
+	for (size_t i = 0; i < n; i++)
+		if (truth[i] != int_item (tree[i]))
 			return false;
-	}
 	return true;
 }
