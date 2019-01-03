@@ -50,7 +50,7 @@ int main (void)
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
-		printf("%d ->", btree_node_value (nodes[0]));
+		printf("%d ->", btree_node_value (nodes[1]));
 		// assert (tree_cmp (items, nodes, n) == true);
 		btree_drop (tree);
 	}
