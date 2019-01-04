@@ -14,11 +14,11 @@
 #include "testable.h"
 
 BTreeNode arr_to_btree (const int arr[], const size_t n);
-static void node_print (BTreeNode node);
-// bool tree_cmp (const int truth[], BTreeNode *arr, const size_t n);
+bool tree_cmp (const int truth[], BTreeNode *arr, const size_t n);
 
 int main (void)
 {
+    white_box_tests ();
 	{
 		puts ("BB Test: Testing empty btree");
 		BTreeNode tree = NULL;
@@ -44,30 +44,48 @@ int main (void)
 		assert (btree_size_leaf (tree) == 2);
 		btree_drop (tree);
 	}
+
+	{
+		puts ("BB Test: Testing tree with for nodes using prefix order");
+		const int items[] = {4, 2, 1, 3};
+		const int expected[] = {4, 2, 1, 3};
+		const size_t n = 4;
+		BTreeNode tree = arr_to_btree (items, n);
+		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_PREFIX, NULL);
+		assert (tree_cmp (expected, nodes, n) == true);
+		btree_drop (tree);
+	}
+	{
+		puts ("BB Test: Testing tree with for nodes using infix order");
+		const int items[] = {4, 2, 1, 3};
+		const int expected[] = {1, 2, 3 ,4};
+		const size_t n = 4;
+		BTreeNode tree = arr_to_btree (items, n);
+		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_INFIX, NULL);
+		assert (tree_cmp (expected, nodes, n) == true);
+		btree_drop (tree);
+	}
+	{
+		puts ("BB Test: Testing tree with for nodes using postfix order");
+		const int items[] = {4, 2, 1, 3};
+		const int expected[] = {1, 3, 2, 4};
+		const size_t n = 4;
+		BTreeNode tree = arr_to_btree (items, n);
+		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_POSTFIX, NULL);
+		assert (tree_cmp (expected, nodes, n) == true);
+		btree_drop (tree);
+	}
+
 	{
 		puts ("BB Test: Testing tree with for nodes using level order");
 		const int items[] = {4, 2, 1, 3};
+		const int expected[] = {4, 2, 1, 3};
 		const size_t n = 4;
 		BTreeNode tree = arr_to_btree (items, n);
 		BTreeNode *nodes = btree_traverse (tree, BTREE_TRAVERSE_LEVEL, NULL);
-		printf("%d ->", int_item (nodes[1]));
-		// assert (tree_cmp (items, nodes, n) == true);
+		assert (tree_cmp (expected, nodes, n) == true);
 		btree_drop (tree);
 	}
-	// {
-	// 	puts ("BB Test: Testing tree ");
-	// 	const int items[] = {4, 2, 1, 3};
-	// 	const size_t n = 4;
-	// 	BTreeNode tree = arr_to_btree (items, n);
-	// 	btree_traverse (tree, BTREE_TRAVERSE_PREFIX, node_print);
-	// 	puts ("");
-	// 	btree_traverse (tree, BTREE_TRAVERSE_INFIX, node_print);
-	// 	puts ("");
-	// 	btree_traverse (tree, BTREE_TRAVERSE_POSTFIX, node_print);
-	// 	puts ("");
-	// 	btree_traverse (tree, BTREE_TRAVERSE_LEVEL, node_print);
-	// 	btree_drop (tree);
-	// }
 	{
 		puts ("BB Test: Testing empty btree");
 		BTreeNode tree = NULL;
@@ -99,7 +117,7 @@ int main (void)
 		btree_drop (tree);
 	}
 	{
-		puts ("BB Test: Testing btree with 1 odd node");
+		puts ("BB Test: Testing btree with 1 negative node");
 		const int items[] = {4, 2, 1, 3, -5};
 		const size_t n = 5;
 		BTreeNode tree = arr_to_btree (items, n);
@@ -107,13 +125,13 @@ int main (void)
 		btree_drop (tree);
 	}
 	{
-		puts ("BB Test: Testing btree with 3 odd nodes");
+		puts ("BB Test: Testing btree with 3 negative nodes");
 		const int items[] = {4, 2, -1, -3, -5};
 		const size_t n = 5;
 		BTreeNode tree = arr_to_btree (items, n);
 		assert (btree_count_if (tree, negative_p) == 3);
 		btree_drop (tree);
-	}	
+	}
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
 }
@@ -126,18 +144,10 @@ BTreeNode arr_to_btree (const int arr[], const size_t n)
 	return tree;
 }
 
-static void node_print (BTreeNode node)
+bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
 {
-	Item nvalue = btree_node_value (node);
-	char *str = item_show (nvalue);
-	printf ("%s ", str);
-	free (str);
+	for (size_t i = 0; i < n; i++)
+ 		if (truth[i] != *btree_node_value(tree[i])->item)
+ 			return false;
+ 	return true;
 }
-
-// bool tree_cmp (const int truth[], BTreeNode *tree, const size_t n)
-// {
-// 	for (size_t i = 0; i < n; i++)
-// 		if (truth[i] != tree[i]->item)
-// 			return false;
-// 	return true;
-// }

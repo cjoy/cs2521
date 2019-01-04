@@ -1,7 +1,7 @@
 # COMP2521 19T0 ... lab 3 makefile
 
-# CC	 = 2521 3c
-CC	 = 3c
+CC	 = 2521 3c
+#CC	 = 3c
 
 test_btree:	test_btree.o btree.o queue.cse32.o
 test_btree.o:	test_btree.c btree.h item.h item_int.h

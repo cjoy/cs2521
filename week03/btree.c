@@ -166,8 +166,8 @@ size_t btree_size_leaf (BTreeNode tree)
 {
 	if (!tree) return 0;
 	if (!tree->left && !tree->right) return 1;
-	return btree_size_leaf (tree->left) +
-				 btree_size_leaf (tree->right);
+	return btree_size_leaf (tree->left)
+        +  btree_size_leaf (tree->right);
 }
 
 /** Returns the height of a tree. */
@@ -199,9 +199,9 @@ void btree_drop (btree_node *tree)
 size_t btree_count_if (btree_node *tree, btree_pred_fp pred)
 {
 	if (!tree) return 0;
-	return (pred (tree->item) == true ? 1 : 0) +
-			btree_count_if (tree->left, pred) +
-			btree_count_if (tree->right, pred);
+	return (pred (tree->item) == true ? 1 : 0)
+	    +  btree_count_if (tree->left, pred)
+		+  btree_count_if (tree->right, pred);
 }
 
 
@@ -293,17 +293,6 @@ static void btree_traverse_level (
 	traverse_state *state)
 {
 	if (!tree) return;
-
-	// Queue q = queue_new ();
-	// queue_en (q, tree);
-
-	// while (queue_size (q) > 0) {
-	// 	btree_node *node = queue_de (q);
-	// 	btree_traverse_visit (node, state);
-	// 	if (node->left) queue_en (q, node->left);
-	// 	if (node->right) queue_en (q, node->right);
-	// }
-
 
 	Queue q = queue_new ();
 	queue_en (q, tree);
