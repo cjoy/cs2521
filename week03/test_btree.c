@@ -18,7 +18,7 @@ bool tree_cmp (const int truth[], BTreeNode *arr, const size_t n);
 
 int main (void)
 {
-    white_box_tests ();
+	white_box_tests ();
 	{
 		puts ("BB Test: Testing empty btree");
 		BTreeNode tree = NULL;

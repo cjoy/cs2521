@@ -48,10 +48,7 @@ static void btree_traverse_visit (btree_node *, traverse_state *);
 /** Get the value at the current binary-tree node. */
 Item btree_node_value (btree_node *tree)
 {
-	if (tree == NULL)
-		return NULL;
-	else
-		return tree->item;
+	return tree == NULL ? NULL : tree->item;
 }
 
 /**
@@ -200,8 +197,8 @@ size_t btree_count_if (btree_node *tree, btree_pred_fp pred)
 {
 	if (!tree) return 0;
 	return (pred (tree->item) == true ? 1 : 0)
-	    +  btree_count_if (tree->left, pred)
-		+  btree_count_if (tree->right, pred);
+	  	+  btree_count_if (tree->left, pred)
+			+  btree_count_if (tree->right, pred);
 }
 
 
@@ -333,6 +330,39 @@ static void btree_traverse_visit (
 
 void white_box_tests (void)
 {
-	warnx ("white_box_tests unimplemented");
-	// implement me!
+	{
+		puts ("WB Test: Testing empty btree");
+		BTreeNode tree = NULL;
+		assert (btree_size (tree) == 0);
+		assert (btree_size_leaf (tree) == 0);
+		btree_drop (tree);
+	}
+	{
+		puts ("WB Test: Testing even predicate");
+		int n = 100;
+		for (int i = 0; i < n; i++) {
+			Item it = int_item_new (i);
+			assert (even_p (it) == (i % 2 == 0));
+			int_item_drop (it);
+		}
+	}
+	{
+		puts ("WB Test: Testing odd predicate");
+		int n = 100;
+		for (int i = 0; i < n; i++) {
+			Item it = int_item_new (i);
+			assert (odd_p (it) == (i % 2 != 0));
+			int_item_drop (it);
+		}
+	}
+	{
+		puts ("WB Test: Testing odd predicate");
+		int n = 100;
+		for (int i = -100; i < n; i++) {
+			Item it = int_item_new (i);
+			assert (negative_p (it) == (i < 0));
+			int_item_drop (it);
+		}
+	}
 }
+
