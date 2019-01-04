@@ -341,7 +341,7 @@ void white_box_tests (void)
 		puts ("WB Test: Testing even predicate");
 		int n = 100;
 		for (int i = 0; i < n; i++) {
-			Item it = int_item_new (i);
+			Item it = _int_item_drop (i);
 			assert (even_p (it) == (i % 2 == 0));
 			int_item_drop (it);
 		}
@@ -350,7 +350,7 @@ void white_box_tests (void)
 		puts ("WB Test: Testing odd predicate");
 		int n = 100;
 		for (int i = 0; i < n; i++) {
-			Item it = int_item_new (i);
+			Item it = _int_item_drop (i);
 			assert (odd_p (it) == (i % 2 != 0));
 			int_item_drop (it);
 		}
@@ -359,7 +359,7 @@ void white_box_tests (void)
 		puts ("WB Test: Testing odd predicate");
 		int n = 100;
 		for (int i = -100; i < n; i++) {
-			Item it = int_item_new (i);
+			Item it = _int_item_drop (i);
 			assert (negative_p (it) == (i < 0));
 			int_item_drop (it);
 		}
