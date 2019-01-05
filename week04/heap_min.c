@@ -10,5 +10,9 @@
  */
 bool heap_min_p (int heap[], size_t heap_size)
 {
-	return false;
+	for (size_t i = 1; i < heap_size; i++)
+		if ((2*i <= heap_size && heap[2*i] < heap[i]) || 
+			(2*i + 1 <= heap_size && heap[2*i + 1] < heap[i]))
+			return false;
+	return true;
 }
