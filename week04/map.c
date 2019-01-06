@@ -152,17 +152,35 @@ static void addConnections (Map g)
 		addLink (g, CONNECTIONS[i].v, CONNECTIONS[i].w, CONNECTIONS[i].t);
 }
 
-static bool is_port_city (Map g, LocationID city)
+// // Returns true if city is a port city (ie. has atleast one sea connection)
+// // Returns false if not a port city
+// static bool is_port_city (Map g, LocationID city)
+// {
+// 	assert (g != NULL);
+// 	assert (validPlace (city));
+
+// 	if (!isLand (city)) return false; // city has to be of type land
+
+// 	for (VList curr = g->connections[city]; curr; curr = curr->next)
+// 		if (isSea(curr->v)) return true;
+
+// 	return false;
+// }
+
+// Returns the sea the port city resides on.
+// Returns no where if city is not on land (ie. a sea can't be a city)
+// Returns no where if city is not a port city (ie. no connected sea links)
+static LocationID port_city_sea (Map g, LocationID city)
 {
 	assert (g != NULL);
 	assert (validPlace (city));
 
-	if (isSea (city)) return false; // sea is not a city, thus not a port city
+	if (!isLand (city)) return NOWHERE; // city has to be of type land
 
 	for (VList curr = g->connections[city]; curr; curr = curr->next)
-		if (isSea(curr->v)) return true;
+		if (isSea(curr->v)) return curr->v;
 
-	return false;
+	return NOWHERE;
 }
 
 // Returns the number of direct connections between two nodes
@@ -170,7 +188,6 @@ static bool is_port_city (Map g, LocationID city)
 // Returns 0 if no direct connection (i.e. not adjacent in graph)
 int connections (Map g, LocationID start, LocationID end, TransportID type[])
 {
-	// TODO: check validity of params
 	assert (g != NULL);
 	assert (validPlace (start) && validPlace (end));
 
@@ -182,8 +199,10 @@ int connections (Map g, LocationID start, LocationID end, TransportID type[])
 		}
 	}
 
-	// append BOAT to type if start and end cities if they're port cities
-	if (n > 0 && is_port_city (g, start) && is_port_city (g, end)) {
+	// add boat link if both start and end cities are port cities on the same sea
+	LocationID start_sea = port_city_sea (g, start);
+	LocationID end_sea = port_city_sea (g, end);
+	if (n > 0 && start_sea != UNKNOWN_LOCATION && start_sea == end_sea) {
 		type[n] = BOAT;
 		n++;
 	}
