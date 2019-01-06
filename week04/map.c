@@ -183,6 +183,18 @@ static LocationID port_city_sea (Map g, LocationID city)
 	return NOWHERE;
 }
 
+// 
+static bool is_connected_port_cities (Map g, LocationID c1, LocationID c2)
+{
+	assert (g != NULL);
+	assert (validPlace (c1) && validPlace (c2));
+
+	LocationID c1_sea = port_city_sea (g, c1);
+	LocationID c2_sea = port_city_sea (g, c2);
+
+	return c1_sea != UNKNOWN_LOCATION && c1_sea == c2_sea;
+}
+
 // Returns the number of direct connections between two nodes
 // Also fills the type[] array with the various connection types
 // Returns 0 if no direct connection (i.e. not adjacent in graph)
@@ -200,9 +212,7 @@ int connections (Map g, LocationID start, LocationID end, TransportID type[])
 	}
 
 	// add boat link if both start and end cities are port cities on the same sea
-	LocationID start_sea = port_city_sea (g, start);
-	LocationID end_sea = port_city_sea (g, end);
-	if (n > 0 && start_sea != UNKNOWN_LOCATION && start_sea == end_sea) {
+	if (n > 0 && is_connected_port_cities (g, start, end)) {
 		type[n] = BOAT;
 		n++;
 	}
