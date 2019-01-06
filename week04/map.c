@@ -7,6 +7,7 @@
 
 #include <assert.h>
 #include <err.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sysexits.h>
@@ -151,13 +152,41 @@ static void addConnections (Map g)
 		addLink (g, CONNECTIONS[i].v, CONNECTIONS[i].w, CONNECTIONS[i].t);
 }
 
+static bool is_port_city (Map g, LocationID city)
+{
+	assert (g != NULL);
+	assert (validPlace (city));
+
+	if (isSea (city)) return false; // sea is not a city, thus not a port city
+
+	for (VList curr = g->connections[city]; curr; curr = curr->next)
+		if (isSea(curr->v)) return true;
+
+	return false;
+}
 
 // Returns the number of direct connections between two nodes
 // Also fills the type[] array with the various connection types
 // Returns 0 if no direct connection (i.e. not adjacent in graph)
 int connections (Map g, LocationID start, LocationID end, TransportID type[])
 {
+	// TODO: check validity of params
 	assert (g != NULL);
-    // TODO: complete this fucntion
-	return 0;  // to keep the compiler happy
+	assert (validPlace (start) && validPlace (end));
+
+	int n = 0;
+	for (VList curr = g->connections[start]; curr; curr = curr->next) {
+		if (curr->v == end) {
+			type[n] = curr->type;
+			n++;
+		}
+	}
+
+	// append BOAT to type if start and end cities if they're port cities
+	if (n > 0 && is_port_city (g, start) && is_port_city (g, end)) {
+		type[n] = BOAT;
+		n++;
+	}
+
+	return n;
 }
