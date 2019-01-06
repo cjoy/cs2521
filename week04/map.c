@@ -152,21 +152,6 @@ static void addConnections (Map g)
 		addLink (g, CONNECTIONS[i].v, CONNECTIONS[i].w, CONNECTIONS[i].t);
 }
 
-// // Returns true if city is a port city (ie. has atleast one sea connection)
-// // Returns false if not a port city
-// static bool is_port_city (Map g, LocationID city)
-// {
-// 	assert (g != NULL);
-// 	assert (validPlace (city));
-
-// 	if (!isLand (city)) return false; // city has to be of type land
-
-// 	for (VList curr = g->connections[city]; curr; curr = curr->next)
-// 		if (isSea(curr->v)) return true;
-
-// 	return false;
-// }
-
 // Returns the sea the port city resides on.
 // Returns no where if city is not on land (ie. a sea can't be a city)
 // Returns no where if city is not a port city (ie. no connected sea links)
@@ -178,12 +163,13 @@ static LocationID port_city_sea (Map g, LocationID city)
 	if (!isLand (city)) return NOWHERE; // city has to be of type land
 
 	for (VList curr = g->connections[city]; curr; curr = curr->next)
-		if (isSea(curr->v)) return curr->v;
+		if (isSea (curr->v)) return curr->v;
 
 	return NOWHERE;
 }
 
-// 
+// Returns true if c1 and c2 are connected via the same sea
+// Returns false otherwise
 static bool is_connected_port_cities (Map g, LocationID c1, LocationID c2)
 {
 	assert (g != NULL);

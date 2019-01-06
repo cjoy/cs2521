@@ -8,3 +8,4 @@
 ./conn "Black Sea" "Ionian Sea"
 ./conn Munich Berlin
 ./conn London "Castle Dracula"
+./conn Lisbon Santander # Port Cities that not connected via boat since they're in different seas
