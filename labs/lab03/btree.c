@@ -366,3 +366,12 @@ void white_box_tests (void)
 	}
 }
 
+// 
+
+sorted (a, lo, hi) {
+	if (lo == hi || lo > hi) return true;
+
+	if (a[lo] > a[hi]) return false;
+
+	return sorted (a, lo, hi-1);
+}
