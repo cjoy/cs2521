@@ -1,6 +1,7 @@
 # COMP2521 19T0 ... lab 4 makefile
 
 CC	 = 2521 3c
+CC	 = 3c
 
 all:	travel crawl ts tq tk tg
 
