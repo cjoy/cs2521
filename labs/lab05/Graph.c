@@ -101,5 +101,25 @@ void showGraph(Graph g, char **names)
 int findPath(Graph g, Vertex src, Vertex dest, int max, int *path)
 {
 	assert(g != NULL);
+
+	Queue q = newQueue();
+	QueueJoin(q, src);
+	int *visited = calloc(g->nV, sizeof(int));
+	visited[src] = 1;
+	size_t count = 1;
+
+	while (!QueueIsEmpty(q)) {
+		Vertex top = QueueLeave(q);
+
+		for (size_t i = 0; i < g->nE; i++) {
+			if (g->edges[top][i] != 0 && visited[i] == 0) {
+				QueueJoin(q, i);
+				visited[i] = 1;
+				count++;
+			}
+		}
+	}
+
+
 	return 0; // never find a path ... you need to fix this
 }
