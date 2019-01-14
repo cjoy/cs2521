@@ -1,130 +1,97 @@
-// queue.c ... simple Queue of Strings
-// Written by John Shepherd, September 2015
+// Queue.c ... implementation of Queue ADT
+// Written by John Shepherd, March 2013
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-#include <string.h>
-#include "queue.h"
+#include "Item.h"
+#include "Queue.h"
 
-typedef struct Node *Link;
+typedef struct QueueNode {
+	Item value;
+	struct QueueNode *next;
+} QueueNode;
 
-typedef struct Node {
-	char *val;
-	Link  next;
-} Node;
-	
 typedef struct QueueRep {
-	Link  front;
-	Link  back;
+	QueueNode *head;  // ptr to first node
+	QueueNode *tail;  // ptr to last node
 } QueueRep;
 
-// Function signatures
-
-Queue newQueue();
-void disposeQueue(Queue);
-void enterQueue(Queue,char *);
-char *leaveQueue(Queue);
-int  emptyQueue(Queue);
-void showQueue(Queue q);
-
-static Link newNode(char *);
-static void disposeNode(Link);
-
-
-// newQueue()
-// - create an initially empty Queue
+// create new empty Queue
 Queue newQueue()
 {
-	Queue new = malloc(sizeof(QueueRep));
-	assert(new != NULL);
-	new->front = NULL;
-	new->back = NULL;
-	return new;
+	Queue q;
+	q = malloc(sizeof(QueueRep));
+	assert(q != NULL);
+	q->head = NULL;
+	q->tail = NULL;
+	return q;
 }
 
-// disposeQueue(Queue)
-// - clean up memory associated with Queue
-void disposeQueue(Queue q)
+// free memory used by Queue
+void dropQueue(Queue Q)
 {
-	if (q == NULL) return;
-	Link next, curr = q->front;
+	QueueNode *curr, *next;
+	assert(Q != NULL);
+	// free list nodes
+	curr = Q->head;
 	while (curr != NULL) {
 		next = curr->next;
-		disposeNode(curr);	
+		free(curr);
 		curr = next;
 	}
+	// free queue rep
+	free(Q);
 }
 
-// enterQueue(Queue,Str)
-// - add Str to back of Queue
-void enterQueue(Queue q, char *str)
+// display as 3 > 5 > 4 > ...
+void showQueue(Queue Q)
 {
-	Link new = newNode(str);
-	if (q->front == NULL)
-		q->front = q->back = new;
-	else {
-		// add into list of elems
-		q->back->next = new;
-		q->back = new;
+	QueueNode *curr;
+	assert(Q != NULL);
+	// free list nodes
+	curr = Q->head;
+	while (curr != NULL) {
+		ItemShow(curr->value);
+		if (curr->next != NULL)
+			printf(">");
+		curr = curr->next;
 	}
+	printf("\n");
 }
 
-// leaveQueue(Queue)
-// - return string at front of Queue
-char *leaveQueue(Queue q)
+// add item at end of Queue 
+void QueueJoin(Queue Q, Item it)
 {
-	assert (q->front != NULL);
-    char *str = q->front->val;
-	Link old = q->front;
-	q->front = old->next;
-	if (q->front == NULL)
-		q->back = NULL;
-	free(old);
-	return str;
-}
-
-// emptyQueue(Queue)
-// - check whether Queue is empty
-int emptyQueue(Queue q)
-{
-	return (q->front == NULL);
-}
-
-// showQueue(Queue)
-// - display Queue (for debugging)
-void showQueue(Queue q)
-{
-	Link curr;
-	if (q->front == NULL)
-		printf("Queue is empty\n");
-	else {
-		printf("Queue (front-to-back):\n");
-		int id = 0;
-		curr = q->front;
-		while (curr != NULL) {
-			printf("[%03d] %s\n", id, curr->val);
-			id++;
-			curr = curr->next;
-		}
-	}
-}
-
-// Helper functions
-
-static Link newNode(char *str)
-{
-	Link new = malloc(sizeof(Node));
+	assert(Q != NULL);
+	QueueNode *new = malloc(sizeof(QueueNode));
 	assert(new != NULL);
-	new->val = strdup(str);
+	new->value = ItemCopy(it);
 	new->next = NULL;
-	return new;
+	if (Q->head == NULL)
+		Q->head = new;
+	if (Q->tail != NULL)
+		Q->tail->next = new;
+	Q->tail = new;
 }
 
-static void disposeNode(Link curr)
+// remove item from front of Queue
+Item QueueLeave(Queue Q)
 {
-	assert(curr != NULL);
-	free(curr->val);
-	free(curr);
+	assert(Q != NULL);
+	assert(Q->head != NULL);
+	Item it = ItemCopy(Q->head->value);
+	QueueNode *old = Q->head;
+	Q->head = old->next;
+	if (Q->head == NULL)
+		Q->tail = NULL;
+	free(old);
+	return it;
+}
+
+// check for no items
+int QueueIsEmpty(Queue Q)
+{
+	return (Q->head == NULL);
 }
 
