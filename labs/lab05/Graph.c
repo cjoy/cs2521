@@ -124,8 +124,7 @@ int findPath(Graph g, Vertex src, Vertex dest, int max, int *path)
 		Vertex v = QueueLeave (q);
 
 		for (size_t w = 0; w < g->nV; w++) {
-			if (g->edges[v][w] == 0 || g->edges[v][w] > max)
-				continue;
+			if (g->edges[v][w] == 0 || g->edges[v][w] > max) continue;
 
 			if (visited[w] == false) {
 				QueueJoin (q, w);
@@ -133,8 +132,6 @@ int findPath(Graph g, Vertex src, Vertex dest, int max, int *path)
 				pred[w] = v;
 			}
 		}
-
-		visited[v] = true;
 	}
 
 	size_t count = 0;
@@ -148,6 +145,6 @@ int findPath(Graph g, Vertex src, Vertex dest, int max, int *path)
 	}
 	
 	free (pred); free (visited);
-	
+
 	return count;
 }
