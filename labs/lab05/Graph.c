@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <string.h>
 #include "Graph.h"
@@ -102,24 +103,51 @@ int findPath(Graph g, Vertex src, Vertex dest, int max, int *path)
 {
 	assert(g != NULL);
 
-	Queue q = newQueue();
-	QueueJoin(q, src);
-	int *visited = calloc(g->nV, sizeof(int));
-	visited[src] = 1;
-	size_t count = 1;
-
-	while (!QueueIsEmpty(q)) {
-		Vertex top = QueueLeave(q);
-
-		for (size_t i = 0; i < g->nE; i++) {
-			if (g->edges[top][i] != 0 && visited[i] == 0) {
-				QueueJoin(q, i);
-				visited[i] = 1;
-				count++;
-			}
-		}
+	if (dest == src) {
+		path[0] = dest;
+		return 1;
 	}
 
+	bool *visited = calloc (g->nV, sizeof (bool));
+	int *pred = calloc (g->nV, sizeof (int));
+	for (size_t v = 0; v < g->nV; v++) {
+		pred[v] = -1;
+		visited[v] = false;
+	}
 
-	return 0; // never find a path ... you need to fix this
+	Queue q = newQueue ();
+	QueueJoin (q, src);
+
+	visited[src] = true;
+
+	while (!QueueIsEmpty (q)) {
+		Vertex v = QueueLeave (q);
+
+		for (size_t w = 0; w < g->nV; w++) {
+			if (g->edges[v][w] == 0 || g->edges[v][w] > max)
+				continue;
+
+			if (visited[w] == false) {
+				QueueJoin (q, w);
+				visited[w] = true;
+				pred[w] = v;
+			}
+		}
+
+		visited[v] = true;
+	}
+
+	size_t count = 0;
+	if (pred[dest] != -1) {
+		// Construct path array
+		path[count] = src; count++;
+		for (Vertex curr = pred[dest]; curr != src; curr = pred[curr]) {
+			path[count++] = curr;
+		}
+		path[count++] = dest;
+	}
+	
+	free (pred); free (visited);
+	
+	return count;
 }
