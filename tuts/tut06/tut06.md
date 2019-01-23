@@ -104,7 +104,7 @@ Is this sorting algorithm stable?
 
 Sort it out! (II)
 Consider the implementations of the following sorting functions.
-
+```C
 /// Bubble-sort.
 void sort_bubble (int items[], size_t n)
 {
@@ -139,6 +139,7 @@ void sort_selection (int items[], size_t n)
 		swap_idx (items, i, low);
 	}
 }
+```
 Show how each of the functions behaves when given this array:
 
 int nums[8] = { 4, 6, 2, 7, 8, 5, 1, 3 };
@@ -150,19 +151,38 @@ Which implementations are stable?
 Write a version of selection sort that builds a new sorted list from an original unsorted linked list. The original list should not be modified during the sorting.
 
 Here’s a linked list definition –
-
+```C
 struct node {
 	int item;
 	node *next;
 };
+```
 – and here’s a prototype:
-
+```C
 node *list_sort_selection (node *ls);
+```
+
+## Solution
+```C
+node *list_sort_selection (node *ls)
+{
+  node *min = NULL;
+
+  for (node *curr = ls; curr; curr = curr->next) {
+    if (min == NULL) {
+      min = curr;
+    } else {
+
+    }
+  }
+}
+```
+
 Is your implementation stable?
 
-What the Shell!
-Consider the following Shell sort algorith, based on Sedgewick’s implementation:
-
+# What the Shell!
+Consider the following Shell sort algorithm, based on Sedgewick’s implementation:
+```C
 void sort_shell (int items[], size_t n)
 {
 	// Calculate starting `h'-value
@@ -182,22 +202,6 @@ void sort_shell (int items[], size_t n)
 		}
 	}
 }
-Describe how this would sort an array containing the first 100 positive integers sorted in descending order (i.e. 
-[
-100
-,
-99
-,
-98
-,
-97
-,
-96
-,
-95
-,
-⋯
-,
-1
-]
-).
+```
+Describe how this would sort an array containing the first 100 positive integers sorted in descending order (i.e. [100, 99, 98, 97, 96, 95 , ⋯ , 1]).
+
