@@ -1,0 +1,57 @@
+#!/bin/bash
+
+: > log
+
+#100000 1000000
+sizes=(100 1000 10000)
+programs=(sortA sortB)
+
+for program in "${programs[@]}"
+do
+	echo === Testing $program correctness === >> log
+	for size in "${sizes[@]}"
+	do
+		for flag in A R D;
+		do
+			echo === Testing difference: flag=$flag input, size $size === >> log
+			diff <(./gen $size $flag | tail -n -$((size-1)) | ./$program) <(./gen $size $flag | tail -n -$((size-1)) | sort -n) >> log
+		done
+	done
+done
+
+for program in "${programs[@]}"
+do
+	echo === Testing $program performance === >> log
+	for size in "${sizes[@]}"
+	do
+		for flag in A R D;
+		do
+			echo === Testing performance: flag=$flag input, size $size === >> log
+			{ ./gen $size $flag | tail -n -$((size-1)) | time --format="%U seconds" ./$program > /dev/null; } 2>> log
+		done
+	done
+done
+
+variants=(a b c d e)
+sizes=(100 1000) # no need to test stability for large sizes (will crash bash)
+for program in "${programs[@]}"
+do
+	echo === Testing $program stability === >> log
+	for size in "${sizes[@]}"
+	do
+		echo === Testing stability: with size $size === >> log
+		# Build and array of unsorted elements
+		unsorted_items=$(for variant in "${variants[@]}"
+					do
+						seq $sizes | while read x; do echo "$x$variant"; done
+					done)
+		sorted_items=$(for variant in "${variants[@]}"
+					do
+						seq $sizes | while read x; do echo "$x$variant"; done
+					done | ./$program -n)
+		echo Unsorted: $unsorted_items >> log
+		echo Sorted: $sorted_items >> log		
+	done
+done
+
+
