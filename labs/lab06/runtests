@@ -2,8 +2,7 @@
 
 : > log
 
-#100000 1000000
-sizes=(100 1000 10000)
+sizes=(100 1000 10000 100000)
 programs=(sortA sortB)
 
 for program in "${programs[@]}"
