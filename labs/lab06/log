@@ -8,9 +8,15 @@
 === Testing difference: flag=A input, size 10000 ===
 === Testing difference: flag=R input, size 10000 ===
 === Testing difference: flag=D input, size 10000 ===
+=== Testing difference: flag=A input, size 50000 ===
+=== Testing difference: flag=R input, size 50000 ===
+=== Testing difference: flag=D input, size 50000 ===
 === Testing difference: flag=A input, size 100000 ===
 === Testing difference: flag=R input, size 100000 ===
 === Testing difference: flag=D input, size 100000 ===
+=== Testing difference: flag=A input, size 200000 ===
+=== Testing difference: flag=R input, size 200000 ===
+=== Testing difference: flag=D input, size 200000 ===
 === Testing sortB correctness ===
 === Testing difference: flag=A input, size 100 ===
 === Testing difference: flag=R input, size 100 ===
@@ -21,9 +27,15 @@
 === Testing difference: flag=A input, size 10000 ===
 === Testing difference: flag=R input, size 10000 ===
 === Testing difference: flag=D input, size 10000 ===
+=== Testing difference: flag=A input, size 50000 ===
+=== Testing difference: flag=R input, size 50000 ===
+=== Testing difference: flag=D input, size 50000 ===
 === Testing difference: flag=A input, size 100000 ===
 === Testing difference: flag=R input, size 100000 ===
 === Testing difference: flag=D input, size 100000 ===
+=== Testing difference: flag=A input, size 200000 ===
+=== Testing difference: flag=R input, size 200000 ===
+=== Testing difference: flag=D input, size 200000 ===
 === Testing sortA performance ===
 === Testing performance: flag=A input, size 100 ===
 0.00 seconds
@@ -43,12 +55,24 @@
 0.06 seconds
 === Testing performance: flag=D input, size 10000 ===
 0.14 seconds
-=== Testing performance: flag=A input, size 100000 ===
+=== Testing performance: flag=A input, size 50000 ===
 0.01 seconds
+=== Testing performance: flag=R input, size 50000 ===
+1.80 seconds
+=== Testing performance: flag=D input, size 50000 ===
+3.87 seconds
+=== Testing performance: flag=A input, size 100000 ===
+0.02 seconds
 === Testing performance: flag=R input, size 100000 ===
-6.97 seconds
+7.36 seconds
 === Testing performance: flag=D input, size 100000 ===
-14.38 seconds
+15.52 seconds
+=== Testing performance: flag=A input, size 200000 ===
+0.06 seconds
+=== Testing performance: flag=R input, size 200000 ===
+27.56 seconds
+=== Testing performance: flag=D input, size 200000 ===
+57.62 seconds
 === Testing sortB performance ===
 === Testing performance: flag=A input, size 100 ===
 0.00 seconds
@@ -65,15 +89,27 @@
 === Testing performance: flag=A input, size 10000 ===
 0.14 seconds
 === Testing performance: flag=R input, size 10000 ===
-0.11 seconds
+0.10 seconds
 === Testing performance: flag=D input, size 10000 ===
-0.11 seconds
+0.17 seconds
+=== Testing performance: flag=A input, size 50000 ===
+2.75 seconds
+=== Testing performance: flag=R input, size 50000 ===
+2.70 seconds
+=== Testing performance: flag=D input, size 50000 ===
+2.94 seconds
 === Testing performance: flag=A input, size 100000 ===
-10.77 seconds
+10.94 seconds
 === Testing performance: flag=R input, size 100000 ===
-10.71 seconds
+11.58 seconds
 === Testing performance: flag=D input, size 100000 ===
-11.10 seconds
+12.31 seconds
+=== Testing performance: flag=A input, size 200000 ===
+42.92 seconds
+=== Testing performance: flag=R input, size 200000 ===
+43.50 seconds
+=== Testing performance: flag=D input, size 200000 ===
+44.65 seconds
 === Testing sortA stability ===
 === Testing stability: with size 100 ===
 Unsorted: 1a 2a 3a 4a 5a 6a 7a 8a 9a 10a 11a 12a 13a 14a 15a 16a 17a 18a 19a 20a 21a 22a 23a 24a 25a 26a 27a 28a 29a 30a 31a 32a 33a 34a 35a 36a 37a 38a 39a 40a 41a 42a 43a 44a 45a 46a 47a 48a 49a 50a 51a 52a 53a 54a 55a 56a 57a 58a 59a 60a 61a 62a 63a 64a 65a 66a 67a 68a 69a 70a 71a 72a 73a 74a 75a 76a 77a 78a 79a 80a 81a 82a 83a 84a 85a 86a 87a 88a 89a 90a 91a 92a 93a 94a 95a 96a 97a 98a 99a 100a 1b 2b 3b 4b 5b 6b 7b 8b 9b 10b 11b 12b 13b 14b 15b 16b 17b 18b 19b 20b 21b 22b 23b 24b 25b 26b 27b 28b 29b 30b 31b 32b 33b 34b 35b 36b 37b 38b 39b 40b 41b 42b 43b 44b 45b 46b 47b 48b 49b 50b 51b 52b 53b 54b 55b 56b 57b 58b 59b 60b 61b 62b 63b 64b 65b 66b 67b 68b 69b 70b 71b 72b 73b 74b 75b 76b 77b 78b 79b 80b 81b 82b 83b 84b 85b 86b 87b 88b 89b 90b 91b 92b 93b 94b 95b 96b 97b 98b 99b 100b 1c 2c 3c 4c 5c 6c 7c 8c 9c 10c 11c 12c 13c 14c 15c 16c 17c 18c 19c 20c 21c 22c 23c 24c 25c 26c 27c 28c 29c 30c 31c 32c 33c 34c 35c 36c 37c 38c 39c 40c 41c 42c 43c 44c 45c 46c 47c 48c 49c 50c 51c 52c 53c 54c 55c 56c 57c 58c 59c 60c 61c 62c 63c 64c 65c 66c 67c 68c 69c 70c 71c 72c 73c 74c 75c 76c 77c 78c 79c 80c 81c 82c 83c 84c 85c 86c 87c 88c 89c 90c 91c 92c 93c 94c 95c 96c 97c 98c 99c 100c 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 11d 12d 13d 14d 15d 16d 17d 18d 19d 20d 21d 22d 23d 24d 25d 26d 27d 28d 29d 30d 31d 32d 33d 34d 35d 36d 37d 38d 39d 40d 41d 42d 43d 44d 45d 46d 47d 48d 49d 50d 51d 52d 53d 54d 55d 56d 57d 58d 59d 60d 61d 62d 63d 64d 65d 66d 67d 68d 69d 70d 71d 72d 73d 74d 75d 76d 77d 78d 79d 80d 81d 82d 83d 84d 85d 86d 87d 88d 89d 90d 91d 92d 93d 94d 95d 96d 97d 98d 99d 100d 1e 2e 3e 4e 5e 6e 7e 8e 9e 10e 11e 12e 13e 14e 15e 16e 17e 18e 19e 20e 21e 22e 23e 24e 25e 26e 27e 28e 29e 30e 31e 32e 33e 34e 35e 36e 37e 38e 39e 40e 41e 42e 43e 44e 45e 46e 47e 48e 49e 50e 51e 52e 53e 54e 55e 56e 57e 58e 59e 60e 61e 62e 63e 64e 65e 66e 67e 68e 69e 70e 71e 72e 73e 74e 75e 76e 77e 78e 79e 80e 81e 82e 83e 84e 85e 86e 87e 88e 89e 90e 91e 92e 93e 94e 95e 96e 97e 98e 99e 100e
