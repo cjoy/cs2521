@@ -84,13 +84,19 @@ struct stack {
 };
 
 struct stack_node {
-	Item item;
+  Item item;
   stack_node *next;
 };
 
-static stack_node *stack_node_new (Item)
+static stack_node *stack_node_new (Item item)
 {
-  
+  stack *new = malloc (sizeof (*new));
+  stack_node *node = malloc (sizeof (*node));
+  node->next = NULL;
+  node->item = item;
+  new->head = node;
+  new->size = 0;
+  return new;
 }
 ```
 
@@ -115,13 +121,23 @@ HINT This is very similar to the balanced brackets problem from the lecture.
 CHALLENGE Modify your solution to match palindromes.
 ## Solution
 ```C
-\\ TODO
+bool emordnilap (char* word, size_t n)
+{
+  Stack tmp = stack_new();
+  // push letters onto stack, so we can access in reverse order
+  for (size_t i = 0; i < n; stack_push(tmp, word[i]), i++)
+  // pop letter out of stack and return if letter not word at i
+  for (size_t i = 0; char l = stack_pop(tmp); i < n; l = stack_pop(tmp), i++)
+    if (l != word[i]) return false;
+  return true;
+}
 ```
 
 # On Testing
 What is the difference between black box and white box testing?
 ## Answer
-
+- Black box testing - testing functionality purely from the interface.
+- White box testing - testing with knowledge of implementation details.
 
 # On Black-Box Testing
 Let’s say we have a set of tests in a file test_stack.c, which includes the stack.h interface from Exercise 1 –
@@ -146,3 +162,5 @@ When compiling my test file, I get the following compile error:
 test_stack.c:11:5: error: dereferencing pointer to incomplete type
 What does this mean?
 ## Answer
+- The stack structure isn't defined in stack.h.
+- We're not given stack's implementation details (ie. the struct for stack), thus not allowing us to stab size.
