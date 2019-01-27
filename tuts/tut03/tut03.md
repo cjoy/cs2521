@@ -8,30 +8,43 @@ The time cost for f(n) is T(f(n)) = 100n, while the time cost for g(n) is T(g(n)
 * Which function is faster for n=1000?
 * What is the crossover point where f() becomes more efficient than g()?
 ## Answer
+* n=10
+  - T(f(n)) = 1000  >  T(g(n)) = 200
+  - g(n) is faster
+* n=20
+  - T(f(n)) = 2000  >  T(g(n)) = 800
+  - g(n) is faster
+* n=100
+  - T(f(n)) = 10000  <  T(g(n)) = 200000
+  - f(n) is faster
+* n=1000
+  - T(f(n)) = 100000  <  T(g(n)) = 2000000
+  - f(n) is faster
+* Cross-over where f(n) becomes more efficient
+  - 100n = 2n^2
+  - n = 50
+  - T(f(n)) = 5000  ==  T(g(n)) = 5000
+  - Therefore when n = 51, f(n) becomes more efficient
 
 # Algorithmic Complexity (III)
 Calculate how long T(n) steps would take for different sizes of n for the various T(n) functions in the table below.
 Assume you are running it on a computer that performs one billion steps per second (roughly on par with a current smartphone).
 
 t(n)=
----------------------------------------------------------
-|   n   |   logn  |   n   |   n^2   |   n^3   |   2^n   |
----------------------------------------------------------
-|  10   |         |       |         |         |         |
----------------------------------------------------------
-|  20   |         |       |         |         |         |
----------------------------------------------------------
-|  50   |         |       |         |         |         |
----------------------------------------------------------
-|  100  |         |       |         |         |         |
----------------------------------------------------------
-|  1000 |         |       |         |         |         |
----------------------------------------------------------
-|  10000|         |       |         |         |         |
----------------------------------------------------------
+
+ n | logn | n | n^2 | n^3 | 2^n 
+--- | :---: | :---: | :---: | :---: | :----:
+10 | 3.32 | 10 | 100 | 1000 | 1024
+20 | 4.32 | 20 | 400 | 8000 | 1048576
+50 | 5.64 | 50 | 2500 | 125000 | 1.13e+15
+100 | 6.64 | 100 | 10000 | 1000000 | 1.27e+30
+1000 | 9.96 | 1000 | 1000000 | 1000000000 | 1.07e+301
+10000 | 13.29 | 10000 | 100000000 | 1000000000000 | 1.995e+3010
 
 For what size of n does the computation time for T(n) = 2^n become too large to be practical? Would it help if we used a computer that was a million times faster?
 ## Answer
+n=50, it would help if our computer was a million times faster
+However, n=100 (and onwards) takes way too long, even if our computer was a million times faster.
 
 ## Recursive Functions
 Write a recursive function
@@ -50,16 +63,27 @@ bool all_even (int a[], size_t l, size_t r)
   if (a[r] % 2 != 0) return false;
   return all_even(a, l+1, r-1);
 }
+
+// Divide an conquer approach
+bool all_even (int a[], size_t l, size_t r)
+{
+  if (l == r && a[l] % 2 == 0) return true;
+  if (a[r] % 2 != 0) return false;
+  if (a[l] % 2 != 0) return false;
+  size_t mid = (l+r)/n;
+  return all_even(a, l, mid) && all_even(a, mid+1, r);
+}
 ```
 What would the worst-case time complexity be in big-O notation?
 ## Answer
-
+O(logn)
 
 # Binary Search Trees
 Insert these keys into a BST, assuming normal integer ordering: [10,20,5,30,15,25,24].
 
 What is the height of this tree?
 ## Answer
+
 
 Delete [5,30,20], assuming we replace nodes with the left-most node of the right sub-tree when necessary.
 
@@ -95,7 +119,9 @@ Assume our binary tree holds items of type int. Write a function to recursively 
 int int_btree_sum (btree_node *tree)
 {
   if (!tree) return 0;
-  return tree->item + int_btree_sum(tree->left) + int_btree_sum(tree->right);
+  return tree->item
+    + int_btree_sum(tree->left)
+    + int_btree_sum(tree->right);
 }
 ```
 
@@ -106,16 +132,15 @@ Write two functions that search for a given item in a binary search tree, return
 ```C
 bool btree_search_iter (btree_node *tree, Item key)
 {
-
 }
 
 bool btree_search_rec (btree_node *tree, Item key)
 {
   if (!tree) return false;
-  if (tree->item == key) return true;
-  if (tree->left) return btree_search_rec (tree->left, key);
-  if (tree->right)  return btree_search_rec (tree->right, key);
-  return false;
+  if (Item_cmp(tree->item, key) == 0) return true;
+  if (Item_cmp(tree->item, key) > 0)
+    return btree_search_rec (tree->left, key);
+  return btree_search_rec (tree->right, key);
 }
 ```
 
@@ -132,6 +157,16 @@ void btree_drop (btree_node *tree)
 }
 ```
 
+# btree_insert
+Write a function that inserts an item into a binary search tree, maintaining the search-tree property. It should return the new root of the tree.
+```C
+btree_node *btree_insert (btree_node *root, Item it);
+```
+### Solution
+```C
+// TODO
+```
+
 ## btree_traverse, with function pointers
 Consider a function btree_traverse that traverses a binary tree, taking a function pointer. What would its prototype be? How would you call the function?
 
@@ -141,5 +176,5 @@ void item_show (Item it);
 ```
 ### Solution
 ```C
-\\TODO
+void btree_traverse (btree_node *tree, void (*visit)(Item));
 ```
