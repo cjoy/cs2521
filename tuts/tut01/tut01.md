@@ -1,6 +1,4 @@
-# Tutorial 01
-
-## Bare Linked Lists
+# Bare Linked Lists
 Consider this “bare” linked list definition from the lecture.
 ```C
 typedef char Item;
@@ -13,7 +11,7 @@ typedef struct node {
 ```
 A Lengthy Matter
 How would you write a function int list_length (link l), that takes a link to the first element of a list and returns the length of the list?
-### Solution
+## Solution
 ```C
 int list_length (link l)
 {
@@ -26,8 +24,7 @@ int list_length (link l)
 }
 ```
 
-
-## Duplicity
+# Duplicity
 How would you write a function link list_duplicate (link l), that takes a link to the first element of a list and returns a “deep copy” of the list (i.e., a new list that contains the same data in the same order)?
 
 Here are some prototypes and implementations of functions you may wish to use for this task:
@@ -54,7 +51,7 @@ void list_insert_next (link ls, link node)
     ls->next = node;
 }
 ```
-### Solution
+## Solution
 ```C
 link list_duplicate (link l)
 {
@@ -82,7 +79,7 @@ link list_duplicate (link l)
 ```
 
 
-## Lists of Characters
+# Lists of Characters
 It’s not especially efficient, nor is it particularly nice in C, but many languages (notably some functional languages) use linked lists where we would use arrays.
 
 Assume we have these functions:
@@ -113,7 +110,7 @@ int main (int argc, char *argv[])
     return 0;
 }
 ```
-### Solution
+## Solution
 HEAD -> h -> e -> l -> l -> o ->   -> w -> o -> r -> l -> d -> ! -> TAIL
 HEAD -> h -> e -> l -> l -> o ->   -> w -> o -> r -> l -> d -> ! -> TAIL
 HEAD -> ! -> d -> -> l -> r -> o -> w ->  -> o -> l -> l -> e -> h -> TAIL
@@ -121,7 +118,7 @@ HEAD -> h -> TAIL  // Assuming list_reverse doesn't change the original head of 
 HEAD -> h -> e -> l -> l -> o ->   -> w -> o -> r -> l -> d -> ! -> TAIL
 
 
-## Doubly-Linked Lists
+# Doubly-Linked Lists
 A doubly-linked list is similar to a regular linked list, but each nodes has pointers to both the next and previous nodes in the list. Consider the following doubly linked list definition:
 ```C
 typedef char Item;
@@ -133,7 +130,7 @@ struct dnode {
 };
 ```
 Write a function append which attaches the list list2 at the end of list1 and returns the resulting list.
-### Solution
+## Solution
 ```C
 dlink append (dlink list1, dlink list2)
 {
@@ -149,7 +146,7 @@ dlink append (dlink list1, dlink list2)
 dlink append (dlink list1, dlink list2);
 Is it necessary to return the resulting list? Could we instead get away with the following interface?
 void append (dlink list1, dlink list2);
-### Answer
+## Answer
 Yes, if we temporarily store the pointer for list1, we can then call `void append(list1, list2)` and and assume that temporarily stored pointer to list1 is the start of the appended list.
 ```C
 void append (dlink list1, dlink list2)
