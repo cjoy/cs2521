@@ -19,14 +19,25 @@ size_t stack_size (Stack);
 ```
 
 Using two stack data structures, show how you can implement a queue data structure.
+## Solution
 ```C
 struct queue {
-  stack head;
-  stack tail;
+  Stack head;
+  Stack tail;
 }
 ```
+- Pop out all items from head stack and then push to tail stack so we can dequeue items in FIFO order.
 
 Using two queue data structures, show how you can implement a stack data structure.
+## Solution
+```C
+struct stack {
+  Queue q1;
+  Queue q2;
+}
+```
+- Pushing items is basically just enqueing items to q1
+- Poping items requires dequeing items from q1 and enqueing to q2 and store the last item in q1 in a tmp variable. After saving the last item, we need to transfer q2 items back to q1 and return the last item.
 
 Using only the functions for manipulating stacks in the stack interface, write a function that joins two stacks stack1 and stack2, such that stack1 is “stacked” on stack2. (Note that the contents of stack1 do not need to be preserved.)
 ```C
@@ -34,7 +45,14 @@ void stack_stacks (Stack stack1, Stack stack2);
 ```
 ## Solution
 ```C
-\\ TODO
+void stack_stacks (Stack stack1, Stack stack2)
+{
+  Stack tmp = NULL;
+  // push items from stack 1 into temporary stack
+  for (tmp = stack_new(); stack_size(stack1) > 0; stack_push(tmp, stack_pop(stack1)))
+  // push items out from tmp into stack2
+  for (; stack_size(stmp) > 0; stack_push(stack2, stack_pop(stack1)))
+}
 ```
 
 # Implementing a Stack with a Linked List
@@ -57,7 +75,23 @@ static stack_node *stack_node_new (Item);
 ```
 ## Solution
 ```C
-\\ TODO
+typedef struct stack stack;
+typedef struct stack_node stack_node;
+
+struct stack {
+  stack_node *head;
+  size_t size;
+};
+
+struct stack_node {
+	Item item;
+  stack_node *next;
+};
+
+static stack_node *stack_node_new (Item)
+{
+  
+}
 ```
 
 # Emordnilap!
