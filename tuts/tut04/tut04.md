@@ -332,12 +332,16 @@ size_t graph_utm_index_of (size_t nV, vertex v, vertex w)
 {
 	assert (v != w);    // no self-edges
 	if (v > w) { vertex tmp = v; v = w; w = tmp; }
-	...
+
+	size_t k = 0;
+	for (size_t i = 0, j = nV-1; i < v; i++, j--)
+		k += j;
+	return k;
 }
 
 ```
 
-Through The Flensing-Glass
+# Through The Flensing-Glass
 The standard implementation of the adjacency list representation for graphs stores each edge twice. The edge (v,w) appears as a w stored in the adjacency list for v, and as a v stored in the adjacency list for w. A more storage efficient representation, analogous to storing just the top-right half of the adjacency matrix, would be to store information for each edge just once.
 
 Implement these functions on adjacency lists, but use this each-edge-stored-once variation:
@@ -349,3 +353,4 @@ size_t graph_vertex_degree (Graph g, vertex v);
 You should not assume that supplied edge values will necessarily satisfy e.v < e.w.
 
 ## Solution
+TODO
