@@ -1,100 +1,123 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+#include <time.h>
 
-size_t partition (int a[], size_t lo, size_t hi);
-void sort_quick_naive (int a[], size_t lo, size_t hi);
-void qs_median3 (int a[], size_t lo, size_t hi);
-void sort_quick_m3 (int a[], size_t lo, size_t hi);
+typedef int Item;
+#define key(A) (A)
+#define less(A,B) (key(A) < key(B))
 
-void swap_idx (int a[], size_t i, size_t j);
+typedef enum {
+  NAIVE,
+  RANDOM
+} PivotMode;
 
+static inline void swap_idx (Item items[], size_t a, size_t b);
+void sort_quick (Item items[], size_t lo, size_t hi, PivotMode mode);
+static size_t partition (Item items[], size_t lo, size_t hi, PivotMode mode);
+void qs_median3 (Item a[], size_t lo, size_t hi);
+void sort_quick_m3 (Item a[], size_t lo, size_t hi, PivotMode mode);
+void print_list (Item a[], size_t n);
 
 int main (int argc, char **argv) {
   size_t n;
   printf("Enter data size: ");
   scanf("%zu", &n);
 
-  int *a = malloc(sizeof(int) * n);
+  char *option = "";
+  Item *a = malloc(sizeof(int) * n);
+  
   puts ("Enter data:");
   for (size_t i = 0; i < n; i++)
     scanf("%d", &a[i]);
 
-  // sort_quick_naive (a, 0, n-1);
-  // printf ("VALUE: %d", a[0]);
-  sort_quick_m3 (a, 0, n-1);
-
-
+  if (argc >= 2 && strcmp (argv[1], "-pn") == 0) {
+    option = "naive pivot";
+    sort_quick (a, 0, n-1, NAIVE);
+  } else if (argc >= 2 && strcmp (argv[1], "-pm") == 0) {
+    option = "median of three pivot";
+    sort_quick_m3 (a, 0, n-1, NAIVE);
+  } else if (argc >= 2 && strcmp (argv[1], "-pr") == 0) {
+    option = "randomised pivot";
+    sort_quick (a, 0, n-1, NAIVE);
+  } else {
+    puts ("invalid option");
+    return EXIT_FAILURE;
+  }
 
   if (argc == 2) {
-    puts("Sorted with -:");
-    for (size_t i = 0; i < n; i++)
-      printf("%d ", a[i]);
-    puts("");
+    printf ("Sorted with %s:\n", option);
+    print_list (a, n);
   }
 
   free(a);
   return EXIT_SUCCESS;
 }
 
+//////////////////////////////////////////////////////////////////////
 
-
-// Naive Implementation
-size_t partition (int a[], size_t lo, size_t hi)
+void sort_quick (Item items[], size_t lo, size_t hi, PivotMode mode)
 {
-  int v = a[lo];
-	size_t i = lo + 1, j = hi;
-
-	while (true) {
-		while (a[i] < v && i < j) i++;
-		while (v < a[j] && i < j) j--;
-		if (i == j) break;
-		swap_idx (a, i, j);
-	}
-
-	j = a[i] < v ? i : i - 1;
-	swap_idx (a, lo, j);
-	return j;
-
+	if (hi <= lo) return;
+	size_t part = partition (items, lo, hi, mode);
+	sort_quick (items, lo, (part == 0) ? 0 : (part - 1), mode);
+	sort_quick (items, part + 1, hi, mode);
 }
 
-void sort_quick_naive (int a[], size_t lo, size_t hi)
-{
-  if (hi <= lo) return;
-  size_t part = partition (a, lo, hi);
-  sort_quick_naive (a, lo, part ? (part - 1) : 0);
-  sort_quick_naive (a, part + 1, hi);
-}
+//////////////////////////////////////////////////////////////////////
 
-// Median-of-Three Implementation
-
-void qs_median3 (int a[], size_t lo, size_t hi)
+void qs_median3 (Item a[], size_t lo, size_t hi)
 {
   size_t mid = (lo + hi) / 2;
-  if (a[mid] < a[lo]) swap_idx (a, lo, mid);
-  if (a[hi] < a[mid]) swap_idx (a, mid, hi);
-  if (a[mid] < a[lo]) swap_idx (a, lo, mid);
+  if (less (a[mid], a[lo])) swap_idx (a, lo, mid);
+  if (less (a[hi], a[mid])) swap_idx (a, mid, hi);
+  if (less (a[mid], a[lo])) swap_idx (a, lo, mid);
   // now, we have a[lo] <= a[mid] <= a[hi]
   // swap a[mid] to a[lo+1] to use as pivot
   swap_idx (a, lo+1, mid);
-
 }
 
-void sort_quick_m3 (int a[], size_t lo, size_t hi)
+void sort_quick_m3 (Item a[], size_t lo, size_t hi, PivotMode mode)
 {
   if (hi <= lo) return;
   qs_median3 (a, lo, hi);
-  size_t part = partition (a, lo + 1, hi - 1);
-  sort_quick_m3 (a, lo, part ? (part - 1) : 0);
-  sort_quick_m3 (a, part + 1, hi);
+  size_t part = partition (a, lo, hi, mode);
+  sort_quick_m3 (a, lo, part ? (part - 1) : 0, mode);
+  sort_quick_m3 (a, part + 1, hi, mode);
 }
 
-// Helpers
+//////////////////////////////////////////////////////////////////////
 
-void swap_idx (int a[], size_t i, size_t j)
+static size_t partition (Item items[], size_t lo, size_t hi, PivotMode mode)
 {
-  int tmp = a[j];
-  a[j] = a[i];
-  a[i] = tmp;
+	Item v = items[lo];
+
+  // random pivot
+  if (mode == RANDOM)
+    v = items[(unsigned long)rand()%hi];
+
+	size_t i = lo + 1, j = hi;
+
+	for (;;) {
+		while (less (items[i], v) && i < j) i++;
+		while (less (v, items[j]) && i < j) j--;
+		if (i == j) break;
+		swap_idx (items, i, j);
+	}
+
+	j = less (items[i], v) ? i : i - 1;
+	swap_idx (items, lo, j);
+	return j;
+}
+
+static inline void swap_idx (Item items[], size_t a, size_t b)
+{
+	Item t = items[b]; items[b] = items[a]; items[a] = t;
+}
+
+void print_list (Item a[], size_t n)
+{
+  for (size_t i = 0; i < n; i++)
+    printf("%d ", a[i]);
+  puts("");
 }

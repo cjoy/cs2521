@@ -3,7 +3,7 @@
 typedef struct _tree *Tree;
 struct _tree {
     int val;
-    tree left, right;
+    Tree left, right;
 };
 
 // Check if two trees are equal
