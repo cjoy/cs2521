@@ -384,7 +384,7 @@ void dijkstra(Graph g,Vertex s)
 	for(v=0;v< g->nV;v++){
 		insert(pq,newItem(dist[v],v));
 	}
-	dist[s] = 0.0; //set start veretex dist to 0
+	dist[s] = 0.0; //set start vertex dist to 0
 	increasePriority(pq,s,dist[s]); // update pq
 	while(!isEmpty(pq)){
 		v = value(delMin(pq));
@@ -404,16 +404,100 @@ void dijkstra(Graph g,Vertex s)
 ```
 What does the increasePriority function do?
 ## Answer
-Updates PQ by promoting vertex based on distance
+Updates priority of a vertex, then sorts based on priorities in order to account the updated vertex. 
 
 Trace through Dijkstra’s algorithm. At each step show the state of the priority Queue and the dist and st arrays. What is the shortest path from 3 to 1? And what is its cost? Assume the dist array is initialised with the value NO_EDGE (a float representation of infinity) and the st array with -1s.
+
+## Solution
+PQ |  3:0 | 0:- | 1:- | 2:- | 4:- | 5:- | 6:- | 7:- 
+--- | ---| ---| ---| ---| --- | --- | ---| ---| ---| ---| ---
+
+dist|  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----| inf | inf | inf |  0  | inf | inf | inf | inf |
+
+st  |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----| -1  | -1  | -1  | -1  | -1  | -1  | -1  | -1  |
+
+---
+PQ | 0:- | 1:- | 2:- | 4:34 | 5:18 | 6:- | 7:- 
+--- | ---| ---| ---| ---| --- | --- | ---| ---| ---| ---| ---
+
+dist|  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----| inf | inf | inf |  0  |  34 |  18 | inf | inf |
+
+st  |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----| -1  | -1  | -1  | -1  |  3  |  3  | -1  | -1  |
+
+**Output**
+```
+3
+```
+---
+PQ | 0:78 | 1:- | 2:- | 4:34 | 6:- | 7:- 
+--- | ---| ---| ---| ---| --- | --- | ---| ---| ---| ---| ---
+
+dist|  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----|  78 | inf | inf |  0  |  34 |  18 | inf | inf |
+
+st  |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----|  5  | -1  | -1  | -1  |  3  |  3  | -1  | -1  |
+
+**Output**
+```
+5
+```
+---
+PQ | 0:78 | 1:- | 2:- | 6:- | 7:- 
+--- | ---| ---| ---| ---| --- | --- | ---| ---| ---| ---| ---
+
+dist|  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----|  78 | inf | inf |  0  |  34 |  18 | inf | inf |
+
+st  |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----|  5  | -1  | -1  | -1  |  3  |  3  | -1  | -1  |
+
+**Output**
+```
+4
+```
+---
+PQ | 1:110 | 2:107 | 6:129 | 7:109 
+--- | ---| ---| ---| ---| --- | --- | ---| ---| ---| ---| ---
+
+dist|  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----|  78 | 110 | 107 |  0  |  34 |  18 | inf | inf |
+
+st  |  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+--- | --- | --- | --- | --- | --- | --- | --- | --- | 
+----|  5  |  0  |  0  | -1  |  3  |  3  | -1  | -1  |
+
+**Output**
+```
+0
+```
+
+... TODO ^^ Check this result
+
+Shortest path from 3 to 1: 3 -> 4 -> 7 -> 1 cost: 101
 
 # Throw a Spanning-Tree in the works
 What is a spanning tree? What is a minimum spanning tree?
 ## Answer
+Spanning tree is a sub graph that connects to all vertices without cycles.
+MST is a spanning tree that minimises the weight of the edges.
 
 Provide examples of applications for minimum spanning tree algorithms. For each example, discuss what the vertices, edges and weights represent.
 ## Answer
+- Network design: routing packets etc
 
 The following code gives a reasonably detailed view of Kruskal’s algorithm for finding a minimum spanning tree.
 
@@ -445,12 +529,69 @@ This algorithm effectively constructs the MST by gradually joining together the 
 Show how Kruskal’s algorithm would construct the MST for the graph below. How many edges did we have to consider?
 ![Graph](graph4.png)
 ## Answer
+```
+// sorted list of edges
+edgeList = (1,4), (6,7), (3,4), (1,2), (4,2), (3,1), (3,6), (7,5), (4,5), (6,4), (2,5)
+```
+--- 
+```
+i = 0
+does adding (1,4) produce cycle? -> no, therefore add to graph
+graph = (1,4)
+```
+--- 
+```
+i = 1
+does adding (6,7) produce cycle? -> no, therefore add to graph
+graph = (1,4), (6,7)
+```
+--- 
+```
+i = 2
+does adding (3,4) produce cycle? -> no, therefore add to graph
+graph = (1,4), (6,7), (3,4)
+```
+--- 
+```
+i = 3
+does adding (1,2) produce cycle? -> no, therefore add to graph
+graph = (1,4), (6,7), (3,4), (1,2)
+```
+--- 
+```
+i = 4
+does adding (4,2) produce cycle? -> yes, therefore skip
+graph = (1,4), (6,7), (3,4), (1,2)
+```
+--- 
+```
+i = 5
+does adding (3,1) produce cycle? -> yes, therefore skip
+graph = (1,4), (6,7), (3,4), (1,2)
+```
+--- 
+```
+i = 6
+does adding (3,6) produce cycle? -> no, therefore add to graph
+graph = (1,4), (6,7), (3,4), (1,2), (3,6), 
+```
+--- 
+```
+i = 7
+does adding (7,5) produce cycle? -> no, therefore add to graph
+graph = (1,4), (6,7), (3,4), (1,2), (3,6), (7,5)
+```
+
+FINISHED!
 
 For a graph G with V vertices and E edges, what is the least number of edges we might need to consider? What is the most number of edges we might have to consider?
 ## Answer
+* Best case: V-1 ~> when there are no cycles at all
+* Worst case: all E edges have to be considered
 
 Add another edge to the above graph to force Kruskal’s algorithm to the worst case.
 ## Answer
+Add vertex 8 and connect it to vertex 5, with weight greater than 10.
 
 The following code is an implementation of Prim’s algorithm for finding a minimum spanning tree.
 
