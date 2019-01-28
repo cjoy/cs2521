@@ -45,8 +45,8 @@ int main (int argc, char **argv) {
     return EXIT_FAILURE;
   }
 
+  printf ("Sorted with %s:\n", option);
   if (argc == 2) {
-    printf ("Sorted with %s:\n", option);
     print_list (a, n);
   }
 
