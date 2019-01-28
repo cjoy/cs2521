@@ -1,0 +1,32 @@
+#!/bin/bash
+
+: > log
+
+sizes=(100 1000 10000 20000 40000 80000 160000 320000 640000 1280000)
+options=("-pn" "-pm" "-pr")
+ordering=(A R D)
+repeat=10
+
+for option in "${options[@]}"
+do
+	echo ./qsort $option >> log
+	for order in "${ordering[@]}";
+	do
+		for size in "${sizes[@]}"
+		do
+			echo "$./gen order items=$size | ./qsort $option"
+			sum=0
+			for ((t=1; t<=repeat; t++))
+			do
+				# seconds=$()
+				# sum=$(bc -l <<< $sum+$t)
+				seconds="$(sh -c " ./gen $size $order | time --format="%U" ./quicksort $option -q > /dev/null" 2>&1)"
+				sum=$(printf '%.3f\n' "$(echo "scale=3;$sum+$seconds" | bc)")
+			done
+			# avg==$(bc -l <<< $sum/$repeat)
+			avg=$(printf '%.3f\n' "$(echo "scale=3;$sum/$repeat" | bc)")
+			echo   order=$order items=$size time=$avg >> log
+		done
+		echo "" >> log
+	done
+done

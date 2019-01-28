@@ -1,0 +1,84 @@
+./qsort -pn
+order=A items=100 time=5.500
+order=A items=1000 time=5.500
+order=A items=10000 time=5.500
+order=A items=20000 time=5.500
+order=A items=40000 time=5.500
+order=A items=80000 time=5.500
+order=A items=160000 time=5.500
+order=A items=320000 time=5.500
+order=A items=640000 time=5.500
+order=A items=1280000 time=5.500
+
+order=R items=100 time=5.500
+order=R items=1000 time=5.500
+order=R items=10000 time=5.500
+order=R items=20000 time=5.500
+order=R items=40000 time=5.500
+order=R items=80000 time=5.500
+order=R items=160000 time=5.500
+order=R items=320000 time=5.500
+order=R items=640000 time=5.500
+order=R items=1280000 time=5.500
+
+order=D items=100 time=5.500
+order=D items=1000 time=5.500
+order=D items=10000 time=5.500
+order=D items=20000 time=5.500
+order=D items=40000 time=5.500
+order=D items=80000 time=5.500
+order=D items=160000 time=5.500
+order=D items=320000 time=5.500
+order=D items=640000 time=5.500
+order=D items=1280000 time=5.500
+
+./qsort -pm
+order=A items=100 time=5.500
+order=A items=1000 time=5.500
+order=A items=10000 time=5.500
+order=A items=20000 time=5.500
+order=A items=40000 time=5.500
+order=A items=80000 time=5.500
+order=A items=160000 time=5.500
+order=A items=320000 time=5.500
+order=A items=640000 time=5.500
+order=A items=1280000 time=5.500
+
+order=R items=100 time=5.500
+order=R items=1000 time=5.500
+order=R items=10000 time=5.500
+order=R items=20000 time=5.500
+order=R items=40000 time=5.500
+order=R items=80000 time=5.500
+order=R items=160000 time=5.500
+order=R items=320000 time=5.500
+order=R items=640000 time=5.500
+order=R items=1280000 time=5.500
+
+order=D items=100 time=5.500
+order=D items=1000 time=5.500
+order=D items=10000 time=5.500
+order=D items=20000 time=5.500
+order=D items=40000 time=5.500
+order=D items=80000 time=5.500
+order=D items=160000 time=5.500
+order=D items=320000 time=5.500
+order=D items=640000 time=5.500
+order=D items=1280000 time=5.500
+
+./qsort -pr
+order=A items=100 time=5.500
+order=A items=1000 time=5.500
+order=A items=10000 time=5.500
+order=A items=20000 time=5.500
+order=A items=40000 time=5.500
+order=A items=80000 time=5.500
+order=A items=160000 time=5.500
+order=A items=320000 time=5.500
+order=A items=640000 time=5.500
+order=A items=1280000 time=5.500
+
+order=R items=100 time=5.500
+order=R items=1000 time=5.500
+order=R items=10000 time=5.500
+order=R items=20000 time=5.500
