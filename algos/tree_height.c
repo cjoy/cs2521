@@ -11,8 +11,10 @@ int max (int a, int b)
 
 int tree_height (Tree t)
 {
-    int lh = tree_height (t->left);
-    int rh = tree_height (t->right);
+    if (!t) return 0;
 
-    return 1 + max (lh, rh);
+    int l = tree_height (t->left);
+    int r = tree_height (t->right);
+
+    return 1 + max (l, r);
 }

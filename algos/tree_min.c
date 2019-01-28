@@ -1,22 +1,25 @@
 typedef struct tree *Tree;
 struct tree {
-    int val;
+    int item;
     Tree left, right;
-}
+};
 
-#define min(x, y) (x) < (y) ? (x) : (y)
 
-int tree_min (Tree t)
+int tree_min_recursive (Tree t)
 {
     if (!t) return -1;
 
-    int curr = t->val;
+    if (!t->left) return t->item;
     
-    if (t->left)
-        curr = min (curr, tree_min (t->left));
-    
-    if (t->left)
-        curr = min (curr, tree_min (t->left));
-    
-    return curr;
+    return tree_min (t->left);
+}
+
+int tree_min_iterative (Tree t)
+{
+    if (!t) return -1;
+
+    Tree curr = t;
+    for (; curr->left; curr = curr->left)
+
+    return curr->item;
 }
