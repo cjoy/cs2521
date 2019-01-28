@@ -89,6 +89,7 @@ Delete [5,30,20], assuming we replace nodes with the left-most node of the right
 
 What is the height of the tree after this deletion?
 ## Answer
+- After drawing up each state after deleting, height=2
 
 Show the output obtained by traversing the tree and printing out each node in the following orders:
 prefix (NLR):
@@ -96,6 +97,16 @@ postfix (LRN):
 infix (LNR):
 level-order:
 ## Answer
+tree: 10, 24, 15, 25
+
+* prefix (NLR):
+  - 10, 24, 15, 25
+* postfix (LRN):
+  - 15, 25, 24, 10
+* infix (LNR):
+  - 10, 24, 15, 25
+* level-order:
+  - 10, 24, 15, 25
 
 
 # Functions in a Binary Search Tree
@@ -132,7 +143,24 @@ Write two functions that search for a given item in a binary search tree, return
 ```C
 bool btree_search_iter (btree_node *tree, Item key)
 {
+  if (!tree) return false;
 
+  btree_node *curr = tree;
+  while (curr) {
+    if (curr->item == key) {
+      return true;
+    } else if (curr->item < key && curr->left) {
+      // iterate left subtree
+      curr = curr->left;
+    } else if (curr->item > key && curr->right) {
+      // iterate right subtree
+      curr = curr->right;
+    } else {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 bool btree_search_rec (btree_node *tree, Item key)
@@ -154,7 +182,7 @@ void btree_drop (btree_node *tree)
   if (!tree) return;
   if (tree->right) btree_drop(tree->right);
   if (tree->left) btree_drop(tree->left);
-  free (tree);
+  free(tree);
 }
 ```
 
@@ -165,7 +193,15 @@ btree_node *btree_insert (btree_node *root, Item it);
 ```
 ### Solution
 ```C
-// TODO
+btree_node *btree_insert (btree_node *root, Item it)
+{
+  if (!root) return btree_node_new(it);
+  if (root->item > it)
+    tree->left = btree_insert(root->left, it);
+  else if (root->item < it)
+    tree->right = btree_insert(root->right, it);
+  return root;
+}
 ```
 
 ## btree_traverse, with function pointers
@@ -177,5 +213,12 @@ void item_show (Item it);
 ```
 ### Solution
 ```C
-void btree_traverse (btree_node *tree, void (*visit)(Item));
+void btree_traverse (btree_node *tree, void (*visit)(Item))
+{
+  // In-fix traversal
+  if (!tree) return;
+  if (tree->left) btree_traverse(tree->left, visit);
+  (*visit)(tree->item);
+  if (tree->right) btree_traverse(tree->right, visit);
+}
 ```
