@@ -1,22 +1,25 @@
 typedef struct tree *Tree;
 struct tree {
-    int val;
+    int item;
     Tree left, right;
-}
+};
 
-#define max(x, y) (x) > (y) ? (x) : (y)
 
-int tree_max (Tree t)
+int tree_max_recursive (Tree t)
 {
     if (!t) return -1;
 
-    int curr = t->val;
+    if (!t->right) return t->item;
     
-    if (t->left)
-        curr = max (curr, tree_max(t->left));
-    
-    if (t->left)
-        curr = max (curr, tree_max(t->left));
-    
-    return curr;
+    return tree_min (t->right);
+}
+
+int tree_max_iterative (Tree t)
+{
+    if (!t) return -1;
+
+    Tree curr = t;
+    for (; curr->right; curr = curr->right)
+
+    return curr->item;
 }

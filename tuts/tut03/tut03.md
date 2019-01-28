@@ -83,7 +83,7 @@ Insert these keys into a BST, assuming normal integer ordering: [10,20,5,30,15,2
 
 What is the height of this tree?
 ## Answer
-
+- After drawing the graph out, height = 4.
 
 Delete [5,30,20], assuming we replace nodes with the left-most node of the right sub-tree when necessary.
 
@@ -132,13 +132,14 @@ Write two functions that search for a given item in a binary search tree, return
 ```C
 bool btree_search_iter (btree_node *tree, Item key)
 {
+
 }
 
 bool btree_search_rec (btree_node *tree, Item key)
 {
   if (!tree) return false;
-  if (Item_cmp(tree->item, key) == 0) return true;
-  if (Item_cmp(tree->item, key) > 0)
+  if (tree->item == key) return true;
+  if (tree->item > key)
     return btree_search_rec (tree->left, key);
   return btree_search_rec (tree->right, key);
 }
