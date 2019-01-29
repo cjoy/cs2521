@@ -1,6 +1,6 @@
 # COMP2521 19T0 ... lab 8 makefile
 
-CC	 = 2521 3c
+CC	 = 3c
 
 .PHONY: all
 all:	words words2 mkwords
