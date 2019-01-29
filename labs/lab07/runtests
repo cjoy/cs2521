@@ -14,7 +14,7 @@ do
 	do
 		for size in "${sizes[@]}"
 		do
-			echo "./gen $size $order | ./quicksort $option"
+			echo "./gen $size $order | time --format=\"%U\" ./quicksort $option -q"
 			sum=0
 			for ((t=1; t<=repeat; t++))
 			do
