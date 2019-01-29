@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-typedef int Item;
+typedef unsigned long long Item;
 #define key(A) (A)
 #define less(A,B) (key(A) < key(B))
 
@@ -20,16 +20,16 @@ void sort_quick_m3 (Item a[], size_t lo, size_t hi, PivotMode mode);
 void print_list (Item a[], size_t n);
 
 int main (int argc, char **argv) {
-  size_t n;
+  Item n;
   printf("Enter data size: ");
-  scanf("%zu", &n);
+  scanf("%lld", &n);
 
   char *option = "";
-  Item *a = malloc(sizeof(int) * n);
+  Item *a = malloc(sizeof(Item) * n);
   
   puts ("Enter data:");
   for (size_t i = 0; i < n; i++)
-    scanf("%d", &a[i]);
+    scanf("%lld", &a[i]);
 
   if (argc >= 2 && strcmp (argv[1], "-pn") == 0) {
     option = "naive pivot";
@@ -118,6 +118,6 @@ static inline void swap_idx (Item items[], size_t a, size_t b)
 void print_list (Item a[], size_t n)
 {
   for (size_t i = 0; i < n; i++)
-    printf("%d ", a[i]);
+    printf("%lld ", a[i]);
   puts("");
 }

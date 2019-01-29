@@ -2,7 +2,7 @@
 
 : > log
 
-sizes=(100 1000 10000 20000 40000 80000 160000 320000 640000 1280000)
+sizes=(100 1000 10000 20000 40000 80000 160000 320000 640000 999999)
 options=("-pn" "-pm" "-pr")
 ordering=(A R D)
 repeat=10
@@ -14,7 +14,7 @@ do
 	do
 		for size in "${sizes[@]}"
 		do
-			echo "./gen $size $order | time --format=\"%U\" ./quicksort $option -q"
+			echo "./gen $size $order | time --format=\"%U\" ./quicksort $option -q > /dev/null"
 			sum=0
 			for ((t=1; t<=repeat; t++))
 			do
