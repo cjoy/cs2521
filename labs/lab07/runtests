@@ -2,10 +2,10 @@
 
 : > log
 
-sizes=(100 1000 10000 20000 40000 80000 160000 320000 640000 999999)
+sizes=(100 1000 10000 20000 40000 80000 160000 320000 640000)
 options=("-pn" "-pm" "-pr")
 ordering=(A R D)
-repeat=10
+repeat=5
 
 for option in "${options[@]}"
 do
