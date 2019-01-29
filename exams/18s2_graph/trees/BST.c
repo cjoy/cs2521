@@ -33,6 +33,13 @@ struct tree {
 // Check if a value is in the tree
 // Should return 1 if it finds it, otherwise 0
 int findValue(Tree t, int v) {
+  if (!t) return 0;
+  if (t->val == v) return 1;
+
+  if (v < t->val)
+    return findValue(t->left, v);
+  else if (v > t->val)
+    return findValue(t->right, v);
 
   return 0;
 }
@@ -41,10 +48,26 @@ int findValue(Tree t, int v) {
 // The rule is that from some arbitrary root, the left child's value must be
 // smaller than the root, and the right child bigger
 // return 0 if it isn't a BST, 1 if it is
+int isBSTUtil(Tree t, int lo, int hi);
+
 int isBST(Tree t) {
-  return 0;
+  if (!t) return 1;
+  int inf = 999999;
+  return isBSTUtil(t, -inf, inf);
 }
 
+int isBSTUtil(Tree t, int lo, int hi)
+{
+  if (!t) return 1;
+
+  if ((t->val > lo &&
+      t->val < hi) &&
+      isBSTUtil(t->left, lo, t->val) &&
+      isBSTUtil(t->right, t->val, hi))
+    return 1;
+
+  return 0;
+}
 
 /*
  * Medium Questions

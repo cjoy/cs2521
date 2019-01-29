@@ -38,4 +38,17 @@
 
 void splitAtNode(List l, Link n) {
 
+  if (!n || !l->head) return;
+
+  if (l->head == n) {
+    l->head = NULL;
+    return;
+  }
+
+  Link curr = l->head;
+  while (curr->next && curr->next != n) {
+    curr = curr->next;
+  }
+  
+  curr->next = NULL;
 }

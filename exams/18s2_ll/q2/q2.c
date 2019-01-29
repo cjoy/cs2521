@@ -29,6 +29,24 @@
 #include "q2.h"
 
 int isPalindrome(List l) {
-	return FALSE;
+	if (l->head == l->tail)
+    return TRUE;
+
+  if (l->head->value != l->tail->value)
+    return FALSE;
+
+  if (l->head->next == l->tail && l->tail->prev == l->head)
+    return TRUE;
+
+  List t = malloc(sizeof(*t));
+
+  t->head = l->head->next;
+  t->tail = l->tail->prev;
+
+  int result = isPalindrome(t);
+
+  free (t);
+
+	return result;
 }
 
