@@ -55,6 +55,7 @@ static tree_node *partition (tree_node *t, size_t pos);
 
 // Display and info functions
 static ssize_t tree_height_recursive (tree_node *n);
+static size_t tree_size_recursive (tree_node *n);
 static void dump (tree_node *n, size_t level, size_t max_level);
 
 static void unimplemented (void) __attribute__((noreturn));
@@ -87,6 +88,9 @@ tree *tree_new (enum tree_strategy balance_strategy)
 	return new;
 }
 
+// static tree_node *insert_at_root (tree_node *curr, Item item);
+// static tree_node *insert_random (tree_node *curr, Item item);
+// static tree_node *insert_splay (tree_node *tree, Item item);
 
 // TODO: YOU NEED TO MODIFY THIS FOR TASK 2
 //
@@ -102,7 +106,17 @@ void tree_insert (tree *tree, Item it)
 	case NO_REBALANCE:
 		tree->root = insert_normal (tree->root, it);
 		break;
-
+	case REBALANCE_1:
+		tree->root = insert_at_root (tree->root, it);
+		break;
+	case REBALANCE_100:
+	case REBALANCE_1000:
+	case RANDOMISED:
+		tree->root = insert_random (tree->root, it);
+		break;
+	case SPLAY:
+		tree->root = insert_splay (tree->root, it);
+		break;
 	default:
 		printf ("STRATEGY NOT IMPLEMENTED\n");
 		exit (1);
@@ -291,28 +305,36 @@ bool search_normal (tree_node *t, Key k)
 
 // This function does not update size.
 // TODO: YOU MUST FIX THIS
-static tree_node *rotate_left (tree_node *curr)
+static tree_node *rotate_left (tree_node *n2)
 {
-	if (curr == NULL || curr->right == NULL)
-		return curr;
+	if (n2 == NULL || n2->right == NULL)
+		return n2;
 
-	tree_node *rotated_left = curr->right;
-	curr->right = rotated_left->left;
-	rotated_left->left = curr;
-	return rotated_left;
+	tree_node *n1 = n2->right;
+	n2->right = n2->left;
+	n1->left = n2;
+
+	n1->size = tree_size_recursive (n1);
+	n2->size = tree_size_recursive (n2);
+
+	return n1;
 }
 
 // This function does not update size.
 // TODO: YOU MUST FIX THIS
-static tree_node *rotate_right (tree_node *curr)
+static tree_node *rotate_right (tree_node *n1)
 {
-	if (curr == NULL || curr->left == NULL)
-		return curr;
+	if (n1 == NULL || n1->left == NULL)
+		return n1;
 
-	tree_node *rotated_right = curr->left;
-	curr->left = rotated_right->right;
-	rotated_right->right = curr;
-	return rotated_right;
+	tree_node *n2 = n1->left;
+	n1->left = n2->right;
+	n2->right = n1;
+
+	n1->size = tree_size_recursive (n1);
+	n2->size = tree_size_recursive (n2);
+
+	return n2;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -440,6 +462,13 @@ static ssize_t tree_height_recursive(tree_node *n)
 	);
 }
 
+static size_t tree_size_recursive (tree_node *n)
+{
+	if (n == NULL) return 0;
+	return 1
+		+ tree_size_recursive (n->left)
+		+ tree_size_recursive (n->right);
+}
 
 // Tree display functions
 // ---------------------------------------------------------------------
