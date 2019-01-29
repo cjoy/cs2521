@@ -1,0 +1,1 @@
+TIME="$(sh -c " ./gen 2000000 D | time --format="%U" ./quicksort -pm -q > /dev/null" 2>&1)"
