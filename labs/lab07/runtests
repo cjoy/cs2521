@@ -14,7 +14,7 @@ do
 	do
 		for size in "${sizes[@]}"
 		do
-			echo "./gen order items=$size | ./qsort $option"
+			echo "gen order=$order items=$size | qsort $option"
 			sum=0
 			for ((t=1; t<=repeat; t++))
 			do
