@@ -6,70 +6,114 @@
   * Singly Linked List: `next`
   * Doubly Linked List: `next` `prev`
 
-## Struct
-```C
-typedef struct node *Link;
-typedef struct node {
-  Item data;
-  link next;
-} node;
+# Stacks
 
-// Allocating memory
-link x = malloc (sizeof *x);
-link y = malloc (sizeof (node));
+# Queues
 
-// Wrong allocation
-link z = malloc (sizeof (link));
-```
 
-## Traversal
-```C
-link curr = ...
-for (; curr; curr = curr->next)
-  // do something
-```
+# Analysis 
+* Emperical: executing and measuring
+* Theoretical: proving and deriving
 
-## Insert
-```C
-// Insert new node at the front of a list
-link insert_front (link list, link new)
-{
-  new->next = list;
-  return new;
-}
+* Factors:
+  - Correctness: returns expected output
+  - Robustness: behaves sensibly for non-valid inputs
+  - Efficiency: returns results reasonably quickly
+  - Clarity: clear code
+  - Consistency: interface is clear & consistent
 
-// Insert new node at the back of a list
-link insert_back (link list, link new)
-{
-  link curr = list;
-  for (; curr; curr = curr->next)
-  curr->next = new;
-  return list;
-}
+* We will only focus on **correctness** and **efficiency**.
 
-// Why wont this work?
-void insert_front (link list, link new);
-// Because we loose track of what the reference
-// to the head is.
-```
+## Testing (Correctness)
+* Postel's Robustness Principle: *"Be conservative in what you do; be liberal in what you accept from others"*
 
-## Delete an item from the list
-* Deleting is awkward as we have to keep track of the previous node
-* We may need to traverse the whole list to find the predecessor and that's if we even have a reference to the head
+* TDD (Test Driven Development): write tests first, then write the function & repeat
+* Regression testing: Keep a test suite and always run the tests after each update to the program
 
-# Doubly Linked Lists
-## Struct
-```C
-typedef struct dnode *dlink;
-typedef struct dnode {
-  Item data;
-  dlink prev, next;
-} dnode;
-```
-* Moving forward and backward in such a list
-* Delete node in a constant number of steps
-  - Deleting nodes is is easier and more efficient
-  - 2x pointer manipulation necessary for most list operations
-  - memory overheads in storing an additional pointer
+* Black-box testing: checks behaviour using only the interface
+* White-box testing: checks internal behaviour
 
-# 
+## Complexity (Efficency)
+* Alorithm runtime tends to be a function of input size
+* Focus on asymptotic worst-case execution time
+* Take into account all possible input ranges
+* Cases: **Best Case**  **Average Case** **Worst Case**
+* Binary search example:
+  * start at middle for sorted list
+    * is the middle the key? if not continue
+  * if item is less, we search in left range (lo, mid)
+  * otherwise, we search in right range (mid+1, hi)
+* Best case: O(1) ~ middle value
+* Worst case:
+  * t(N) = 1 + t(N/2) = log(N) + 1
+  * ~ O(log n)
+
+* O(1) < O(log n) < O(n) < O(n log n) < O (n^2) < O(n^3) < O (n!) < O(2^n)
+
+* Tractable: have a polynomial time ('P') algorithm
+* Intractable: no tractable algorithm exists (usually 'NP')
+* Non-computable: no algorithm exists
+
+# Recursion
+* Base case (or stopping case): where no recursive call is needed
+* Recursive case: calls the function on a smaller version of the problem.
+
+# Trees
+* Trees are branches data structures of nodes and edges with no cycles.
+* Each node contains a value
+* Each node has edges <=k other nodes (k = 2 for binary trees)
+* Trees can be viewed as set of nested structures
+* Values in the left subtree has to be less than the node value
+* Vice versa for right subtree.
+* Degenerate: if height is at most n-1
+* Balanced:
+    - Size: |size(L) - size(R)| < 2
+    - Height: |height(L) - height(R)| < 2
+
+
+# Priority Queue (Heaps)
+
+# Graphs
+* Models relationship between items
+* A graph G is a set of vertices V and edges E
+- E := {(v,w) | v,w is an element of V, (v,w) is an element of V X V}
+- Basically a set of edges [(v,w)]
+![Graph Types](./img/gtypes.png)
+
+* Simple graphs
+- a set of vertices
+- a set of undirected edges
+- no self loops
+- no parallel edges
+
+* Sparcity vs Density
+- Sparcity ~ less connections between nodes
+  - |E| -> |V|^2
+- Density ~ more connections between nodes
+  - |V| ~> |V|
+
+# Sorting
+## Bubble Sort
+
+## Selection Sort
+
+## Insertion Sort
+
+## Shell Sort
+
+## Merge Sort
+* Divide and conquer
+
+## Quick Sort
+* Divide and conquer
+
+## Key-Indexed
+* Non-comparison
+
+## Heap
+* Non-comparison
+
+## Radix Sort
+* Non-comparison
+
+# Balanced Trees
