@@ -305,36 +305,36 @@ bool search_normal (tree_node *t, Key k)
 
 // This function does not update size.
 // TODO: YOU MUST FIX THIS
-static tree_node *rotate_left (tree_node *n2)
+static tree_node *rotate_left (tree_node *root)
 {
-	if (n2 == NULL || n2->right == NULL)
-		return n2;
+	if (root == NULL || root->right == NULL)
+		return root;
 
-	tree_node *n1 = n2->right;
-	n2->right = n2->left;
-	n1->left = n2;
+	tree_node *rotated_left = root->right;
+	root->right = root->left;
+	rotated_left->left = root;
 
-	n1->size = tree_size_recursive (n1);
-	n2->size = tree_size_recursive (n2);
+	// rotated_left->left->size = rotated_left->left->left->size + rotated_left->left->right->size +1;
+	// rotated_left->size = rotated_left->left->size + rotated_left->right->size + 1;
 
-	return n1;
+	return rotated_left;
 }
 
 // This function does not update size.
 // TODO: YOU MUST FIX THIS
-static tree_node *rotate_right (tree_node *n1)
+static tree_node *rotate_right (tree_node *root)
 {
-	if (n1 == NULL || n1->left == NULL)
-		return n1;
+	if (root == NULL || root->left == NULL)
+		return root;
 
-	tree_node *n2 = n1->left;
-	n1->left = n2->right;
-	n2->right = n1;
+	tree_node *rotated_right = root->left;
+	root->left = rotated_right->right;
+	rotated_right->right = root;
 
-	n1->size = tree_size_recursive (n1);
-	n2->size = tree_size_recursive (n2);
+	// rotated_right->right->size = rotated_right->right->left->size + rotated_right->right->right->size + 1;
+	// rotated_right->size = rotated_right->right->size+ rotated_right->left->size+1;
 
-	return n2;
+	return rotated_right;
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -92,6 +92,18 @@
 - Density ~ more connections between nodes
   - |V| ~> |V|
 
+* Subgraph: subset of vertices and associate edges
+* Path: Sequence of connected vertices ie [(v,e) elem 1]
+* Simple path: no repeating vertices
+* Cycle: path with start and end vertex as the same.
+* Connected graph: a path exists from every node to every other node
+* Tree: connected graph with no cycles
+* Connected components: set of connected subgraphs
+* Spanning tree: (of graph) subgraph that connects all its verteces
+  * MST: spanning tree that has the least total weight
+* Spanning forest: (of graph) subgraph that contains all its vertices and is a set of trees
+* Clique: complete subgraph
+
 # Sorting
 ## Bubble Sort
 
@@ -117,3 +129,5 @@
 * Non-comparison
 
 # Balanced Trees
+
+# Hash Tables
