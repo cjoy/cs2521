@@ -637,6 +637,41 @@ Show the concrete data structures if the graph was implemented via:
 1. adjacency matrix representation (assume full V×V matrix)
 2. adjacency list representation (if non-directional, include both (v,w) and (w,v))
 
+## Answer
+* Adjacency matrix representation (Graph 1)
+  0 1 2 3 4 5
+0 0 1 0 0 0 1 
+1 1 0 0 0 0 1
+2 0 0 0 0 0 1
+3 0 0 0 0 0 1
+4 0 0 0 0 0 1
+5 1 1 1 1 1 0
+
+* Adjacency list representation  (Graph 1)
+0 -> 1, 5
+1 -> 0, 5
+2 -> 5
+3 -> 5
+4 -> 5
+5 -> 0, 1, 2, 3, 4, 5
+
+* Adjacency matrix representation (Graph 2)
+  0 1 2 3 4 5
+0 0 1 0 0 0 0
+1 0 0 0 0 0 1
+2 0 0 0 0 0 0
+3 0 0 0 0 0 1
+4 0 0 0 0 0 0
+5 1 1 1 1 1 1
+
+* Adjacency list representation (Graph 2)
+0 -> 1
+1 -> 5
+2 -> 
+3 -> 5
+4 -> 
+5 -> 0, 1, 2, 3, 4, 5
+
 # Ivy League
 Consider the following map of streets in the Sydney CBD:
 ![Sydney CBD](SydneyCBD.png)
@@ -660,6 +695,11 @@ For each of the following pairs of intersections, indicate whether there is a pa
 # Paths and Tours
 What is the difference between a Euler path/tour and a Hamilton path/tour? Identify any Euler/Hamilton paths/tours in the following graphs:
 ![Euler Hamilton](euler-hamilton.png)
+## Answer
+- Euler path: 
+- Euler tour: 
+- Hamilton path: 
+- Hamilton tour: 
 
 Write a function to check whether a path, supplied as an array of edges, is an Euler path.
 
