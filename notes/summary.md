@@ -105,9 +105,9 @@ struct node {
 
 * Sparcity vs Density
 - Sparcity ~ less connections between nodes
-  - |E| -> |V|^2
+  - |E| approach |V|^2
 - Density ~ more connections between nodes
-  - |V| ~> |V|
+  - |V| approach |V|
 
 * Subgraph: subset of vertices and associate edges
 * Path: Sequence of connected vertices ie [(v,e) elem 1]
@@ -120,13 +120,18 @@ struct node {
   * MST: spanning tree that has the least total weight
 * Spanning forest: (of graph) subgraph that contains all its vertices and is a set of trees
 * Clique: complete subgraph
+* Euler and Hamilton Paths and Tours
+  - **Euler path**: path in graph that visits every edge exactly once. Starts and ends with different vertices.
+  - **Euler tour**: path in graph that uses every edge of a exactly once. Starts and ends on same vertex.
+  - **Hamilton path**: path in graph that visits each vertex exactly once.
+  - **Hamilton tour**: hamiltonian path that's a cycle.
 
 # Sorting
 ## Bubble Sort
 * Steps:
   1. Swap adjacent nodes if left > right
   2. Repeat the above
-* best: Ω(n^2)  -- EE:O(n)
+* best: Ω(n^2) ~ EE: O(n)
 * worst: O(n^2)
 * stable / in place
 

@@ -696,10 +696,10 @@ For each of the following pairs of intersections, indicate whether there is a pa
 What is the difference between a Euler path/tour and a Hamilton path/tour? Identify any Euler/Hamilton paths/tours in the following graphs:
 ![Euler Hamilton](euler-hamilton.png)
 ## Answer
-- Euler path: 
-- Euler tour: 
-- Hamilton path: 
-- Hamilton tour: 
+- Euler path: path in graph that visits every edge exactly once. Starts and ends with different vertices.
+- Euler tour: path in graph that uses every edge of a exactly once. Starts and ends on same vertex.
+- Hamilton path: path in graph that visits each vertex exactly once.
+- Hamilton tour: hamiltonian path that's a cycle.
 
 Write a function to check whether a path, supplied as an array of edges, is an Euler path.
 
