@@ -7,8 +7,25 @@
   * Doubly Linked List: `next` `prev`
 
 # Stacks
+* LIFO (Last In First Out) data structure
+* List implementation:
+```C
+struct stack {
+    struct node *head;
+    struct node *tail;
+    size_t size;
+};
+
+struct node {
+    Item item;
+    struct node *next;
+}
+```
+- Push: Append node to head of the list ~ O(1)
+- Pop: Remove and return head ~ O(1)
 
 # Queues
+* FIFO (First In First Out) data structure
 
 
 # Analysis 
@@ -67,8 +84,8 @@
 * Vice versa for right subtree.
 * Degenerate: if height is at most n-1
 * Balanced:
-    - Size: |size(L) - size(R)| < 2
-    - Height: |height(L) - height(R)| < 2
+  - Size: |size(L) - size(R)| < 2
+  - Height: |height(L) - height(R)| < 2
 
 
 # Priority Queue (Heaps)
@@ -106,8 +123,20 @@
 
 # Sorting
 ## Bubble Sort
+* Steps:
+  1. Swap adjacent nodes if left > right
+  2. Repeat the above
+* best: Ω(n^2)  -- EE:O(n)
+* worst: O(n^2)
+* stable / in place
 
 ## Selection Sort
+* Steps:
+  1. Look for smallest items from i+1 to n
+  2. swap i+1 with min (found min index)
+  3. repeat the above with i++
+* best: O(n^2)
+* worst: O(n^2)
 
 ## Insertion Sort
 
@@ -124,10 +153,19 @@
 
 ## Heap
 * Non-comparison
+* Steps:
+  1. Add all items to pqueue.
+  2. Remove items from pqueue into original array.
+* best: Ω(n log(n))
+* worst: O(n log(n))
+* not stable
 
 ## Radix Sort
 * Non-comparison
 
 # Balanced Trees
+* Size balanced: |size(t.L) - size(t.R)| < 2
+* height balanced: |height(t.L) - height(t.R)| < 2
+
 
 # Hash Tables
