@@ -57,11 +57,10 @@ void hash_table_print_stats (hash_table *ht)
 {
 	assert (ht != NULL);
 	printf ("Hash Table Stats:\n");
-	printf ("Number of slots = %d\n", 0); // TODO
-	printf ("Number of items = %d\n", 0); // TODO
+	printf ("Number of slots = %d\n", ht->nslots);
+	printf ("Number of items = %d\n", ht->nitems);
 	printf ("Chain length distribution\n");
 	printf ("%8s %8s\n", "Length", "#Chains");
-	// TODO .. rest of function to show length/freq pairs
 }
 
 // Insert a new value into the HashTable.

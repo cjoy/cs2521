@@ -314,9 +314,6 @@ static tree_node *rotate_left (tree_node *root)
 	root->right = root->left;
 	rotated_left->left = root;
 
-	// rotated_left->left->size = rotated_left->left->left->size + rotated_left->left->right->size +1;
-	// rotated_left->size = rotated_left->left->size + rotated_left->right->size + 1;
-
 	return rotated_left;
 }
 
@@ -330,12 +327,50 @@ static tree_node *rotate_right (tree_node *root)
 	tree_node *rotated_right = root->left;
 	root->left = rotated_right->right;
 	rotated_right->right = root;
-
-	// rotated_right->right->size = rotated_right->right->left->size + rotated_right->right->right->size + 1;
-	// rotated_right->size = rotated_right->right->size+ rotated_right->left->size+1;
-
+	
 	return rotated_right;
 }
+
+// static tree_node *rotate_right (tree_node *curr)
+// {
+// 	if (curr == NULL || curr->left == NULL)
+// 		return curr;
+
+// 	tree_node *rotated_right = curr->left;
+// 	// TODO:
+// 	tree_node *left_left = curr->left->left;
+// 	size_t left_left_size = 0;
+// 	if (left_left != NULL) 
+// 	    left_left_size = left_left->size;
+// 	size_t rotated_right_original_size = rotated_right->size;
+// 	rotated_right->size = curr->size;
+// 	curr->size = curr->size - (1 + left_left_size);
+	
+// 	curr->left = rotated_right->right;
+// 	rotated_right->right = curr;
+// 	return rotated_right;
+// }
+
+
+// static tree_node *rotate_left (tree_node *curr)
+// {
+// 	if (curr == NULL || curr->right == NULL)
+// 		return curr;
+
+// 	tree_node *rotated_left = curr->right;
+// 	// TODO:
+// 	tree_node *right_right = curr->right->right;
+// 	size_t right_right_size = 0;
+// 	if (right_right != NULL) 
+// 		right_right_size = right_right->size;
+// 	size_t rotated_left_original_size = rotated_left->size;
+// 	rotated_left->size = curr->size;
+// 	curr->size = curr->size - (1 + right_right_size);
+	
+// 	curr->right = rotated_left->left;
+// 	rotated_left->left = curr;
+// 	return rotated_left;
+// }
 
 ////////////////////////////////////////////////////////////////////////
 // Tree balancing functions

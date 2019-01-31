@@ -172,5 +172,17 @@ struct node {
 * Size balanced: |size(t.L) - size(t.R)| < 2
 * height balanced: |height(t.L) - height(t.R)| < 2
 
+* Amortisation: reducing average work over time 
 
 # Hash Tables
+
+* Collision Resolution
+- Chaining
+  - Using a linked list
+  - Using a tree (a bit more efficent O(log n) search)
+
+- Linear Probing
+- Double Hashing
+  - If key already exists, hash again and add the new value to the incremented index (ie. index = hash1(key) + hash2(key))
+- Resize table
+  - You'll need to rehash and insert into table again.
