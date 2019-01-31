@@ -1,5 +1,6 @@
 # COMP2521 19T0 ... lab 8 makefile
 
+# CC	 = 2521 3c
 CC	 = 3c
 
 .PHONY: all
@@ -11,8 +12,8 @@ words:		words.o Tree.o Item.o
 words.o:	words.c Tree.h Item.h
 Tree.o:		Tree.c Tree.h Item.h
 
-words2:		CFLAGS+=-pg
-words2:		LDFLAGS+=-pg
+# words2:		CFLAGS+=-pg
+# words2:		LDFLAGS+=-pg
 words2:		words2.o HashTable.o List.o Item.o
 words2.o:	words2.c HashTable.h Item.h
 HashTable.o:	HashTable.c HashTable.h Item.h List.h

@@ -39,7 +39,7 @@ int main (int argc, char **argv) {
     sort_quick_m3 (a, 0, n-1, NAIVE);
   } else if (argc >= 2 && strcmp (argv[1], "-pr") == 0) {
     option = "randomised pivot";
-    sort_quick (a, 0, n-1, NAIVE);
+    sort_quick (a, 0, n-1, RANDOM);
   } else {
     puts ("invalid option");
     return EXIT_FAILURE;
