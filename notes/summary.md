@@ -341,12 +341,23 @@ void graph_drop (Graph g);
   * **sink**: a vertex with out-degree 0;
 * **reachability**: indicates existence of directed graph
   * if a direct path `v`,...`w` exists
-  * w is reachable from v
+  * `w` is reachable from `v`.
 * **strongly connected**: 
   * if both paths `v`,...,`w` and `w`,...,`v` exist then `v` and `w` are strongly connected
-* **reachability**: 
-* **reachability**: 
-
+* **strongly connected**: indicates mutual reachability
+  - if both paths `v`,...,`w` and `w`,...,`v` exist
+  - `v` and `w` are strongly connected
+* **strong connectivity**: every vertex reachable from every other vertex
+* **strongly-connected component**: maximal strongly-connected subgraph
+* Representations
+  - Adjacency matrix ... Asymmetrix, sparese, less space efficent
+  - Adjaceny List... Fairly common
+  - Edge lists... Order of edge components matters
+  - Linked data structures.. pointers inherently directional
+  * DAGs: Directed Acyclic Graph
+    - Tree like where each vertex has children
+    - Graph like where child vertex may have multiple parents
+    ![DAG](img/dag.png)
 
 ## Weighted Graphs
 
