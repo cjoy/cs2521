@@ -1,7 +1,7 @@
 typedef struct _node *list;
 struct _node {
     int val;
-    link next;
+    list next;
 };
 
 void list_reverse (list l)

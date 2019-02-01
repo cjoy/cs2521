@@ -164,6 +164,7 @@ struct node {
 
 ## Binary trees
 * A binary tree with n nodes has a height of at most n-1, if degenerate or least floor(log n) if balanced
+* Complete binary tree have hieght ceiling(log n). 
 * Insertion: balanced ~ O(log n), degenerate ~ O(n) ie. have to traverse the tree, like a llist
 * Search / Deletion: balanced ~ O(log n), degenerate O(n)
 * All nodes in left are less than and vice versa
