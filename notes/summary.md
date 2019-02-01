@@ -360,11 +360,61 @@ void graph_drop (Graph g);
     ![DAG](img/dag.png)
 
 ## Weighted Graphs
-
+* Sometimes we need to assign a cost to a relationship between nodes (ie. distances between two map locations)
+* We use geometric interpretation
+  - low weight -> short edge
+  - high weight -> high edge
+* Sometimes weights can be negative
+* Representations
+  * Adj Matrix: store weight in each cell (not just bool)
+    ![Example Weighted Adj Matrix](img/wgraph.png)
+  * Adj List: Add weight attribute to each list node
+  * Edge List: Add weight to each edge
+  * Linked data structure: links become link/weight pairs
+* Shortest path problem: 
+    - Find the minimum cost path between two vertices
+    - Edges may be directed or undirected
+    - Assuming non-negative weights
+* Minimum Spanning Trees
+  - Find the weight-minimal set of edges that connects all vertices
+  - Multiple solutions may exist
+  - Assuming undirected, non-negative weighted graphs
+* Shortest Path Search
+  - **source-target**: shortest path from `v` to `w`
+  - **single-source**: the shortest path from `v` to all other verices
+  - **all-pairs**: the shortest paths for all pairs of `v`, `w`
+  - Note: If no weights we use least hops
+    ![SSSP](img/sssp.png)
+    - Edge relaxation along edge `e` from `s` to `t`:
+      - `dist[s]` is length of some path from `v` to `s`
+      - `dist[t]` is length of some path from `v` to `t`
+      - if `e` gives shorter path `v` to `t` via `s`, update `dist[t]` and `st[t]`.
+      - basically update the distance and spanning tree if a shorter path has been found.
+  - **Complexity**:
+    - Using Adj List: O(E log V)
+    - Using Adj Matrix: O(V^2)
+    - Same as BFS/DFS but using a PQueue
 
 ## MSTs
-### Kruskal
-### Prim
+* Applications:
+  - Routing and network layout
+  - Economical construction of electric power network
+* Kruskal: grow many forests
+  * Algo
+    1. Take all edges and sort according to weight
+    2. For each edge add to new graph, unless it introduces a cycle
+ * Cycle checking is really expensive
+ * Sorting: O(E log E)
+* Prim: Maintain a connectivity frontier
+  * Algo
+    1. Start from any vertex s with an empty MST
+    2. Choose edge not already in MST to add
+        - Must not contain a self-loop
+        - Must connect to a vertex already on MST
+        - Must have minimal weight of all such edges
+    3. Check to see whether adding the new edge brought any of the non-tree vertices closer to the MST
+    4. Repeat until MST has all vertices
+  * Basically dijkstra's SSSP algorithm
 
 ## Computability
 * Hamilton Paths and Tours
@@ -401,7 +451,7 @@ void graph_drop (Graph g);
 * Steps:
   1. Swap adjacent nodes if left > right
   2. Repeat the above
-* best: Ω(n^2) ~ EE: O(n)
+* best: O(n^2) ~ EE: O(n)
 * worst: O(n^2)
 * stable / in place
 
@@ -445,14 +495,56 @@ void graph_drop (Graph g);
 * Amortisation: reducing average work over time 
 
 # Hash Tables
+* Linked list, Tree, etc... have pretty slow insert and search operations
+* They don't take advantage of cache locality
+* Hashing lets us approximate
+    - Arbitrary keys (ie. strings etc)
+    - Map key tointo a compact range of index values
+    - Store items in array, accessed by index value
+    - O(1)
+* What we need
+  - Array of items
+  - Hash function: hash(key) -> index
+  - Collision resolution method (ie. when value already exists for given key)
+* Properties we want for the hasing function, `h`:
+  - For a table size `N`, output range is `0` to `N-1`
+  - pure, deterministic `h(k,N)` ~ ie. gives same result
+  - spreads key values uniformly over index range
+  - cheap (enough) to compute
+* Other properties we need for `h`:
+  - Pre-image resistant: `h=HASH(M)`, given h, hard to pick `m`
+  - Second pre-image resistant: for `HASH(m1) = HASH(m2)`, given `m1`, it's hard to find `m2`
+  - Collision resistant: hard to find `m1` and `m2`
+* What if two keys hash to the same index?
+  - Allow for multiple items in a single location?
+  - Systematically compute new indices by various probing strategies
+  - Resize the array by adjusting hashing function, and rehash all values into new array
+* Given `N` slots and `M` items:
+  * best case: all lists have length `M/N`
+  * worst case:  one list with length `M`, all other 0
+* With good hash and `M <= N`, cost `O(1)`
+* With good hash and `M > N`, cost `O(M/N)`
+* `M/N` ratio is called **load**
 
 * Collision Resolution
-- Chaining
-  - Using a linked list
-  - Using a tree (a bit more efficent O(log n) search)
-
-- Linear Probing
-- Double Hashing
-  - If key already exists, hash again and add the new value to the incremented index (ie. index = hash1(key) + hash2(key))
-- Resize table
-  - You'll need to rehash and insert into table again.
+  - Chaining
+    - Using a linked list
+    - Using a tree (a bit more efficent O(log n) search)
+  - Linear Probing
+    - If table is not close to being full, there are still many empty slots, we could just use the next available slot along
+      - to reach first item: O(1)
+      - to reach subsequent items, depends on `load`
+      - worst case: O(N)
+  - Double Hash Probing
+    - If key already exists, hash again and add the new value to the incremented index (ie. index = hash1(key) + hash2(key))
+    - Hash1 to Hash2 should be relatively prime to each other, and to N
+    - Faster than linear probing
+  - Resize table
+    - You'll need to rehash and insert into table again.
+* Performance:
+  - Good HASH function is critical
+  - Choosing a good N for M is critical (ie. managing the load)
+  - Choosing a good resolution approach is critical
+    - Linear probing is fastest, given big N!
+    - Double hasing: faster for higher load, more efficient
+    - Chaining: pssible for loads that are greater than 1, but degenerates
