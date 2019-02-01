@@ -1,12 +1,12 @@
 # ADTs
 * ADT Interfaces:
--  Opaque view of a data structure (eg. `typedef struct t *T`, we don't know `struct t`)
--  Function signatures for all operations
--  Semantics of operations (via documentation, etc)
-- A contract between ADT and clients
+  -  Opaque view of a data structure (eg. `typedef struct t *T`, we don't know `struct t`)
+  -  Function signatures for all operations
+  -  Semantics of operations (via documentation, etc)
+  - A contract between ADT and clients
 * ADT implementations
-- Concrete defintion of the data structures
-- Function implementations for all operations
+  - Concrete defintion of the data structures
+  - Function implementations for all operations
 
 # Linked Lists
 * A sequence of collection of 'nodes' holding value + pointer(s)
@@ -24,35 +24,37 @@
 
 # Stacks
 * LIFO (Last In First Out) data structure
-* List implementation:
-```C
-struct stack {
-    struct node *head;
-    struct node *tail;
-    size_t size;
-};
 
-struct node {
-    Item item;
-    struct node *next;
-}
-```
-- Push: Append node to head of the list ~ O(1)
-- Pop: Remove and return head ~ O(1)
+* List implementation:
+  - Push: Append node to head of the list ~ O(1)
+  - Pop: Remove and return head ~ O(1)
+    ```C
+    struct stack {
+        struct node *head;
+        struct node *tail;
+        size_t size;
+    };
+
+    struct node {
+        Item item;
+        struct node *next;
+    }
+    ```
 
 * Array Implementation
-```C
-struct stack {
-    int top;
-    Item *items;
-};
-```
-- Allocate an array with a maximum number of elements
-- Fill items sequentially
-- Maintain a counter of the number of pushed / popped items (ie. the top)
-- Push: Increment top and set new top array index to value ~ O(1)
-- Pop: Decrement top and return the last hightest value
-- Disadvantage: Fixed size stack (Unless it's a dyanamically growing array)
+  - Allocate an array with a maximum number of elements
+  - Fill items sequentially
+  - Maintain a counter of the number of pushed / popped items (ie. the top)
+  - Push: Increment top and set new top array index to value ~ O(1)
+  - Pop: Decrement top and return the last hightest value
+  - Disadvantage: Fixed size stack (Unless it's a dyanamically growing array)
+    ```C
+    struct stack {
+        int top;
+        Item *items;
+    };
+    ```
+
 
 # Queues
 * FIFO (First In First Out) data structure
@@ -108,17 +110,18 @@ struct node {
   * t(N) = 1 + t(N/2) = log(N) + 1
   * ~ O(log n)
 
-* O(1) < O(log n) < O(n) < O(n log n) < O (n^2) < O(n^3) < O (n!) < O(2^n)
-* Complexity Classes
-- O(1)          - Constant - Constant time execution, independant of input size.
-- O(log n)      - Logarithmic - Some divide-and-conquer algorithms with trivial split/recombine operations.
-- O(n)          - Linear - Every element of the input has to be processed
-- O(n log n)    - n-log-n - Divide and conquer algorithms, where split / recombine is proportional to input
-- O(n^2)        - Quadratic - Compute every input with every other input
-- O(n^3)        - Cubic - misery
-- O(n!)         - Factorial - what the...
-- O(2^n)        - Exponential - nope
 
+* Complexity Classes
+  - O(1)          - Constant - Constant time execution, independant of input size.
+  - O(log n)      - Logarithmic - Some divide-and-conquer algorithms with trivial split/recombine operations.
+  - O(n)          - Linear - Every element of the input has to be processed
+  - O(n log n)    - n-log-n - Divide and conquer algorithms, where split / recombine is proportional to input
+  - O(n^2)        - Quadratic - Compute every input with every other input
+  - O(n^3)        - Cubic - misery
+  - O(n!)         - Factorial - what the...
+  - O(2^n)        - Exponential - nope
+* O(1) < O(log n) < O(n) < O(n log n) < O (n^2) < O(n^3) < O (n!) < O(2^n)
+  
 * N^2 Algo ie. when N=1000 takes 1.2seconds, how long for
   - N=2000      x2      ->   x4         4.8 seconds
   - N=10,000    x10     ->   x100       120 seconds
@@ -239,26 +242,148 @@ struct node {
 * Tree: connected graph with no cycles
 ![Connected](./img/connected.png)
 
-* Connected components: set of connected subgraphs
-
+* Connected components: a graph that's not connected, consisting of a set of connected components.
+  - ie. maximally connected subgraphs
+![Components](./img/components.png)
 
 * Spanning tree: (of graph) subgraph that connects all its verteces
 * Minimum spanning tree: spanning tree that has the least total weight
 * Spanning forest: (of graph) subgraph that contains all its vertices and is a set of ›trees
+![Spanning](./img/spanning.png)
+
 * Clique: complete subgraph
+![Clique](./img/clique.png)
 
 
+## Graph Representation
+* Adjacency Matrix: |V| X |V| matrix; each cell represents an edge
+![Undirected / Directed](./img/graph_rep.png)
+![Adj Matrix](./img/graph_rep_adj.png)
+ - Advantages:
+   - Easy to implement
+   - Words for graph, digraphs, weighted fraphs, multigraphs
+   - Time efficient
+ - Disadvantage
+   - Huge space: V^2
+   - Sparce graphs ~> wasted space!
+   - undirected graph ~> wasted space!
+   - Inefficent initialiseation / vertex- insert/delete
+
+* Adjacency List
+![Adj List](./img/graph_rep_list.png)
+
+Operation | Matrix | List
+--- | --- | ---
+Space | V^2 | V + E
+Initialise | O(V^2) | O(V)
+Destroy | O(V) | O(E)
+Insert Edge | O(1) | O(V)
+Find / Remove Edge | O(1) | O(V)
+Is Isolated | O(V) | O(1)
+Degree | O(V) | O(E)
+Is Adjaceny | O(1) | O(V) 
+
+* Graph ADT
+```C
+typedef struct graph *Graph;
+
+/** A concrete edge type. */
+typedef struct edge { vertex v, w; weight n; } edge;
+
+/** Create a new instance of a Graph. */
+Graph graph_new (
+    size_t max_edges, /**< maximum value hint */
+    size_t max_vertices, /**< maximum value hint */
+    bool directed, /**< true if a digraph */
+    bool weighted /**< true if edges have weight */
+);
+
+/** Deallocate resources used by a Graph. */
+void graph_drop (Graph g);
+```
+
+## Graph Search (DFS / BFS)
+* Problem: Does a path exist between vertex v and w?
+* Generic Solution
+  - Examine vertices adjacent to `v`;
+  - if any of them is `w`, we're done
+  - otherwise, check all the adjacent vertices and repeat util we reach `w`
+
+* Simple pattern:
+   - Create a structure that will tell us what node to visit next.
+   - Add the starting node to that structure
+   - While that structure is not empty
+     - Get the next vertex from that structure
+     - Mark that node as visited (if it isn't visited)
+     - Add Neighbours to the structure
+
+* Depth First Search (DFS): Longest paths first ~ uses a `Stack` 
+  * Keep track of
+    - `count`: number of verticies traversed so far
+    - `pre`: order in which vertices were visited
+    - `st`: predecessor of each vertex (for spanning tree)
+  * Edges traversed in all graph walks form a `spanning tree`, which has
+    * edges corresponding to call-tree of recursive function
+    * is the original graph sans cycles / alternate graph
+    * in general, spanning tree has all vertices and a minimal set of edges to produce a connected graph (ie. no loops, cycles, parallel edges)
+  * If a graph is not connected, `DFS` will produce a spanning tree
+  * An edge connecting a vertex with an ancestor in the DFS tree that is not its parent is a `back edge` 
+* Breath First Search (BFS): Adjacent nodes first ~ uses a `Queue` 
+* Dikstra: Lowest-cost paths first
+
+## Directed Graphs
+* v -> w 
+* eg. follow on twitter / instagram
+* In a digraph, edges have direction, self-loops are allowed, parallel edges are allowed
+* **in-degree**: number of directed edges leading into a vertex
+  * **source**: a vertex with a in-degree 0;
+* **out-degree**: number of directed edges leading out of a vertex
+  * **sink**: a vertex with out-degree 0;
+* **reachability**: indicates existence of directed graph
+  * if a direct path `v`,...`w` exists
+  * w is reachable from v
+* **strongly connected**: 
+  * if both paths `v`,...,`w` and `w`,...,`v` exist then `v` and `w` are strongly connected
+* **reachability**: 
+* **reachability**: 
 
 
+## Weighted Graphs
 
-* Euler and Hamilton Paths and Tours
-  - **Euler path**: path in graph that visits every edge exactly once. Starts and ends with different vertices.
-  - **Euler tour**: path in graph that uses every edge of a exactly once. Starts and ends on same vertex.
+
+## MSTs
+### Kruskal
+### Prim
+
+## Computability
+* Hamilton Paths and Tours
   - **Hamilton path**: path in graph that visits each vertex exactly once.
   - **Hamilton tour**: hamiltonian path that's a cycle.
+  - BRUTE FORCE! enumerate every possible path, and check each one
+    - Hack a BFS or DFS to do it
+    - Keep a counter of vertices visited in current path
+    - Only accept a path if count is equal to the number of verticies
+    - Must inspect every possible path in graph = (V/e)^V
+    - NP problem (non-deterministic polynomial)
 
+* Euler Paths and Tours
+  - **Euler path**: path in graph that visits every edge exactly once. Starts and ends with different vertices.
+  - **Euler tour**: path in graph that uses every edge of a exactly once. Starts and ends on same vertex.
+  - Can be found in linear time
 
+* Tractable Problems
+  - can we find a simple path connecting two vertices in a graph?
+  - What's the shortest path?
+  - Given two colors, can we colour every vertex in a graph such that no two adjacent vertices are the same colour?
+  - Is there a clique in a given graph?
 
+* Intractable Problems
+  - What's the longest path
+  - Given three colors, can we colour every vertex in a graph such that no two adjacent vertices are the same colour?
+  - What's the largest clique
+
+* Graph Isomorphism: Can we make two given graphs identical by renaming verticies?
+  * No general solution exists...
 
 # Sorting
 ## Bubble Sort
