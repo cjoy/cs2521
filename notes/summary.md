@@ -173,11 +173,30 @@ struct node {
 ## Tree Traversals
 * Depth First:
   - Pre-order traversal (NLR)
-  - In-order traversal (LNR)
+  - In-order traversal (LNR) - visits elements in sorted order - when tree is a BST.
   - Post-order traversal (LRN)
 * Breath First:
   - Level-order traversal: visit node and all its children 
     - ie. Like a BFS, where you use a queue
+    - basically visits each level from left to right
+    - use a queue
+    ```C
+    void tree_level_order_traversal (Tree t)
+    {
+        if (!t) return;
+
+        Queue q = newQueue(40);
+        QueueJoin(q, t);
+        while (!QueueIsEmpty(q)) {
+            Item n = QueueLeave(q);
+            printf("%d ", n->item);
+            if (n->left) QueueJoin(q, n->left);
+            if (n->right) QueueJoin(q, n->right);
+        }
+
+        dropQueue(q);
+    }
+    ```
 
 # Priority Queue (Using Heaps)
 * Process in order of key or priority.
