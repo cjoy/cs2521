@@ -70,5 +70,20 @@ void insertHashTable(HashTable ht, int val)
 // double the number of slots/chains in a hash table
 void expand(HashTable ht)
 {
-   return; //TODO
+   // create a new hash table with x2 slots
+   HashTable nt = newHashTable(ht->nslots * 2);
+   // insert keys into has new table
+   for (int i = 0; i < ht->nslots; i++) {
+      int *nvals = 0;
+      int *values = valuesFromList(ht->chains[i], nvals);
+      if (*nvals > 0) {
+         for (int j = 0; j < *nvals; j++) {
+            insertHashTable(nt, values[j]);
+         }
+      }
+      free(values);
+   }
+   dropHashTable(ht);
+   ht = nt;
+   return;
 }

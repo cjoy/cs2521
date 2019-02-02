@@ -454,11 +454,13 @@ void graph_drop (Graph g);
 
 * Euler Paths and Tours
   - **Euler path**: path in graph that visits every edge exactly once. Starts and ends with different vertices.
+    - Exactly two verticies of odd degree
   - **Euler tour**: path in graph that uses every edge of a exactly once. Starts and ends on same vertex.
+    - All verties of even degree
   - Can be found in linear time
 
 * Tractable Problems
-  - can we find a simple path connecting two vertices in a graph?
+  - Can we find a simple path connecting two vertices in a graph?
   - What's the shortest path?
   - Given two colors, can we colour every vertex in a graph such that no two adjacent vertices are the same colour?
   - Is there a clique in a given graph?
@@ -487,7 +489,7 @@ void graph_drop (Graph g);
 * stable / in place
 * Adaptive (Optional - early exit if sorted) ~ best: O(n)
 
-## Selection Sort`
+## Selection Sort
 * Steps:
   1. Select the smallest element.
   2. Swap it with first position.
@@ -574,12 +576,76 @@ void graph_drop (Graph g);
 
 
 # Balanced Trees
-* Size balanced: |size(t.L) - size(t.R)| < 2
-* height balanced: |height(t.L) - height(t.R)| < 2
+* Degenerate trees: height is at most n - 1   <- We're trying to avoid this
+  - Ascending-ordered or descending ordered is a **pathalogical case**
+  ![Degenerate](./img/degenerate.png)
 
-* Amortisation: reducing average work over time 
+* Balanced trees: height is at least log n
+  - Size balanced: |size(t.L) - size(t.R)| < 2
+  - Height balanced: |height(t.L) - height(t.R)| < 2
+    ![Balanced](./img/balance.png)
 
+* Costs for Degenerate
+  - Insertion ~ O(n)
+  - Search / Deletion ~ O(n)
 
+* Costs for Balanced
+  - Insertion ~ O(log n)
+  - Search / Deletion ~ O(log n)
+
+* Right and Left Rotations: primitive operations that change the balance of a tree whilst maintaining a search tree
+![Rotations](./img/rotations.png)
+
+* Partition is a way to brute force some balance into a tree, by lifting some kth index to the root.
+
+* Global rebalancing: move the median node to the root by partitioning on `size / 2`; then left sub tree and right subtree
+```C
+btree_node *btree_balance_global (btree_node *tree)
+{
+    if (tree == NULL) return NULL;
+    if (size (tree) < 2) return tree;
+    tree = partition (tree, size (tree) / 2);
+    tree->left = btree_balance_global (tree->left);
+    tree->right = btree_balance_global (tree->right);
+    return tree;
+}
+```
+* Cost for global rebalancing
+  - Dengerate ~ O(n log n)
+  - Balanced ~ O(n)
+
+* Local rebalancing: do small, incremental operations to improve the overall balance of the tree at the cost of imperfect balance
+
+* Amortisation: do small amount of work now to avoid more work later.
+* Randomisation: use randomness to reduce impact of BST worst cases.
+* Optimisation: maintain structural information for performance.
+
+* Root insertion
+  - How to insert a node at the root without having to rearrage all node?
+  - Do a leaf insertion and rotate the new node up the tree
+  - Same complexity as leaf insertion
+
+* Random insertion
+  - We randomly choose which level to insert a node
+  - Do a normal leaf insetion, most of the time. Random with certain probability
+  - Do a root insertion of a value.
+  - Basically randomly choosing to do a root insertion or note
+  
+## Splay Trees
+* Root insertions can still leave us with a degenerate tree.
+* Splay trees vary root-insertion by considering three levels of the tree
+  - parent, child, grandchild
+  - performs double-rotations based on p-c-g orientation
+  ![Splay](./img/splay.png)
+* Fast ACCESS TO ELEMENTS RECENTLY ACCESSED
+* 
+
+## 2-3-4 Trees
+* 2-nodes have one value and two children
+* 3-nodes have two values and three children
+* 4-nodes have three values and four children
+* 2-3-4 trees grow 'upwards' from the leaves all of which are equidistant to the root.
+* Always balanced; depth is O(log n)
 
 
 # Hash Tables
@@ -636,3 +702,4 @@ void graph_drop (Graph g);
     - Linear probing is fastest, given big N!
     - Double hasing: faster for higher load, more efficient
     - Chaining: pssible for loads that are greater than 1, but degenerates
+

@@ -61,5 +61,18 @@ int insertEdge(Graph g, Vertex from, Vertex to) {
 }
 
 int isEulerPath(Graph g) {
-    return 0;
+    int *degree = calloc(g->nV, sizeof(int));
+    for (Vertex v = 0; v < g->nV; v++) {
+        for (Vertex w = 0; w < g->nV; w++) {
+            if (g->edges[v][w])
+                degree[v] += 1;
+        }
+    }
+    int numOddDegree = 0;
+    for (Vertex v = 0; v < g->nV; v++) {
+        if (degree[v] % 2 != 0)
+            numOddDegree++;
+    }
+
+    return numOddDegree == 2 ? 1 : 0;
 }

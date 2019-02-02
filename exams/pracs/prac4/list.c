@@ -33,38 +33,6 @@ List createList(void) {
 
 /* but do change this! */
 void insertInOrder(List l, Node n) {
-    if (!l->first) {
-        l->first = l->last = n;
-        l->size = 1;
-        return;
-    }
     
-    for (Node curr = l->first; curr; curr = curr->next) {
-        if (curr->data >= n->data) {
-            // insert here
-            curr->prev = n;
-            n->next = curr;
-            if (curr == l->first)
-                l->first = n;
-            l->size += 1;
-            break;
-        }
-        else if (curr->data <= n->data) {
-            // insert here
-            if (curr == l->last) {
-                curr->next = n;
-                n->prev = curr;
-                l->last = n;
-            }
-            else {
-                n->prev = curr;
-                n->next = curr->next;
-                curr->next = n;
-                curr->next->prev = n;
-            }
-            l->size += 1;
-            break;
-        }
-    }
 
 }
