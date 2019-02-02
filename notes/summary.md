@@ -197,6 +197,11 @@ struct node {
         dropQueue(q);
     }
     ```
+* Tree successors (In order)
+    - Case 1: node has right subtree
+      -  Find the minimum (left most value) of the right sub tree
+    - Case 2: no right subtree
+      - TODO!! https://www.youtube.com/watch?v=5cPbNCrdotA&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=38&t=0s
 
 # Priority Queue (Using Heaps)
 * Process in order of key or priority.
