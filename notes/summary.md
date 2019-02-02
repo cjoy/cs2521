@@ -472,34 +472,87 @@ void graph_drop (Graph g);
   * No general solution exists...
 
 # Sorting
+* Analysing sorting algorithms:
+    - N: number of items (hi + lo + 1)
+    - C: number of comparisons between items
+    - S: the number of times items are swappped
+* Aim to minimise C and S
+
 ## Bubble Sort
 * Steps:
   1. Swap adjacent nodes if left > right
   2. Repeat the above
-* best: O(n^2) ~ EE: O(n)
-* worst: O(n^2)
-* stable / in place
-
-## Selection Sort
-* Steps:
-  1. Look for smallest items from i+1 to n
-  2. swap i+1 with min (found min index)
-  3. repeat the above with i++
 * best: O(n^2)
 * worst: O(n^2)
+* stable / in place
+* Adaptive (Optional - early exit if sorted) ~ best: O(n)
+
+## Selection Sort`
+* Steps:
+  1. Select the smallest element.
+  2. Swap it with first position.
+  3. Repeat above with first position increased and search boundry decreased.
+* best: O(n^2)
+* worst: O(n^2)
+![Selection sort](img/selection.png)
 
 ## Insertion Sort
+* Steps:
+  1. Take the first element, insert into the first position.
+  2. This is the start of our sorted sublist
+  3. Take the next element, insert into the sorted sublist, in the right spot!
+  4. Repeat until sorted!
+![Insertion sort](img/insertion.png)
 
 ## Shell Sort
+* Steps:
+  1. Initialize the value of h
+  2. Divide the list into smaller sub-list of equal interval h
+  3. Sort these sub-lists using insertion sort
+  4. Repeat until complete list is sorted
+![Insertion sort](img/shell.png)
 
 ## Merge Sort
 * Divide and conquer
+* Steps:
+  1. Partion the input into two equal size parts.
+  2. Recursively sort each of the partitions.
+  3. Merge the two sorted partitons back together.
+![Merge sort 1](img/merge1.png)
+![Merge sort 2](img/merge2.png)
+
+* Worst: O(n log n)
+* Merge sort uses a trivial split operation
+* Most of the work is done in the merge operation
+  * ie. end = MIN(i + 2*m - 1, hi)
 
 ## Quick Sort
 * Divide and conquer
+* Partition / Pivot Steps
+  1. Choose the highest index value has pivot
+  2. Take two variables to point left and right of the list excluding pivot
+  3. left points to the low index
+  4. right points to the high
+  5. while value at left is less than pivot move right
+  6. while value at right is greater than pivot move left
+  7. if both step 5 and step 6 does not match swap left and right
+  8. if left ≥ right, the point where they met is new pivot
+* Quick sort steps
+  1. Make the right-most index value pivot
+  2. partition the array using pivot value
+  3. quicksort left partition recursively
+  4. quicksort right partition recursively
+![Quick Sort](./img/quick_sort_partition_animation.gif)
 
-## Key-Indexed
+* Unstable
+* M-O-3: use the middle value of array a[lo, mid, hi] as the pivot, where a[lo] <= a[mid] <= a[hi]
+* O(log n) best case
+* M-O-3 / random: O(n log n) worst & avg case
+
+## Key-Indexed (Counting sort)
 * Non-comparison
+* Just access keys based on ordered values
+* O(n) worst case
 
 ## Heap
 * Non-comparison
@@ -512,12 +565,22 @@ void graph_drop (Graph g);
 
 ## Radix Sort
 * Non-comparison
+* Only if we can decompose keys
+* Sorting individually on each part of the key at a time:
+  * digit by digit
+![Radix Sort](img/radix.png)
+
+
+
 
 # Balanced Trees
 * Size balanced: |size(t.L) - size(t.R)| < 2
 * height balanced: |height(t.L) - height(t.R)| < 2
 
 * Amortisation: reducing average work over time 
+
+
+
 
 # Hash Tables
 * Linked list, Tree, etc... have pretty slow insert and search operations

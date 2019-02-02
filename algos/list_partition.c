@@ -1,5 +1,3 @@
-# TODO: Standardise List ADT
-
 typedef struct _node *link;
 
 typedef struct _node {
