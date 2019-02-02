@@ -1,0 +1,16 @@
+COMP1927 15s2 Exam Question 7 (Mergesort)
+
+A.
+sortingisawesome
+sortingi sawesome
+sort ingi sawe some
+so rt in gi sa we so me
+s o r t i n g i s a w e s o m e
+s o r t i n g i s a w e s o m e
+os rt in gi as ew os em
+orst gino aesw emos 
+ginoorst aeemossw
+aeegimnooorssstw
+
+B.
+Chooses the smallest value as the upper bound for the merge operation, in order to split the array by half on each iteration.

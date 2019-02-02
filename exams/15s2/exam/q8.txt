@@ -1,0 +1,27 @@
+COMP1927 15s2 Exam Question 8 (Hash Table)
+
+A.
+Average chain length (ie. load)
+load = items / slots
+     = 100 / 11
+Which is around 9
+
+B.
+4 comparisons will have to be made
+
+C.
+9 comparisons will have to be made
+
+D.
+O(M/N) where M = number of items and N = items inserted
+
+E.
+Two operations: Get hash (1) and Compare first chain value (1), therefore: Best Case Cost = O(1), when the item is the first chain value
+
+F.
+We want to insert keys with the same hash value.
+ie. h(0) = 0, h(11) = 0, h(22) = 0 ....
+
+for (i = 0, i < 100*11; i += 11){
+    insertKey(h, i);
+}

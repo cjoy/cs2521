@@ -1,0 +1,27 @@
+COMP1927 15s2 Exam Question 5 (Binary Search Trees)
+
+A.
+4 Keys compared (ie. 42, 69, 50 and 60)
+
+B.
+1 comparison, when the key is 42 (ie. the root)
+
+C.
+ciel(log (n))+1 keys would need to be compared in the worst case.
+
+ceil(log(25))+1 = 6
+ie. 5 comparisons will have to be made
+
+For example, key 51 & 33 would result in the maximum number of comparisons.
+
+D.
+Searching for keys 15 & 40, would only require 4 comparisons at minimum
+
+E.
+Swap with the minimum, right most value from the root (ie. the root's successor). In this case, it's the node with the value 45.
+
+F.
+After right rotation,
+root = 20
+left child = 9
+right child = 42

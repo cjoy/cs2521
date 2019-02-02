@@ -1,0 +1,32 @@
+COMP1927 15s2 Exam Question 4 (Fury of Dracula)
+
+A.
+Castle Dracula
+
+B.
+City Unknown
+
+C.
+Health <= 0 (ie. the hunter dies)
+
+D.
+(playerID+roundNum)%4 = maxHops)
+ = (2+4)%4=2 
+ie. two max hops for rail connections
+
+Possible Locations / Transport:
+- Madrid via road or rail
+- Cadiz via road
+- Santander via (road or rail)
+- Saragossa via rail
+- Alicante via rail
+
+E.
+Dracula wont be allowed to go to:
+- Granada
+- Alicante
+- Saragossa
+- Barcelona
+- Bordeaux
+- Toulouse, and
+- Cliermount-Ferrand

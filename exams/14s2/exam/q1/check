@@ -1,0 +1,36 @@
+#!/bin/bash
+
+case $# in
+1) BIN="$1" ;;
+*) echo "Usage: $0 ExecutableFile" ; exit 1 ;;
+esac
+
+if [ ! -f "$BIN" ]
+then
+	echo "No such executable: $BIN"
+	exit 1
+fi
+
+if [ ! -x "$BIN" ]
+then
+	echo "$BIN is not executable"
+	exit 1
+fi
+
+if [ ! -d tests ]
+then
+	echo "No tests/ directory here. Are you in the right directory?"
+	exit 1
+fi
+
+for tt in tests/*.exp
+do
+  ts=`echo $tt | sed -e s/.exp//g`
+  DIFF=$(diff <(./$ts) <(cat ./$tt))
+  if [ "$DIFF" != "" ]
+  then
+    echo Failed $ts
+  else
+    echo Passed $ts
+  fi
+done

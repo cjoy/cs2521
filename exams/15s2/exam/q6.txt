@@ -1,0 +1,13 @@
+COMP1927 15s2 Exam Question 6 (Weighted DiGraphs)
+
+A.
+A -> B -> G -> M -> N -> P -> Q -> V
+total cost: 0.5 + 0.2 + 0.2 + 0.4 + 0.4 + 0.4 + 0.4 = 2.5
+
+B.
+V -> Q -> K -> J -> D -> C -> B -> A
+total cost: 0.4 + 0.4 + 0.4 + 0.6 + 0.6 + 0.5 = 2.9
+
+C.
+No, node R can't be reached from other vertices (ie. source nodes, only containing outflows)
+
