@@ -76,8 +76,41 @@ int isBSTUtil(Tree t, int lo, int hi)
  * Given a pointer to a node in the tree, return its in order successor node in the tree, that is the node in the tree whose value is the smallest value larger than the value of the given node. If no successor node exists return NULL.
  */
 
+
+int count;
+Tree *order;
+
+int tree_size (Tree t) {
+  if (!t) return 0;
+  return 1 + tree_size (t->left) + tree_size (t->right);
+}
+
+void infix (Tree t) {
+  if (!t) return;
+  infix (t->left);
+  order[count++] = t;
+  infix (t->right);
+}
+
 Tree successor(Tree t, Tree target) {
-  return NULL;
+
+  int t_size = tree_size (t);
+
+  order = calloc (t_size+1, sizeof(struct tree));
+  order[t_size] = NULL;
+  count = 0;
+  
+  infix (t);
+
+  Tree found = NULL;
+  for (int i = 0; i < t_size; i++) {
+    if (order[i] == target) {
+      found = order[i+1];
+      break;
+    }
+  }
+
+  return found;
 }
 
 /* 
@@ -94,7 +127,20 @@ Tree successor(Tree t, Tree target) {
     and that 0 <= k < n where n is the number of nodes in the tree
 */
 void getKthSmallest(Tree t, int* k, int** v) {
+  int t_size = tree_size (t);
 
+  order = calloc (t_size+1, sizeof(struct tree));
+  order[t_size] = NULL;
+  count = 0;
+  
+  infix (t);
+
+  for (int i = 0; i < t_size; i++) {
+    if (i == *k) {
+      *v = &order[i]->val;
+      break;
+    }
+  }
 }
 
 /* Find the lowest common ancestor between the noes with values v1 and v2.

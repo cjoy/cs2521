@@ -13,8 +13,8 @@
 * No random access
 * Easy to add, rearrange, remove nodes...
 * List nodes references other list nodes:
-  * Singly Linked List: `next`
-  * Doubly Linked List: `next` `prev`
+  - Singly Linked List: `next`
+  - Doubly Linked List: `next` `prev`
 
 * Operations
   - Insertion ~ O(N)
@@ -154,13 +154,13 @@ struct node {
 * Trees can be viewed as set of nested structures
 * Values in the left subtree has to be less than the node value
 * Vice versa for right subtree.
-* Degenerate: maximal height 
-* Balanced: minimal height
+* Degenerate: maximal height (n-1)
+* Balanced: minimal height (log n)
   - Size: |size(L) - size(R)| < 2
   - Height: |height(L) - height(R)| < 2
 * Advantages
-- Faster search O(log n) - compared with linked lists
-- Faster inseartion O(log n) - compared with array O(N)
+  - Faster search O(log n) - compared with linked lists
+  - Faster inseartion O(log n) - compared with array O(N)
 
 ## Binary trees
 * A binary tree with n nodes has a height of at most n-1, if degenerate or least floor(log n) if balanced
@@ -202,6 +202,11 @@ struct node {
       -  Find the minimum (left most value) of the right sub tree
     - Case 2: no right subtree
       - TODO!! https://www.youtube.com/watch?v=5cPbNCrdotA&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=38&t=0s
+    - Method 2: Perform an in order traversal, store in array and do a linear search for successor (very inefficient, but works)
+* Deleting a node
+  * Swap value with left most value from the right subtree
+  * Delete the item
+  * Perform rotations (if required)
 
 # Priority Queue (Using Heaps)
 * Process in order of key or priority.
@@ -239,21 +244,21 @@ struct node {
 # Graphs
 * Models relationship between items
 * A graph G is a set of vertices V and edges E
-- E := {(v,w) | v,w is an element of V, (v,w) is an element of V X V}
-- Basically a set of edges [(v,w)]
-![Graph Types](./img/gtypes.png)
+  - E := {(v,w) | v,w is an element of V, (v,w) is an element of V X V}
+  - Basically a set of edges [(v,w)]
+  ![Graph Types](./img/gtypes.png)
 
 * Simple graphs
-- a set of vertices
-- a set of undirected edges
-- no self loops
-- no parallel edges
+  - a set of vertices
+  - a set of undirected edges
+  - no self loops
+  - no parallel edges
 
 * Sparcity vs Density
-- Sparcity ~ less connections between nodes
-  - |E| approach |V|^2
-- Density ~ more connections between nodes
-  - |V| approach |V|
+  - Sparcity ~ less connections between nodes
+    - |E| approach |V|
+  - Density ~ more connections between nodes
+    - |E| approach |V|^2
 
 * Subgraph: subset of vertices and associate edges
 ![Sub graph](./img/subgraph.png)
@@ -439,6 +444,14 @@ void graph_drop (Graph g);
         - Must have minimal weight of all such edges
     3. Check to see whether adding the new edge brought any of the non-tree vertices closer to the MST
     4. Repeat until MST has all vertices
+  * Easy Algo
+    1.  Start with any edge
+    2.  Choose edge with least weight
+        1.  Add to MST
+    3.  Check what edges connect to all visited nodes, with least weight (without visiting previously visited node)
+        1.  Add to MST
+        2.  GOTO (3. ~ ie. repeat until all vertices have been visited) 
+  * O (E log V)
   * Basically dijkstra's SSSP algorithm
 
 ## Computability
@@ -744,4 +757,71 @@ Node MergeLists(Node list1, Node list2) {
     return list2;
   }
 }
+```
+
+## Recursive Tree Functions
+```C
+// Tree clone
+Tree *tree_clone (Tree t)
+{
+  if (!t) return t;
+
+  Tree new = malloc(sizeof(*new));
+  new->item = t->item; // copy item from tree
+  new->left = tree_clone(t->left);
+  new->right = tree_clone(t->left);
+
+  return new;
+}
+
+// Tree reverse
+void tree_reverse (Tree t)
+{
+  if (!t) return;
+  
+  Tree tmp = t->left;
+  t->left = t->right;
+  t->right = tmp;
+
+  tree_reverse (t->left);
+  tree_reverse (t->right);
+}
+
+// Check if two trees are equal
+bool tree_eq (Tree t1, Tree t2)
+{
+    if (!t1 && !t2) return true;
+    if (t1 && t2) {
+        return (t1->val == t2->val)
+            && tree_eq (t1->left, t2->left)
+            && tre_eq (t1->right, t2->right);
+    }
+    return false;
+}
+
+```
+
+## Duplicate linked list
+```
+link list_duplicate (link l)
+{
+	link new;
+	if (l == NULL)
+		return NULL;
+	new = node_new(l->item);
+	new->next = list_duplicate (l->next);
+	return new;
+}
+
+link dlist_duplicate (dlink l, prev)
+{
+	dlink new;
+	if (l == NULL)
+		return NULL;
+	new = node_new (l->item);
+    new->prev = prev;
+	new->next = list_duplicate (l->next, l);
+	return new;
+}
+
 ```
