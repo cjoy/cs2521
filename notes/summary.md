@@ -645,8 +645,27 @@ btree_node *btree_balance_global (btree_node *tree)
 * 3-nodes have two values and three children
 * 4-nodes have three values and four children
 * 2-3-4 trees grow 'upwards' from the leaves all of which are equidistant to the root.
-* Always balanced; depth is O(log n)
+* Always balanced; depth is `O(log n)`
+![2-3-4 Trees](img/2-3-4.png)
+* Worst case for depth: all nodes are 2-nodes ~ depth = log_2 n
+* Best case for depth: all nodes are 4-nodes ~ depth = log_4 n
+* Insertion examples:
+    ![insert c](img/insert-c.png)
+    ![insert r](img/insert-r.png)
 
+## Red black trees
+* Representations of 2-3-4 trees
+* Using BST nodes
+* Gets benefits of 2-3-4 tree self-balancing on insert, delete ...
+* **Red Links**:
+  * combine nodes to represent 3 and 4 nodes
+  * child along red link is a 2-3-4 neighbour
+* **Black Links**:
+  * Ordinary child links
+* Operations
+  - Search: O(log n)
+  - Insert: O(log n)
+  - Remove: O(log n)
 
 # Hash Tables
 * Linked list, Tree, etc... have pretty slow insert and search operations
@@ -693,8 +712,15 @@ btree_node *btree_balance_global (btree_node *tree)
     - If key already exists, hash again and add the new value to the incremented index (ie. index = hash1(key) + hash2(key))
     - Hash1 to Hash2 should be relatively prime to each other, and to N
     - Faster than linear probing
+    - MUST NEVER BE EVALUATED TO 0!!!
+    - Choose a hash function:
+      - P = prime number less than NSLOTS
+      - steps = H_2(x) = P - (x % p)
+      - Move step + h(x) ~ ie. increment steps using H_2 from original hash output
   - Resize table
     - You'll need to rehash and insert into table again.
+
+
 * Performance:
   - Good HASH function is critical
   - Choosing a good N for M is critical (ie. managing the load)
