@@ -65,3 +65,20 @@ void merge(List l1, List l2) {
 }
 
 
+void merge (Node n1, Node n2)
+{
+    while (n1 || n2) {
+        if (n1->data > n2->data) {
+
+        } else {
+
+        }
+
+        if (n1->next) {
+            n1 = n1->next;
+        }
+        if (n2->next) {
+            n2 = n2->next;
+        }
+    }
+}

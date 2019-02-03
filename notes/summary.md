@@ -638,7 +638,7 @@ btree_node *btree_balance_global (btree_node *tree)
   - performs double-rotations based on p-c-g orientation
   ![Splay](./img/splay.png)
 * Fast ACCESS TO ELEMENTS RECENTLY ACCESSED
-* 
+* Don't care about balance, just want the root to be most recently accessed node.
 
 ## 2-3-4 Trees
 * 2-nodes have one value and two children
@@ -703,3 +703,19 @@ btree_node *btree_balance_global (btree_node *tree)
     - Double hasing: faster for higher load, more efficient
     - Chaining: pssible for loads that are greater than 1, but degenerates
 
+# Cool Algos
+## Merge two linked lists in sorted order
+```C
+Node MergeLists(Node list1, Node list2) {
+  if (list1 == null) return list2;
+  if (list2 == null) return list1;
+
+  if (list1.data < list2.data) {
+    list1.next = MergeLists(list1.next, list2);
+    return list1;
+  } else {
+    list2.next = MergeLists(list2.next, list1);
+    return list2;
+  }
+}
+```
