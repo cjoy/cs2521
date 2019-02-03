@@ -5,16 +5,22 @@ A.
 Operation             State of Queue after operation
                       [highest priority ... lowest priority]
 
-initially             -
-PQueueJoin(PQ, 'X')
-PQueueJoin(PQ, 'A')
-PQueueJoin(PQ, 'J')
-PQueueLeave(PQ)
-PQueueJoin(PQ, 'K')
-PQueueLeave(PQ)
-PQueueLeave(PQ)
+initially             - []
+PQueueJoin(PQ, 'X')   - [X]
+PQueueJoin(PQ, 'A')   - [A X]
+PQueueJoin(PQ, 'J')   - [A J X]
+PQueueLeave(PQ)       - [J X]
+PQueueJoin(PQ, 'K')   - [J K X]
+PQueueLeave(PQ)       - [K X]
+PQueueLeave(PQ)       - [X]
 
 
 B.
 
-Replace this by your answer
+Stack implemented with a PQueue:
+ - Assign highest priority to last element pushed onto stack
+ - Maintain a top value, to see which item was just pushed.
+
+Queue implement with a PQueue:
+ - Maintain lowest priority to last element that'd been enqueued.
+ - Reassign priorities when an element is been dequeued (this is an O(n) ~ pretty inefficent, but still works when maintaining order).

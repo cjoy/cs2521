@@ -3,19 +3,29 @@ Question 4 ... COMP1927 13s1 Final Exam
 
 A.
 
-Replace this by your answer
+This sorting algorithm looks O(n^2).
 
+cmp() looks like it's 6^2 = 36 times
+
+However, we see that the out loop is bounded by:
+ i=(0 to n-1) and the inner loop is bounded by
+ j=(i+1 to n)
+
+Hence calls to cmp is reduced by 1 on each iteration
+ie. (5 + 4 + 3 + 2 + 1) = 15
+
+Therefore, cmp is called 15 times.
 
 B.
 
-Replace this by your answer
+N + (N-1) + ... + 1 times
 
 
 C.
 
-Replace this by your answer
+Since the algorithm defininity isn't O(log n) and O(n), but better than O(n^2), I'll have to say O(n log n).
 
 
 D.
 
-Replace this by your answer
+(a[j] < a[min])

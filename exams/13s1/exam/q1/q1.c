@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+
 // find maximum value in a[0..n-1]
 int ArrayMax(int a[], int n)
 {
@@ -39,8 +40,11 @@ int ArrayMax(int a[], int n)
 // recursive function to find maximum in a[lo..hi]
 int max(int a[], int lo, int hi)
 {
-	// TODO
+    if (lo == hi) return a[lo];
+    
+    int mid = (lo + hi)/2;
+    int l = max(a, lo, mid);
+    int u = max(a, mid+1, hi);
 
-
-    return 0;
+    return l > u ? l : u;
 }

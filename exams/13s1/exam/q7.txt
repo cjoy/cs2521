@@ -17,9 +17,9 @@ add any other nodes here
 
 B.
 
-Replace this by your answer
+Red Black Tree's have colour attribute associated to them, reflecting their association (parent/child)
 
 
 C.
 
-Replace this by your answer
+Yes, red-black trees are just 2-3-4 trees structured differently.

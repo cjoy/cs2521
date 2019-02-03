@@ -70,5 +70,22 @@ void ListAppend(List L, int value)
 // ListReverse ... reverse a List
 void ListReverse(List L)
 {
-	// TODO
+    if (!L || !L->first) return;
+    Link first = L->first;
+    Link last = L->last;
+
+	Link curr = L->first;
+    Link prev = NULL;
+    Link next = NULL;
+    while (curr) {
+        next = curr->next;
+    
+        curr->next = prev;
+        prev = curr;
+
+        curr = next;
+    }
+
+    L->first = last;
+    L->last = first;
 }

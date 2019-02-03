@@ -112,10 +112,48 @@ void  removeE(Graph g, Edge e)
 	g->edges[e.w][e.v] = 0;
 	g->nE--;
 }
+/*
+CountComponents:
+   initialise global ComponentOf[] array to all unassigned
+   while (not all vertices have been assigned to a component) {
+      find an unassigned vertex V
+      count a new component
+      do a depth first search of the graph starting from V
+   }
+
+DepthFirstSearch:
+   assign current vertex to component
+   for each unassigned neighbour N of current vertex
+      do a depth first search of the graph on N
+*/
+
+int *ComponentOf;
+
+void dfs(Graph g, int v)
+{
+    for (int w = 0; w < g->nV; w++) {
+        if (g->edges[v][w] && ComponentOf[w] == -1) {
+            ComponentOf[w] = v;
+            dfs (g, w);
+        }
+    }
+}
 
 // nComponents ... number of connected components
 int nComponents(Graph g)
 {
-	// TODO
-	return 0; // remove this line
+    ComponentOf = malloc(g->nV * sizeof(int));
+    for (size_t i = 0; i < g->nV; i++) {
+        ComponentOf[i] = -1;
+    }
+    
+    int count = 0;
+    for (int v = 0; v < g->nV; v++) {
+        if (ComponentOf[v] != -1) continue; // already assigned
+        count++;
+        // do a DFS of the graph starting at V;
+        dfs (g, v);
+    }
+
+	return count; // remove this line
 }
