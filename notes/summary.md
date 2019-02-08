@@ -266,7 +266,11 @@ struct node {
 * Path: Sequence of connected vertices ie [(v,e) elem 1]
 * Simple path: no repeating vertices
 * Cycle: path with start and end vertex as the same.
-![Path](./img/path.png)
+  * How to find:
+    * Perform a DFS.
+    * Whilst performing a DFS, if visiting already visited node, then it has a cycle.
+
+    ![Path](./img/path.png)
 
 * Connected graph: a path exists from every node to every other node
 * Tree: connected graph with no cycles
@@ -356,7 +360,7 @@ void graph_drop (Graph g);
     * edges corresponding to call-tree of recursive function
     * is the original graph sans cycles / alternate graph
     * in general, spanning tree has all vertices and a minimal set of edges to produce a connected graph (ie. no loops, cycles, parallel edges)
-  * If a graph is not connected, `DFS` will produce a spanning tree
+  * If a graph is not connected, `DFS` will produce a spanning forest
   * An edge connecting a vertex with an ancestor in the DFS tree that is not its parent is a `back edge` 
 * Breath First Search (BFS): Adjacent nodes first ~ uses a `Queue` 
 * Dikstra: Lowest-cost paths first
@@ -492,6 +496,8 @@ void graph_drop (Graph g);
     - C: number of comparisons between items
     - S: the number of times items are swappped
 * Aim to minimise C and S
+* Stable: Doesn't change relative order of elements with same key
+* Inplace: Modifies original array
 
 ## Bubble Sort
 * Steps:
@@ -584,7 +590,7 @@ void graph_drop (Graph g);
 * Sorting individually on each part of the key at a time:
   * digit by digit
 ![Radix Sort](img/radix.png)
-
+* Time complexity O(kn)
 
 
 
