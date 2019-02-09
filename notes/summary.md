@@ -206,7 +206,7 @@ struct node {
 * Deleting a node
   * Swap value with left most value from the right subtree
   * Delete the item
-  * Perform rotations (if required)
+  * Perform rotations (if required - ie. splay tree)
 
 # Priority Queue (Using Heaps)
 * Process in order of key or priority.
@@ -527,10 +527,11 @@ void graph_drop (Graph g);
 
 ## Shell Sort
 * Steps:
-  1. Initialize the value of h
+  1. Initialize the value of h (hilbert series)
   2. Divide the list into smaller sub-list of equal interval h
   3. Sort these sub-lists using insertion sort
   4. Repeat until complete list is sorted
+* https://www.youtube.com/watch?v=j818Yud-ruc
 ![Insertion sort](img/shell.png)
 
 ## Merge Sort
@@ -542,6 +543,7 @@ void graph_drop (Graph g);
 ![Merge sort 1](img/merge1.png)
 ![Merge sort 2](img/merge2.png)
 
+* https://www.youtube.com/watch?v=JSceec-wEyw
 * Worst: O(n log n)
 * Merge sort uses a trivial split operation
 * Most of the work is done in the merge operation
@@ -578,7 +580,7 @@ void graph_drop (Graph g);
 ## Heap
 * Non-comparison
 * Steps:
-  1. Add all items to pqueue.
+  1. Add all items to pqueue (implemented as heap).
   2. Remove items from pqueue into original array.
 * best: Ω(n log(n))
 * worst: O(n log(n))
@@ -658,6 +660,39 @@ btree_node *btree_balance_global (btree_node *tree)
   ![Splay](./img/splay.png)
 * Fast ACCESS TO ELEMENTS RECENTLY ACCESSED
 * Don't care about balance, just want the root to be most recently accessed node.
+* All operations: `O(log n)` on average / `O(n)` on worst case ~ n is number of nodes on tree
+* Any sequence of `k` operations, starting from empty tree, never `>n` tree,  any tree operation takes `O(k log n)`, worst case time
+* Basis: Splay trees kepted in balance with rotations (rotate left, rotate right).
+* Splay trees are NOT kept perfectly balanced -> that why operations maybe `O(n)`
+  * Ie. Inserting 1...n, and having to splay to root, creates a degenerate tree
+## Splay tree operations
+* 3 Cases for rotating:
+  1. (Zig-Zag) X is a left child of a right child OR X is a right child of a left child.
+    ![Zig Zag](img/zig-zag.png)
+  2. (Zig-Zig) X is a left child of a left child OR X is a right child of a right child.
+    ![Zig Zig](img/zig-zig.png)
+  3. (Zig) X is a child of the root
+    ![Zig](img/zig.png)
+
+* Search (key)
+  1. Regularly to a binary search tree
+    * Walk down a tree, deciding to walk left / right, until we reach k or a dead-end
+    * Let X be the node where search ended, whether it contains key or not.
+  2. Splay X up the tree through a sequence of rotations, so X becomes the root
+  * Super fast performance when searching for same key over and over again
+
+* Find Min / Max
+  1. Keep walking to the left / right
+  2. Splay last node to the root
+
+* Insert a new key and value
+  1. Insert into tree like a normal binary tree
+  2. Splay new node to the root
+
+* Remove (key)
+  1. Remove a key like a normal BST.
+  2. Keep track of actual node that got remove (ie. the left most value from right sub tree), we'll call it X
+  3. Spay X's parent to the root
 
 ## 2-3-4 Trees
 * 2-nodes have one value and two children
