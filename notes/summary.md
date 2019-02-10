@@ -528,9 +528,12 @@ void graph_drop (Graph g);
 ## Shell Sort
 * Steps:
   1. Initialize the value of h (hilbert series)
+     1. h = 1, h <= (n-1) / 9, h = (h*3) + 1
+     2. ie. 1, 4, 13, 40...
   2. Divide the list into smaller sub-list of equal interval h
   3. Sort these sub-lists using insertion sort
   4. Repeat until complete list is sorted
+  5. h=1 is an insertion sort
 * https://www.youtube.com/watch?v=j818Yud-ruc
 ![Insertion sort](img/shell.png)
 
@@ -695,22 +698,48 @@ btree_node *btree_balance_global (btree_node *tree)
   3. Spay X's parent to the root
 
 ## 2-3-4 Trees
-* 2-nodes have one value and two children
-* 3-nodes have two values and three children
-* 4-nodes have three values and four children
+* Each node can have 3 kinds of nodes:
+  * 2-nodes: 1 values ~ 2 children
+  * 3-nodes: 2 values ~ 3 children
+  * 4-nodes: 3 values ~ 4 children
+* Each node stores three vvalues at most (from smallest to greatest)
 * 2-3-4 trees grow 'upwards' from the leaves all of which are equidistant to the root.
+* Self balancing data structure, commonly used to implement dictionaries.
+
 * Always balanced; depth is `O(log n)`
 ![2-3-4 Trees](img/2-3-4.png)
 * Worst case for depth: all nodes are 2-nodes ~ depth = log_2 n
 * Best case for depth: all nodes are 4-nodes ~ depth = log_4 n
+
+* Insertion steps
+  1. Find leaf node where item belongs (via search)
+  2. if node is not full (ie. order < 4), insert item in this node, order++
+  3. if node is full (ie. contains 3 items)
+     1. split into two 2-nodes as leaves
+     2. promote middle element to parent
+     3. insert item into appropriate leaf 2-node
+     4. if parent is a 4-node, continue split / promote upwards
+     5. if promote to root, and root is a 4-node, split root node and add new root
+
 * Insertion examples:
-    ![insert c](img/insert-c.png)
-    ![insert r](img/insert-r.png)
+
+  ![insert c](img/insert-c.png)
+
+  ![insert r](img/insert-r.png)
 
 ## Red black trees
 * Representations of 2-3-4 trees
 * Using BST nodes
 * Gets benefits of 2-3-4 tree self-balancing on insert, delete ...
+* Uses labels to tell us when to rebalance
+* Rules
+  * Root Property: Root node is always black
+  * External Propery: Every external node is always black
+  * Red Property: Children of red nodes are black
+  * Depth Property: All nodes have the same black depth
+* Fix cases
+  * When uncle is black -> we rotate
+  * When uncle is red -> we colour flip
 * **Red Links**:
   * combine nodes to represent 3 and 4 nodes
   * child along red link is a 2-3-4 neighbour
@@ -718,6 +747,7 @@ btree_node *btree_balance_global (btree_node *tree)
   * Ordinary child links
 * Operations
   - Search: O(log n)
+    - No different from regular BST
   - Insert: O(log n)
   - Remove: O(log n)
 

@@ -38,10 +38,6 @@ typedef struct StackRep {
 //
 char* isBalanced(char* s) {
   int size = strlen(s);
-  // if (size % 2 != 0) return "NO";
-
-  char *res = "YES";
-
   Stack stack = newStack((size/2) + 1);
 
   for (size_t i = 0; i < size; i++) {
