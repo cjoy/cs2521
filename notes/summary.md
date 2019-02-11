@@ -96,10 +96,10 @@ struct node {
 * White-box testing: checks internal behaviour (when we can see and test the ADT implementation)
 
 ## Complexity (Efficency)
-* Alorithm runtime tends to be a function of input size
+* Algorithm runtime tends to be a function of input size
 * Focus on asymptotic worst-case execution time
 * Take into account all possible input ranges
-* Cases: **Best Case**  **Average Case** **Worst Case**
+* Cases: **Best Case** / **Average Case** / **Worst Case**
 * Binary search example:
   * start at middle for sorted list
     * is the middle the key? if not continue
@@ -127,7 +127,7 @@ struct node {
   - N=10,000    x10     ->   x100       120 seconds
   - N=100,000   x100    ->   x10000     12000 seconds
   - N=1000000   x1000   ->   x1000000   1200000 seconds
-* Apply ^2 to how much times number of items increases. Multiple that number with base case.
+* Apply ^2 to how much times number of items increases. Multiply that number with base case.
 
 * Tractable: have a polynomial time ('P') algorithm
 * Intractable: no tractable algorithm exists (usually 'NP')
@@ -204,7 +204,7 @@ struct node {
       - TODO!! https://www.youtube.com/watch?v=5cPbNCrdotA&list=PL2_aWCzGMAwI3W_JlcBbtYTwiQSsOTa6P&index=38&t=0s
     - Method 2: Perform an in order traversal, store in array and do a linear search for successor (very inefficient, but works)
 * Deleting a node
-  * Swap value with left most value from the right subtree
+  * Swap value with left most value from the right subtree (ie. it's successor)
   * Delete the item
   * Perform rotations (if required - ie. splay tree)
 
@@ -256,9 +256,9 @@ struct node {
 
 * Sparcity vs Density
   - Sparcity ~ less connections between nodes
-    - |E| approach |V|
+    - |E| approaches |V|
   - Density ~ more connections between nodes
-    - |E| approach |V|^2
+    - |E| approaches |V|^2
 
 * Subgraph: subset of vertices and associate edges
 ![Sub graph](./img/subgraph.png)
