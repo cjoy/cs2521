@@ -115,8 +115,36 @@ void  removeE(Graph g, Edge e)
 // - ordered on #connections, most connected first
 Connects *wellConnected(Graph g, int *nconns)
 {
-   assert(g != NULL && nconns != NULL);
-   // TODO: replace the two lines below
-   *nconns = 0;
-   return NULL;
+    assert(g != NULL && nconns != NULL);
+    *nconns = 0;
+    
+    Connects *conns = malloc(g->nV*sizeof(Connects));
+    
+    for (int i = 0; i < g->nV; i++) {
+        int nconn = 0;
+    
+        // count vertex connections
+        for (int j = 0; j < g->nV; j++)
+            if (g->edges[i][j]) nconn += 1;
+
+        // if well connected, append to array
+        if (nconn >= 2) {
+            conns[*nconns].vertx = i;
+            conns[*nconns].nconn = nconn;
+            *nconns += 1;
+        }
+    }
+
+    // sort array
+    for (int i = 0; i < *nconns; i++) {
+        for (int j = *nconns; j > i; j--) {
+            if (conns[j].nconn > conns[j-1].nconn) {
+                Connects tmp = conns[j];
+                conns[j] = conns[j-1];
+                conns[j-1] = tmp;
+            }
+        }
+    }
+
+    return conns;
 }

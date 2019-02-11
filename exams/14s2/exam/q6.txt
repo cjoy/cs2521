@@ -3,25 +3,31 @@ Question 6 ... COMP1927 14s2 Final Exam
 
 A.  (search path)
 
-Replace this by your answer
-
+20, 11, 16, 18
 
 B.  (level-order traversal)
 
-Replace this by your answer
-
+20, 11, 32, 4, 16, 25, 36, 3, 7, 13, 18, 21, 28, 33, 39
 
 C.  (#nodes in perfectly balanced tree)
 
-Replace this by your answer
+hieght (4): #nodes = 15
+hieght (3): #nodes = 7
+hieght (2): #nodes = 3
+hieght (1): #nodes = 1
+
+
+#nodes = 2^n - 1
 
 
 D.  (after rotateL)
 
-Replace this by your answer
-
+root = 32
+left = 20
+right = 36
 
 E.  (after deleteRoot)
 
-Replace this by your answer
-
+root = 21
+left = 11
+right = 32

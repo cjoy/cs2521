@@ -3,19 +3,26 @@ Question 4 ... COMP1927 14s2 Final Exam
 
 A.  (base cases)
 
-Replace this by your answer
+lo > hi ~ since lo/hi are out of range, key doesn't exist.
 
+lo == hi ~ only have one element to check
+ - a[lo] == key ~ we found the key
+ - else ~ key doesn't exist
 
 B.  (#calls to bsearch for x == {4,9,12})
 
-Replace this by your answer
+x == 4 -> calls = 2
+x == 9 -> calls = 4
+x == 12 -> calls = 3
 
 
 C.  (min/max #calls for a[10])
 
-Replace this by your answer
+min calls = 1
+max calls = ceil (log_2 (10)) = 4
 
 
 D.  (min/max #calls for a[N])
 
-Replace this by your answer
+min calls = 1
+max calls = ceil (log_2 (N))

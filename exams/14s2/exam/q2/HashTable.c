@@ -69,21 +69,34 @@ void insertHashTable(HashTable ht, int val)
 
 // double the number of slots/chains in a hash table
 void expand(HashTable ht)
-{
-   // create a new hash table with x2 slots
-   HashTable nt = newHashTable(ht->nslots * 2);
-   // insert keys into has new table
-   for (int i = 0; i < ht->nslots; i++) {
-      int *nvals = 0;
-      int *values = valuesFromList(ht->chains[i], nvals);
-      if (*nvals > 0) {
-         for (int j = 0; j < *nvals; j++) {
-            insertHashTable(nt, values[j]);
-         }
-      }
-      free(values);
-   }
-   dropHashTable(ht);
-   ht = nt;
-   return;
+{   
+    // new nslots is 2x bigger than existing
+    int nslots = ht->nslots*2; 
+
+    // create chains twice the length
+    List *chains = malloc(nslots*sizeof(List));
+    for (int i = 0; i < nslots; i++)
+        chains[i] = newList();
+    
+    // loop through existing chains and rehash into new chains
+    for (int i = 0; i < ht->nslots; i++) {
+        int size;
+        int *vals = valuesFromList(ht->chains[i], &size);
+        for (int j = 0; j < size; j++) {
+            int val = vals[j];
+            int h = hash(val, nslots);
+            appendList(chains[h], val);
+        }
+    }
+    
+    // free existing chains
+    for (int i = 0; i < ht->nslots; i++)
+        dropList(ht->chains[i]);
+    free(ht->chains);
+    
+    // update chains and nslots
+    ht->chains = chains;
+    ht->nslots = nslots;
+
+    return;
 }
