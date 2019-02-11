@@ -714,7 +714,7 @@ btree_node *btree_balance_global (btree_node *tree)
 * Insertion steps
   1. Find leaf node where item belongs (via search)
   2. if node is not full (ie. order < 4), insert item in this node, order++
-  3. if node is full (ie. contains 3 items)
+  3. if node is full (ie. contains 3 items - 4 node)
      1. split into two 2-nodes as leaves
      2. promote middle element to parent
      3. insert item into appropriate leaf 2-node
