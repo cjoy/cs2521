@@ -2,6 +2,16 @@
 #include <stdio.h>
 #include "heightBalance.h"
 
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+int height(treelink t) {
+    if (!t) return 0;
+    return 1 + max(height(t->left), height(t->right));
+}
+
 /*
     given a tree, check whether it is height balanced.
 
@@ -9,7 +19,9 @@
     compile:
     gcc -Wall -Werror -O -o heightBalanceTest heightBalance.c testHeightBalance.c
 */
-int isHeightBalanced(treelink tree) {
-
-    return 0;
+int isHeightBalanced(treelink t) {
+    if (!t) return 1;
+    return abs(height(t->left) - height(t->right)) < 2
+        && isHeightBalanced(t->right)
+        && isHeightBalanced(t->left);
 }
