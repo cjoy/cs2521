@@ -499,7 +499,7 @@ void graph_drop (Graph g);
 * Stable: Doesn't change relative order of elements with same key
 * Inplace: Modifies original array
 
-## Bubble Sort
+## Bubble Sort (Stable)
 * Steps:
   1. Swap adjacent nodes if left > right
   2. Repeat the above
@@ -517,7 +517,7 @@ void graph_drop (Graph g);
 * worst: O(n^2)
 ![Selection sort](img/selection.png)
 
-## Insertion Sort
+## Insertion Sort (Stable)
 * Steps:
   1. Take the first element, insert into the first position.
   2. This is the start of our sorted sublist
