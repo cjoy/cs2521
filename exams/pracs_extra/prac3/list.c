@@ -44,6 +44,31 @@ List createList(void) {
 }
 
 /* but do change this! */
-int isPalindrome(List l) {
-    return 1;
+
+// Recursive version - doesn't take into account punctuation
+int isPalindromeRecursive(List l) {
+    if (!l || (!l->first && !l->last) || (l->first == l->last)) {
+        return 1;
+    } else if (l->first->data != l->last->data) {
+        return 0;
+    } else {
+        char first = l->first->data;
+        char last = l->last->data;
+        l->first = l->first->next;
+        l->last = l->last->prev;
+        return (first == last) && isPalindromeRecursive(l);
+    }
 }
+
+// Iterative version
+int isPalindromeIterative(List l) {
+    return 0;
+}
+
+int isPalindrome(List l) {
+    return isPalindromeIterative(l);
+    // return isPalindromeRecursive(l);
+}
+
+
+

@@ -38,6 +38,20 @@ Node createNode(int i) {
 
 /* but do change this! */
 Node cloneList(Node first) {
+    if (!first) return NULL;
 
-    return NULL;
+    Node head = NULL;
+    Node prev = NULL;
+    for (Node curr = first; curr; curr = curr->next) {
+        Node n = createNode(curr->data);
+        if (!head) { 
+            head = n;
+            prev = n;
+        } else {
+            prev->next = n;
+            prev = n;
+        }
+    }
+
+    return head;
 }

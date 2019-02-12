@@ -29,6 +29,18 @@ List createList(void) {
 /* but do change this! */
 List initList(int nums[], int n) {
     List l = createList();
+
+    Node prev = NULL;
+    for (int i = 0; i < n; i++) {
+        Node n = createNode(nums[i]);
+        if (!l->first) {
+            l->first = n;
+            prev = n;
+        } else {
+            prev->next = n;
+            prev = n;
+        }
+    }
     
     return l;
 }

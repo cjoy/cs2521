@@ -49,5 +49,10 @@ void insertEdge(Graph g, Vertex from, Vertex to) {
 
 int inDegree(Graph g, Vertex to) {
     int count = 0;
+
+    for (int i = 0; i < g->nV; i++)
+        for (VList curr = g->edges[i]; curr; curr = curr->next)
+            if (curr->v == to) count++;
+
     return count;
 }

@@ -33,6 +33,12 @@ List createList(void) {
 
 /* but do change this! */
 int isSorted(List l) {
-   return 0;
+    if (!l || !l->first) return 1;
+
+    int prev = l->first->data;
+    for (Node curr = l->first; curr; prev = curr->data, curr = curr->next) 
+        if (curr->data < prev) return 0;
+
+   return 1;
 }
 
