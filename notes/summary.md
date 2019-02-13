@@ -622,7 +622,7 @@ void graph_drop (Graph g);
 
 * Partition is a way to brute force some balance into a tree, by lifting some kth index to the root.
 
-* Global rebalancing: move the median node to the root by partitioning on `size / 2`; then left sub tree and right subtree
+* Global rebalancing: move the median node to the root by partitioning on `size / 2` index; then left sub tree and right subtree
 ```C
 btree_node *btree_balance_global (btree_node *tree)
 {
@@ -640,9 +640,9 @@ btree_node *btree_balance_global (btree_node *tree)
 
 * Local rebalancing: do small, incremental operations to improve the overall balance of the tree at the cost of imperfect balance
 
-* Amortisation: do small amount of work now to avoid more work later.
+* Amortisation: do small amount of work now to avoid more work later. (ie. splay tree operations)
 * Randomisation: use randomness to reduce impact of BST worst cases.
-* Optimisation: maintain structural information for performance.
+* Optimisation: maintain structural information for performance. (ie. include size attribute on each node on btree)
 
 * Root insertion
   - How to insert a node at the root without having to rearrage all node?
@@ -756,14 +756,14 @@ btree_node *btree_balance_global (btree_node *tree)
 * They don't take advantage of cache locality
 * Hashing lets us approximate
     - Arbitrary keys (ie. strings etc)
-    - Map key tointo a compact range of index values
+    - Map key into a compact range of index values
     - Store items in array, accessed by index value
     - O(1)
 * What we need
   - Array of items
   - Hash function: hash(key) -> index
   - Collision resolution method (ie. when value already exists for given key)
-* Properties we want for the hasing function, `h`:
+* Properties we want for the hashing function, `h`:
   - For a table size `N`, output range is `0` to `N-1`
   - pure, deterministic `h(k,N)` ~ ie. gives same result
   - spreads key values uniformly over index range

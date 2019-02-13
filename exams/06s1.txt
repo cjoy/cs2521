@@ -1,0 +1,57 @@
+Q1. Quicksort has a worst case of O(n log n)
+
+Q2. D
+
+Q3. An abstract data type is a data type whose implementation is hidden, allowing users to execute operations using only function outlined in its interface. 
+
+- Users don't need to worry implementation details
+- Type and it's operations can be reused (ie. provides better code modularity)
+
+
+Q4. strcpy requires you to malloc space before copying into it.
+
+Q5. C. Quicksort will usually be better than insertion sort as the average case complexity for quick sort is O(n log n) and for insertion sort it's O(n^2)
+
+Q7.
+
+i) Stack.h
+
+typedef struct stack *Stack;
+
+Stack stackNew();
+bool isEmpty(Stack stack);
+void push(Stack stack, int item);
+void pop(Stack stack);
+
+ii) Stack.c
+
+#define MAX_SIZE 100
+
+typedef struct stack {
+  int items[MAX_SIZE];
+  int top;
+} stack;
+
+Stack stackNew ()
+{
+  Stack new = malloc(sizeof *new);
+  new->top = 0;
+  return new;
+}
+
+bool isEmpty (Stack stack)
+{
+  return stack->top == 0;
+}
+
+void push (Stack stack, int item)
+{
+  stack->items[stack->top++] = item;
+}
+
+void pop (Stack stack)
+{
+  stack->top--;
+}
+
+
