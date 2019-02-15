@@ -28,11 +28,7 @@ List createSequentialList(int n, int step) {
     int i;
     for (i = 0; i < n; i += step) {
         if (l->first == NULL) {
-            l->first = l->last = createNode(i + 1);
-        } else {
-            l->last->next = createNode(i + 1);
-            l->last->next->prev = l->last;
-            l->last = l->last->next;
+            l->first = createNode(i + 1);
         }
     }
     l->size = n;

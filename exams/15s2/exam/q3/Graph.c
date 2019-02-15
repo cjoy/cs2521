@@ -257,28 +257,30 @@ void findPath(Graph g, Vertex src, Vertex dest)
 // Find all vertices which are <= d edges from v
 int within(Graph g, Vertex s, int d, Vertex *vs)
 {
-    int *visited = calloc(g->nV, sizeof(int));
-    int *dist = calloc(g->nV, sizeof(int));
-    for (size_t i = 0; i < g->nV; i++) dist[i] = -1;
+   int i; order = 0;
+   int *dist = malloc(g->nV * sizeof(int));
+   for (i = 0; i < g->nV; i++) dist[i] = -1;
 
-    Queue q = newQueue();
-    QueueJoin(q, s);
-    visited[s] = 1; 
-    dist[s] = 0;
+   Queue q = newQueue();
+   QueueJoin(q,s);
+   dist[s] = 0;
 
-    int count = 0;
-    while (!QueueIsEmpty(q)) {
-        Vertex v = QueueLeave(q);
-        if (dist[v] >= d) break;
-        for (Vertex w = 0; w < g->nV; w++) {
-            if (visited[w] || !g->edges[v][w]) continue;
-            visited[w] = 1;
-            dist[w] = dist[v] + 1;
-            QueueJoin(q, w);
-            vs[count] = w;
+   int count = 0;
+   while (!QueueIsEmpty(q)) {
+      Vertex y, x = QueueLeave(q);
+      if (dist[x] >= d) continue;
+      for (y = 0; y < g->nV; y++) {
+         if (!g->edges[x][y] || dist[y] != -1) continue;
+         QueueJoin(q,y);
+         dist[y] = dist[x] + 1;
+         if (dist[y] <= d) {
+            vs[count] = y;
             count++;
-        }
-    }
+         }
+      }
+   }
 
-    return count;
+   free(dist);
+   
+   return count;
 }

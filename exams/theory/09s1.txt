@@ -1,0 +1,170 @@
+1) TODO
+
+2) Post order traversal 
+
+3) 
+Adj Matrix: store edge connects in a 2d array
+- good for dense graphs (ie. |E| ~> |V^2|)
+- fast edge look up time (ie. O(1) - arrays have random access.)
+
+Adj List: store edge connects between vertices using a linked structure
+- good for sparce graphs (ie. |E| ~> |V|)
+- easy to add new vertices etc (due to dynamic nature of linked structures. ie. linked list / trees)
+
+
+4) 
+Bubble sort with early exit has a better best case time than its counterpart (ie. best case for Naive vs EE variants are O(n^2) and O(n), respectively).
+
+To implement this, we basically keep track of a sorted boolean on each outer loop iteration. We set sorted to false if we need to swap two adjacent items, otherwise we break out of the outloop if no swaps were required (implying the array has already been swapped).
+
+This bubble sort with early exit will be an improvement over the naive variant in the following cases:
+- ordered ascending
+- ordered descending
+
+5) 
+
+A)
+1. T(n) = n
+2. T(n) = n
+3. T(n) = n
+4. T(n) = n - 2
+5. T(n) = n - 2
+6. T(n) = n - 2
+7. T(n) = n - 2
+8. T(n) = (n -2) * (1 + 2 + ... + n-1)
+9. T(n) = n - 2
+
+B) 
+T(n) = 3n + 5(n-2) + (n-2)*(1+2....+n-1)
+
+C)
+O(n) = n^2
+
+6)
+A) 
+* best case is ordered (ascending and descending)
+* worst case is random order
+
+
+B) 
+
+
+C)
+
+
+7)
+
+A) A priorty queue can be implemented using a heap (ie. an array)
+or a binary search trees
+
+B) 
+Heap:
+- simple structure (just a non-zero indexed array)
+- heap insertion and deletion have low costs O(log n)
+
+
+8) 
+
+isBST(t)
+ return isBSTUtil(t, int_min, int_max)
+
+isBSTUtil(t)
+  if (!t) return true
+  if (t->v < min || t->v > max) return false
+  return isBSTUtil(t->left, min, t->v) && isBSTUtil(t->right, t->v, max)
+
+9) 
+A) Done in book
+B) 6 -> 7 -> 3 -> 5
+C) Cost: 45
+
+10)
+
+A)
+
+PQ | 
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -
+st    |   -   |   -   |   -   |   -   |   -   |   -   |   -   |   -
+
+PQ | 6
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |   -   |   -   |   -   |   -   |   -   |   -   |   0   |   -
+st    |   -   |   -   |   -   |   -   |   -   |   -   |   6   |   -
+
+
+PQ | 0, 7, 4
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |   -   |   -   |   -   |  51   |   -   |   0   |  25
+st    |   6   |   -   |   -   |   -   |   6   |   -   |   6   |   6
+
+PQ | 0, 4, 1, 3
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |  46   |   -   |  27   |  51   |   -   |   0   |  25
+st    |   6   |   7   |   -   |   7   |   6   |   -   |   6   |   6
+
+PQ | 0, 4, 1, 5
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |  46   |   -   |  27   |  30   |   45  |   0   |  25
+st    |   6   |   7   |   -   |   7   |   3   |   3   |   6   |   6
+
+PQ | 0, 1, 5
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |  46   |   -   |  27   |  30   |   45  |   0   |  25
+st    |   6   |   7   |   -   |   7   |   3   |   3   |   6   |   6
+
+PQ | 0, 1
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |  46   |   -   |  27   |  30   |   45  |   0   |  25
+st    |   6   |   7   |   -   |   7   |   3   |   3   |   6   |   6
+
+
+PQ | 2
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |  46   |  80   |  27   |  30   |   45  |   0   |  25
+st    |   6   |   7   |   0   |   7   |   3   |   3   |   6   |   6
+
+
+PQ |
+i     |   0   |   1   |   2   |   3   |   4   |   5   |   6   |   7 
+dist  |  51   |  46   |  80   |  27   |  30   |   45  |   0   |  25
+st    |   6   |   7   |   0   |   7   |   3   |   3   |   6   |   6
+
+FINISHED!!
+
+B)
+5 <- 3 <- 7 <- 6
+
+C) Total Cost = 45
+
+
+12)
+
+A) Prims ALgorithm
+basicaly maintaining a connected frontier
+ - choose random vertex
+  - choose neighbour with least weight
+  - add to MST if both vertices haven't been visited
+  - repeat until no more vertices left to visited
+
+Total Cost = 18 + 3 + 2 + 21 + 25 + 31 + 29 = 129
+
+B) Kruskal ALgorithm
+
+Edges (sorted by weight)
+------------------------
+(3,7) - 2   - Add to MST
+(3,4) - 3   - Add to MST
+(3,5) - 18  - Add to MST
+(1,7) - 21  - Add to MST
+(6,7) - 25  - Add to MST
+(0,2) - 29  - Add to MST
+(0,7) - 31  - Add to MST
+(0,1) - 32  - Has cycle (skip)
+(4,5) - 40  - Has cycle (skip)
+(0,6) - 51  - Has cycle (skip)
+(4,6) - 51  - Has cycle (skip)
+(0,5) - 60  - Has cycle (skip)
+
+Total cost = 2 + 3 + 18 + 21 + 25 + 29 + 31 = 129
+

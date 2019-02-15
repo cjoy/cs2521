@@ -1,0 +1,61 @@
+1) 
+a) returns the pointer to an allocation of space of a certain size.
+b) returns null when no sufficient space isn't available
+c) returns an address pointing a memory location of size(node). node looks like a struct definition
+d) malloc allocates memory from the heap. ie.
+
+[
+  STACK
+  ...
+  HEAP
+]
+
+e) 
+Static allocation of memory is freed when the current scope exits the call stack.
+This isn't good when we're dealing with persistent data. Ie. A instance of an ADT that's used throughout our program (eg. some sort of linked structure)
+
+f) Memory leaks occur when the user calls for a memory allocation and doesn't disregard it after usage. Freeing memory (via free()) after we've finished using a particular chunk of memory can help prevent memory leaks. However, most modern operating systems deal with memory leaks after a program exits.
+
+2) 
+a) The runtime stack adds the current scope's local variables, parameters etc to the stack everytime a function is invoked.
+
+b) The stack frame usually has:
+- return scope address
+- local variables
+- function parameters
+- program code
+
+c) stack overflow usually occurs once our stack is filled up. For example, if we recurse too deeply, we get a stack overflow error.
+
+3)
+
+a) 
+
+Typedef struct cell *Cell
+struct cell {
+  mass int;
+  char *id;
+  ...
+};
+
+struct table {
+  Cell **cell;
+}
+
+b) 
+Allocate a matrix of cells of size of periodic table (including the empty cells).
+If the cell is empty, just point to NULL, otherwise allocate a cell entity and point it to the appropriate location in the periodic table.
+
+4)
+
+a) initialisation of components - executed n times ~ O(n)
+
+b) deleting an edge from the list - executed m times ~ O(m)
+
+c) O(1) - we just need to see if component[v] == component[w]
+
+d) O(m) as it needs to go through each edge in the edge set
+
+e) O(m) when we just have one big island, where all nodes are connected.
+
+f) O(m) is hthe overall worst case time complexity

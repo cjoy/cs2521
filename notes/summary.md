@@ -553,7 +553,16 @@ void graph_drop (Graph g);
   * ie. end = MIN(i + 2*m - 1, hi)
 
 ## Quick Sort
+
+![Quick Sort](./img/quick_sort_partition_animation.gif)
+
+
+
 * Divide and conquer
+* Pivot
+  1. Correct position in final, sorted array
+  2. Items to left are smaller
+  3. Items to right are larger
 * Partition / Pivot Steps
   1. Choose the highest index value has pivot
   2. Take two variables to point left and right of the list excluding pivot
@@ -568,12 +577,14 @@ void graph_drop (Graph g);
   2. partition the array using pivot value
   3. quicksort left partition recursively
   4. quicksort right partition recursively
-![Quick Sort](./img/quick_sort_partition_animation.gif)
-
 * Unstable
-* M-O-3: use the middle value of array a[lo, mid, hi] as the pivot, where a[lo] <= a[mid] <= a[hi]
+* Choosing a pivot:
+  * Something that divides the array in half (or as close as possible)
+  * M-O-3: use the middle value of array a[lo, mid, hi] as the pivot, where a[lo] <= a[mid] <= a[hi]
 * O(log n) best case
 * M-O-3 / random: O(n log n) worst & avg case
+
+
 
 ## Key-Indexed (Counting sort)
 * Non-comparison

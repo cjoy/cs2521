@@ -30,14 +30,19 @@ Tree tree_new_node (int i);
 void tree_level_order_traversal (Tree t)
 {
   if (!t) return;
-
-  Queue q = newQueue(40);
+  
+  Queue q = newQueue(10);
   QueueJoin(q, t);
+
   while (!QueueIsEmpty(q)) {
     Item n = QueueLeave(q);
-    printf("%d ", n->item);
+    printf("[%d] ", n->item);
     if (n->left) QueueJoin(q, n->left);
     if (n->right) QueueJoin(q, n->right);
+    // check if tree is complete or not
+    // if (n->right && !n->left) {
+    //   puts("Not complete tree :(");
+    // }
   }
 
   dropQueue(q);

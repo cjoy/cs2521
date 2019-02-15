@@ -45,9 +45,10 @@ List createList(void) {
 }
 
 /* but do change this! */
-void mergeNodes(Node n1, Node n2) {
+Node mergeNodes(Node n1, Node n2) {
+    if (!n1) return n2;
+    if (!n2) return n1;
     if (n1->data < n2->data) {
-        // node from first is smalller
         n1->next = mergeNodes(n1->next, n2);
         return n1;
     } else {
@@ -62,23 +63,4 @@ void merge(List l1, List l2) {
 
     l2->first = NULL;
     l2->size = 0;
-}
-
-
-void merge (Node n1, Node n2)
-{
-    while (n1 || n2) {
-        if (n1->data > n2->data) {
-
-        } else {
-
-        }
-
-        if (n1->next) {
-            n1 = n1->next;
-        }
-        if (n2->next) {
-            n2 = n2->next;
-        }
-    }
 }

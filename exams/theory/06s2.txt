@@ -1,0 +1,133 @@
+Q1.  Insertion sort is a stable sorting algorithm. Bubble sort is another stable algorithm.
+
+Q2. (C) - 5n + 2n(n + 1) + 100 has O(n^2). ie it's highest power is n^2
+
+Q3. Infix traversal will output ordered values.
+
+Q4. You can't traverse a btree heap in sorted order.
+
+Q5. functions that you'll not expose and are used internally (within the interface), should precede with static.
+
+Q6.
+
+for (int i = 1; i <= n; i++) {
+  if (i % 7 == 0 || i % 3 == 0) continue
+  printf("%d ", i);
+}
+
+Q8.
+
+A) 
+This algorithm sorts array in decreasing order. It checks if the previous item is smaller than the current item and if so it swaps them (ie. line 9). However, it should only if the previous item is greater than the current item.
+
+Line 9 Given: if (sequence[j-1] < sequence[j]) { ...
+
+Line 9 Fixed: if (sequence[j-1] > sequence[j]) { ...
+
+
+B)
+
+i)
+6. bool swapped = false;
+10. swapped = true
+20. if (!swapped) break;
+
+ii)
+Add a sorted flag to check if the array's already been sorted, if so exit early.
+
+Best case complexity ~ O(n) ~ when sequence is already sorted.
+
+
+9)
+
+// TODO
+
+
+10)
+a)
+1. T(n) = n
+2. T(n) = 1
+3. T(n) = n^2
+4. T(n) = n^2
+5. T(n) = n^2
+6. T(n) = n
+
+b)
+T(n) = 2n + 3n^2 + 1
+
+c)
+O(n^2)
+
+11)
+a)
+Algorithm works better on randomly ordered data, than on data in ascending or descending order. 
+Best Case - Randomly Order -> O(n log n)
+Worst Case - Ord, Rev -> O(n^2)
+
+b)
+Quick sort, since the best case was choosing a pivot of random order
+
+12) 
+
+i)
+
+// PriorityQueue.h 
+
+typedef struct priorityQueue *PQ; 
+typedef int Item;
+
+// Add an item to a priority queue given a priority
+void enQueue(PQ pq, Item it, int priorty)
+
+// Remove the item with the highest priority
+void deleteMax(PQ pq);
+
+// Create a new priorty queue
+PQ newPQ();
+
+// Drop a priorty queue - freeing all memory
+void dropPQ(PQ pq);
+
+// Check if a pq is empty
+bool isEmptyPQ(PQ pq);
+
+
+
+13) Deleting an item from a PQ (using a heap implementation)
+1. Swap the first and last items in the array (ie. arr[1] and arr[n-1]).
+2. Remove the last item.
+3. Commerce fix down operation from root (ie. arr[1]) downwards (ie. arr[n-1]).
+  1. if the root is smaller than it's children, swap root with child (ie. arr[i] < arr[2i] || arr[i] < arr[2i - 1])
+  2. repeat until i >= n-1
+
+14)
+i) Adjacency Matrix and Adjacency List
+ii)
+Adjancency Matrix:
+- fast edge lookup - O(1) 
+- good for dense graphs (ie. |E| -> |V^2| - number of edges is close to the number of vertixes squared. eg. fully connected graphs)
+
+Adjacency List:
+- Space effecient for sparce graphs (ie. |E| -> |V|)
+- Efficient when adding new nodes to the graph. O(1)
+
+15. (5, 0.75), (10, 0.4), (8, 0.5), (4, 0.6), (13, 0.35), (3, 0.1), (9, 0.7), (1, 0.5), (2, 0.9), (11, 0.65), (7, 0.2), (14,0.05), (6, 0.55), (12, 0.3), (15, 0.8).
+
+Inserting items into treap:
+
+TREAP = (5, 0.75)
+TREAP = (10, 0.4), (5, 0.75)
+TREAP = (10, 0.4), (8, 0.5), (5, 0.75)
+TREAP = (10, 0.4), (8, 0.5), (4, 0.6), (5, 0.75)
+TREAP = (13, 0.35), (10, 0.4), (8, 0.5), (4, 0.6), (5, 0.75)
+TREAP = (3, 0.1), (13, 0.35), (10, 0.4), (8, 0.5), (4, 0.6), (5, 0.75)
+TREAP = (3, 0.1), (13, 0.35), (10, 0.4), (8, 0.5), (4, 0.6), (9, 0.7), (5, 0.75)
+TREAP = (3, 0.1), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (4, 0.6), (9, 0.7), (5, 0.75)
+TREAP = (3, 0.1), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (4, 0.6), (9, 0.7), (5, 0.75), (2, 0.9)
+TREAP = (3, 0.1), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (4, 0.6), (11, 0.65), (9, 0.7), (5, 0.75), (2, 0.9)
+TREAP = (3, 0.1), (7, 0.2), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (4, 0.6), (11, 0.65), (9, 0.7), (5, 0.75), (2, 0.9)
+TREAP = (14,0.05), (3, 0.1), (7, 0.2), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (4, 0.6), (11, 0.65), (9, 0.7), (5, 0.75), (2, 0.9)
+TREAP = (14,0.05), (3, 0.1), (7, 0.2), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (6, 0.55), (4, 0.6), (11, 0.65), (9, 0.7), (5, 0.75), (2, 0.9)
+TREAP = (14,0.05), (3, 0.1), (7, 0.2), (12, 0.3), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (6, 0.55), (4, 0.6), (11, 0.65), (9, 0.7), (5, 0.75), (2, 0.9)
+TREAP = (14,0.05), (3, 0.1), (7, 0.2), (12, 0.3), (13, 0.35), (10, 0.4), (8, 0.5), (1, 0.5), (6, 0.55), (4, 0.6), (11, 0.65), (9, 0.7), (5, 0.75), (15, 0.8), (2, 0.9)
+
